@@ -613,6 +613,38 @@
     <p class="meta">Система уровней, XP и рангов. Отслеживает активность в чатах и голосовых каналах, формирует визуальные rank-карты и лидерборды.</p>
   </section>
 
+
+   <section class="hero">
+    <div class="bot-icon">🤝</div>
+    <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Альфа · вер. 0.0.2α</span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ConCord α Патч 0.0.4a</span>
+    </div>
+    <h2 class="title">ASTERION ConCord α — Патч 0.0.4a</h2>
+    <p class="meta">
+      <b>Автор:</b> <b>[+]</b> <span style="font-family: var(--mono);">𝕾𝖔 𝕾1𝖈𝖐</span><br/>
+      <b>Описание:</b> слой ролей ConcordConnect, авто-PTS за сообщения и голос, система уровней и улучшенная синхронизация команд.
+    </p>
+  </section>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /partner_info, pts, feedback)">
+  </div>
+
+  <div class="grid">
+    <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog">
+      <span class="kicker">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</span>
+      <h3>Что нового в <span style="font-family: var(--mono);">0.0.4a</span></h3>
+      <ul class="muted" style="line-height: 1.8;">
+        <li><b>ConcordConnect Role Layer:</b> разделение <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">ADMIN_ROLE_IDS</span> и <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">CONCORD_CONNECT_IDS</span> с каскадным доступом (админы видят всё).</li>
+        <li><b>Авто PTS:</b> начисление за сообщения и каждую минуту голосовой активности на серверах партнёров.</li>
+        <li><b>Уровни и прогресс:</b> пороги из <code class="inline">LEVELS_JSON</code>, показ «сколько осталось» в <code class="inline">/partner_info</code>.</li>
+        <li><b>Slash-автосинк:</b> синхронизация команд с ASTERION, партнёрской гильдией и теми, что записаны в БД.</li>
+        <li><b>Стабильная БД:</b> <code class="inline">partners</code>, <code class="inline">partner_reps</code>, <code class="inline">partner_feedback</code>.</li>
+        <li><b>Чистая UX ошибок:</b> аккуратные эфемерные ответы при отсутствии прав.</li>
+      </ul>
+    </article>
+
   <section class="patch-section">
     <article class="card patch-card">
       <div class="patch-content">
