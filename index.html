@@ -30,6 +30,11 @@
       --cc-gold-2: #F4C049;
       --cc-grad-1: #A78BFA;
       --cc-grad-2: #F472B6;
+      --gold-1: #fcd34d;
+      --gold-2: #f59e0b;
+      --gold-3: #fbbf24;
+      --beta-blue: #60a5fa;
+      --alpha-gold: #facc15;
     }
 
     .cc-con {
@@ -75,7 +80,7 @@
       display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text);
     }
     .logo { width: 32px; height: 32px; }
-    .brand h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .8px; }
+    .brand h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .8px; display: flex; align-items: center; gap: 6px; }
     .nav nav { display: flex; gap: 8px; flex-wrap: wrap; }
     .nav a { 
       color: var(--muted); text-decoration: none; font-size: 14px; 
@@ -130,6 +135,36 @@
       color: #fff;
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(88,101,242,.4);
+    }
+    .asterion-gold {
+      background: linear-gradient(120deg, var(--gold-1), var(--gold-2), var(--gold-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px rgba(252, 211, 77, .55);
+      font-weight: 700;
+    }
+    .ascend-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ascend-letter {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+      filter: drop-shadow(0 0 8px rgba(252, 211, 77, .6));
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .hero { max-width: 1200px; margin: 28px auto 12px; padding: 0 18px; }
@@ -380,16 +415,7 @@
   <div class="topbar">
     <div class="nav">
       <a class="brand" href="index.html" aria-label="ASCEND Ecosystem Home">
-        <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#67e8f9;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <circle cx="50" cy="50" r="45" fill="url(#grad)"/>
-          <text x="50" y="70" font-size="60" text-anchor="middle" fill="#0b0f14" font-weight="bold">A</text>
-        </svg>
+        <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASCEND Ecosystem emblem">
         <h1>ASCEND Ecosystem</h1>
       </a>
       <nav>
@@ -423,21 +449,21 @@
   <div class="grid">
     <a href="events.html" class="bot-card">
       <div class="bot-card-icon">📅</div>
-      <h3>AsterionEvents</h3>
+      <h3><span class="asterion-gold">ASTERION</span> Events</h3>
       <p class="muted">Управление мероприятиями и наградами. Создавайте ивенты, шаблоны, напоминания.</p>
       <span class="arrow">→</span>
     </a>
 
     <a href="monitor.html" class="bot-card">
       <div class="bot-card-icon">📊</div>
-      <h3>AsterionMonitor</h3>
+      <h3><span class="asterion-gold">ASTERION</span> Monitor</h3>
       <p class="muted">Система уровней, XP и рангов. Отслеживание активности и визуальные профили.</p>
       <span class="arrow">→</span>
     </a>
 
     <a href="partners.html" class="bot-card">
       <div class="bot-card-icon">🤝</div>
-      <h3>AsterionPartners</h3>
+      <h3><span class="asterion-gold">ASTERION</span> Partners</h3>
       <p class="muted">Партнёрская программа ConCord. PTS, уровни, обратная связь.</p>
       <span class="arrow">→</span>
     </a>

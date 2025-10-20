@@ -306,8 +306,39 @@
       padding-left: 8px;
     }
 
-    button, .copy {
+    button, .copy, .back-to-top {
       cursor: pointer;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      border: none;
+      color: var(--bg);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(100px);
+      transition: all .4s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(103,232,249,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 30px rgba(103,232,249,.6);
     }
 
     /* Breadcrumbs */
@@ -502,6 +533,12 @@
     <p class="muted">© ASCEND Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
   </footer>
 
+  <button class="back-to-top" aria-label="Наверх">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
   <script>
     const commands = Array.from(document.querySelectorAll('.cmd-card'));
     const searchInput = document.getElementById('searchInput');
@@ -560,6 +597,21 @@
         textNode.replaceWith(...span.childNodes);
       }
     })();
+
+    // Back to top button functionality
+    const backToTop = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>

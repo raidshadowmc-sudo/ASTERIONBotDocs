@@ -85,5 +85,4 @@ npx serve
 
 ## 📝 Лицензия
 
-> ⚠️ Licensed under the ASCEND Proprietary License v1.0  
-> All Rights Reserved © 2025 ASCEND / ASTERION Team
+© ASCEND Ecosystem. Создано для Discord-сообществ.

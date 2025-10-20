@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -447,6 +448,7 @@
       cursor: pointer;
     }
 
+    /* Breadcrumbs */
     .breadcrumbs {
       max-width: 1200px;
       margin: 16px auto 0;
@@ -505,6 +507,29 @@
     .back-to-top:hover {
       transform: translateY(-5px) scale(1.1);
       box-shadow: 0 8px 30px rgba(103,232,249,.6);
+    }
+
+      background: rgba(18,26,37,.7); 
+      padding: 12px 14px; 
+      margin: 10px 0; 
+      transition: all .3s;
+      cursor: pointer;
+    }
+    details[open] { 
+      background: rgba(18,26,37,.9);
+      border-color: var(--brand);
+      box-shadow: 0 4px 16px rgba(103,232,249,.15);
+    }
+    summary { 
+      cursor: pointer; 
+      list-style: none; 
+      font-weight: 600;
+      transition: all .3s;
+    }
+    summary::-webkit-details-marker { display: none }
+    summary:hover {
+      color: var(--brand);
+      padding-left: 8px;
     }
 
     footer { max-width: 1200px; margin: 20px auto 60px; padding: 0 18px; color: var(--muted); font-size: 13px; text-align: center; }
@@ -580,15 +605,65 @@
 
   <section class="hero">
     <div class="bot-icon">📊</div>
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Бета · вер. 1.0.2b</span>
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ASTERION β Patch 1.5.2b</span>
-    </div>
-    <h2 class="title"><span class="asterion-gold">ASTERION Team</span> <span class="accent-beta">β</span> — Patch 1.5.2<span class="accent-beta">b</span></h2>
-    <p class="meta">
-      <b>Автор:</b> <b>[+]</b> <span class="fury-text" style="font-family: var(--mono);">б̲о̲ʙ̲о̲з̲ᴀʙᴩ,</span><br/>
-      <b>Описание:</b> Система уровней, XP и рангов. Отслеживает активность в чатах и голосовых каналах, формирует визуальные rank-карты и лидерборды
-    </p>
+    <h2 class="title"><span class="asterion-gold">ASTERION</span> Monitor</h2>
+    <p class="meta">Система уровней, XP и рангов. Отслеживает активность в чатах и голосовых каналах, формирует визуальные rank-карты и лидерборды.</p>
+  </section>
+
+  <section class="patch-section">
+    <article class="card patch-card">
+      <div class="patch-content">
+        <p class="patch-status">Closed <span class="accent-beta">Beta</span> | ver.1.0.2<span class="accent-beta">β</span></p>
+        <p class="patch-version"><span class="asterion-gold">ASTERION</span> <span class="accent-beta">β</span> Patch 1.5.2b</p>
+        <div class="patch-line">────────────────────────────────────────────</div>
+        <h3 class="patch-title"><span class="asterion-gold">ASTERION Team</span> <span class="accent-beta">β</span> — Patch 1.5.2b</h3>
+        <p class="patch-author">Author: [+] [+] б̲о̲ʍб̲о̲з̲ᴀʙᴩ,</p>
+        <h4 class="patch-subtitle">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</h4>
+        <p class="patch-subheading">Что нового в 1.5.2b</p>
+        <ul class="patch-list">
+          <li><span class="asterion-gold">ASTERION Ranking:</span> кумулятивное обновление для команды <code class="inline">/rank</code>. Улучшены текстовая и визуальная версии: эмбед отображает рейтинг сервера с подходящей иконкой, а основные показатели вынесены в одну строку — ⭐ Уровень, 🏅 Ранг, <span class="fury-text">💰 FuRY</span>, 📊 Общий XP, 💬 Сообщения и 🎙 Время в голосовых каналах. Визуальная карта повторяет данные и добавляет кольцевой прогресс-бар вокруг аватара.</li>
+          <li><span class="asterion-gold">ASTERION Progression:</span> прогресс-бар в эмбеде использует поддерживаемые Unicode-символы <span class="progress-symbol">▱</span> (когда пусто) и <span class="progress-symbol">▰</span> (когда заполнено), чтобы заполнение выглядело чище и контрастнее.</li>
+          <li><span class="asterion-gold">ASTERION Comparison:</span> переработана система сравнения профилей. Теперь можно сопоставить себя с топ-5 лидерами прямо из карточки. Эмбед состоит из четырёх секций:
+            <div class="comparison-demo">
+              <p class="comparison-heading">📊 Ваша позиция среди топ-5 участников</p>
+              <div class="patch-line bold">━━━━━━━━━━━━━━━</div>
+              <div class="position-card">
+                <p>🏆 Ваша позиция</p>
+                <p><strong>#</strong> в рейтинге сервера</p>
+              </div>
+              <div class="patch-line bold">━━━━━━━━━━━━━━━</div>
+              <div class="comparison-columns">
+                <div>
+                  <h5>📊 Ваша статистика</h5>
+                  <ul>
+                    <li>⭐ Уровень: 0</li>
+                    <li>🧩 XP: 0</li>
+                    <li>🏅 Позиция: #</li>
+                    <li><span class="fury-text">💰 FuRY: 0</span></li>
+                    <li>💬 Сообщений: 0</li>
+                    <li>🎙 Голос: 0ч 0м</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5>👑 Топ участники</h5>
+                  <ul>
+                    <li><img src="attached_assets/83657-nemisesrank.png" alt="Nemesis rank" class="rank-icon"> Агуша22451 — Ур. 61, 0 XP, 🎙 753ч 42м</li>
+                    <li><img src="attached_assets/25827-onyxrank.png" alt="Onyx rank" class="rank-icon"> ПанзерВафля — Ур. 57, 0 XP, 🎙 643ч 16м</li>
+                    <li><img src="attached_assets/85322-diamondrank.png" alt="Diamond rank" class="rank-icon"> ХтоЯ? — Ур. 53, 0 XP, 🎙 612ч 57м</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="patch-line bold">━━━━━━━━━━━━━━━</div>
+              <h5>💡 Рекомендации</h5>
+              <ul class="tips-list">
+                <li>💬 Пишите больше сообщений для повышения текстового уровня!</li>
+                <li>🎤 Проводите больше времени в голосовых каналах!</li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <p class="patch-note-footer">Полировка UI/UX: теперь выдаваемое через Pillow изображение — <span class="ok-text">корректно</span>. Нет никаких съездов и наслоения. Остался лишь маленький баг с ID пользователя под аватаром — исправим в следующем патче.</p>
+      </div>
+    </article>
   </section>
 
   <div class="search-box">
@@ -596,53 +671,6 @@
   </div>
 
   <div class="grid">
-    <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog">
-      <span class="kicker">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</span>
-      <h3>Что нового в <span style="font-family: var(--mono);">1.5.2b</span></h3>
-      <ul class="muted" style="line-height: 1.8;">
-        <li><span class="asterion-gold">ASTERION Ranking:</span> кумулятивное обновление для команды <code class="inline">/rank</code>. Улучшены текстовая и визуальная версии: эмбед отображает рейтинг сервера с подходящей иконкой, а основные показатели вынесены в одну строку — ⭐ Уровень, 🏅 Ранг, <span class="fury-text">💰 FuRY</span>, 📊 Общий XP, 💬 Сообщения и 🎙 Время в голосовых каналах. Визуальная карта повторяет данные и добавляет кольцевой прогресс-бар вокруг аватара.</li>
-        <li><span class="asterion-gold">ASTERION Progression:</span> прогресс-бар в эмбеде использует поддерживаемые Unicode-символы <span class="progress-symbol">▱</span> (когда пусто) и <span class="progress-symbol">▰</span> (когда заполнено), чтобы заполнение выглядело чище и контрастнее.</li>
-        <li><span class="asterion-gold">ASTERION Comparison:</span> переработана система сравнения профилей. Теперь можно сопоставить себя с топ-5 лидерами прямо из карточки. Эмбед состоит из четырёх секций:
-          <div class="comparison-demo">
-            <p class="comparison-heading">📊 Ваша позиция среди топ-5 участников</p>
-            <div class="patch-line bold">───────────────</div>
-            <div class="position-card">
-              <p>🏆 Ваша позиция</p>
-              <p><strong>#</strong> в рейтинге сервера</p>
-            </div>
-            <div class="patch-line bold">───────────────</div>
-            <div class="comparison-columns">
-              <div>
-                <h5>📊 Ваша статистика</h5>
-                <ul>
-                  <li>⭐ Уровень: 0</li>
-                  <li>🧩 XP: 0</li>
-                  <li>🏅 Позиция: #</li>
-                  <li><span class="fury-text">💰 FuRY: 0</span></li>
-                  <li>💬 Сообщений: 0</li>
-                  <li>🎙 Голос: 0ч 0м</li>
-                </ul>
-              </div>
-              <div>
-                <h5>👑 Топ участники</h5>
-                <ul>
-                  <li><img src="attached_assets/83657-nemisesrank.png" alt="Nemesis rank" class="rank-icon"> Агуша22451 — Ур. 61, 0 XP, 🎙 753ч 42м</li>
-                  <li><img src="attached_assets/25827-onyxrank.png" alt="Onyx rank" class="rank-icon"> ПанзерВафля — Ур. 57, 0 XP, 🎙 643ч 16м</li>
-                  <li><img src="attached_assets/85322-diamondrank.png" alt="Diamond rank" class="rank-icon"> ХтоЯ? — Ур. 53, 0 XP, 🎙 612ч 57м</li>
-                </ul>
-              </div>
-            </div>
-            <div class="patch-line bold">───────────────</div>
-            <h5>💡 Рекомендации</h5>
-            <ul class="tips-list">
-              <li>💬 Пишите больше сообщений для повышения текстового уровня!</li>
-              <li>🎤 Проводите больше времени в голосовых каналах!</li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </article>
-
     <article class="card cmd-card" data-keywords="rank ранг профиль уровень карточка leaderboard лидерборд stats статистика help помощь">
       <span class="kicker">Основные команды</span>
       <h3>Просмотр и статистика</h3>
@@ -662,7 +690,7 @@
       <div class="cmd"><div class="name">/sync_roles</div><button class="copy" data-copy="/sync_roles">Копировать</button><div class="desc">Пересинхронизация ролей уровней</div></div>
     </article>
 
-    <article class="card" data-keywords="система прогресса уровни xp опыт ранги карточка fury валюта множители">
+    <article class="card">
       <span class="kicker">Как это работает</span>
       <h3>Система прогресса</h3>
       <ul class="muted">
@@ -675,7 +703,7 @@
       </ul>
     </article>
 
-    <article class="card" data-keywords="начисление xp опыт сообщения голос ивенты множители каналов">
+    <article class="card">
       <span class="kicker">Начисление XP</span>
       <h3>Как получать опыт</h3>
       <details open>
@@ -702,19 +730,13 @@
     <p class="muted">© ASCEND Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
   </footer>
 
-  <button class="back-to-top" aria-label="Наверх">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 19V5M5 12l7-7 7 7"/>
-    </svg>
-  </button>
-
   <script>
-    const allCards = Array.from(document.querySelectorAll('.card'));
+    const commands = Array.from(document.querySelectorAll('.cmd-card'));
     const searchInput = document.getElementById('searchInput');
 
     searchInput.addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase();
-      allCards.forEach(card => {
+      commands.forEach(card => {
         const keywords = card.dataset.keywords || '';
         const text = card.textContent.toLowerCase();
         const match = text.includes(query) || keywords.includes(query);
@@ -732,21 +754,6 @@
           setTimeout(() => { btn.textContent = 'Копировать'; btn.disabled = false; }, 1000);
         });
       });
-    });
-
-    // Back to top button functionality
-    const backToTop = document.querySelector('.back-to-top');
-    
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        backToTop.classList.add('visible');
-      } else {
-        backToTop.classList.remove('visible');
-      }
-    });
-
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
