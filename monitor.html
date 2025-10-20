@@ -713,12 +713,12 @@
   </button>
 
   <script>
-    const commands = Array.from(document.querySelectorAll('.cmd-card'));
+    const allCards = Array.from(document.querySelectorAll('.card'));
     const searchInput = document.getElementById('searchInput');
 
     searchInput.addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase();
-      commands.forEach(card => {
+      allCards.forEach(card => {
         const keywords = card.dataset.keywords || '';
         const text = card.textContent.toLowerCase();
         const match = text.includes(query) || keywords.includes(query);
