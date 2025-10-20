@@ -579,7 +579,11 @@
     <div class="nav">
       <a class="brand" href="index.html" aria-label="ASCEND Ecosystem Home">
         <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASCEND Ecosystem emblem">
-        <h1>ASCEND Ecosystem</h1>
+        <h1 class="ascend-text">
+          <span class="visually-hidden">ASCEND Ecosystem</span>
+          <img src="attached_assets/17689-glowing-hexagon.png" class="ascend-letter" alt="" aria-hidden="true">
+          <span aria-hidden="true">SCEND Ecosystem</span>
+        </h1>
       </a>
       <nav>
         <a href="index.html">Главная</a>
@@ -605,7 +609,7 @@
 
   <section class="hero">
     <div class="bot-icon">📊</div>
-    <h2 class="title"><span class="asterion-gold">ASTERION</span> Monitor</h2>
+    <h2 class="title">AsterionMonitor</h2>
     <p class="meta">Система уровней, XP и рангов. Отслеживает активность в чатах и голосовых каналах, формирует визуальные rank-карты и лидерборды.</p>
   </section>
 
@@ -613,12 +617,12 @@
     <article class="card patch-card">
       <div class="patch-content">
         <p class="patch-status">Closed <span class="accent-beta">Beta</span> | ver.1.0.2<span class="accent-beta">β</span></p>
-        <p class="patch-version"><span class="asterion-gold">ASTERION</span> <span class="accent-beta">β</span> Patch 1.5.2b</p>
+        <p class="patch-version"><span class="asterion-gold">ASTERION</span> <span class="accent-beta">β</span> Patch 1.5.2<span class="accent-beta">b</span></p>
         <div class="patch-line">────────────────────────────────────────────</div>
-        <h3 class="patch-title"><span class="asterion-gold">ASTERION Team</span> <span class="accent-beta">β</span> — Patch 1.5.2b</h3>
+        <h3 class="patch-title"><span class="asterion-gold">ASTERION Team</span> <span class="accent-beta">β</span> — Patch 1.5.2<span class="accent-beta">b</span></h3>
         <p class="patch-author">Author: [+] [+] б̲о̲ʍб̲о̲з̲ᴀʙᴩ,</p>
         <h4 class="patch-subtitle">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</h4>
-        <p class="patch-subheading">Что нового в 1.5.2b</p>
+        <p class="patch-subheading">Что нового в 1.5.2<span class="accent-beta">b</span></p>
         <ul class="patch-list">
           <li><span class="asterion-gold">ASTERION Ranking:</span> кумулятивное обновление для команды <code class="inline">/rank</code>. Улучшены текстовая и визуальная версии: эмбед отображает рейтинг сервера с подходящей иконкой, а основные показатели вынесены в одну строку — ⭐ Уровень, 🏅 Ранг, <span class="fury-text">💰 FuRY</span>, 📊 Общий XP, 💬 Сообщения и 🎙 Время в голосовых каналах. Визуальная карта повторяет данные и добавляет кольцевой прогресс-бар вокруг аватара.</li>
           <li><span class="asterion-gold">ASTERION Progression:</span> прогресс-бар в эмбеде использует поддерживаемые Unicode-символы <span class="progress-symbol">▱</span> (когда пусто) и <span class="progress-symbol">▰</span> (когда заполнено), чтобы заполнение выглядело чище и контрастнее.</li>
@@ -665,10 +669,6 @@
       </div>
     </article>
   </section>
-
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /rank, leaderboard, xp, fury)">
-  </div>
 
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /rank, leaderboard, xp, fury)">
@@ -731,24 +731,22 @@
 
   <footer>
     <div class="sep"></div>
-    <p class="muted">© ASCEND Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
+    <p class="muted">© <span class="ascend-text"><span class="visually-hidden">ASCEND Ecosystem</span><img src="attached_assets/17689-glowing-hexagon.png" class="ascend-letter" alt="" aria-hidden="true"><span aria-hidden="true">SCEND Ecosystem</span></span>. <a href="index.html" class="link">Вернуться на главную</a></p>
   </footer>
 
   <script>
     const commands = Array.from(document.querySelectorAll('.cmd-card'));
     const searchInput = document.getElementById('searchInput');
 
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        commands.forEach(card => {
-          const keywords = card.dataset.keywords || '';
-          const text = card.textContent.toLowerCase();
-          const match = text.includes(query) || keywords.includes(query);
-          card.classList.toggle('hidden', !match);
-        });
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      commands.forEach(card => {
+        const keywords = card.dataset.keywords || '';
+        const text = card.textContent.toLowerCase();
+        const match = text.includes(query) || keywords.includes(query);
+        card.classList.toggle('hidden', !match);
       });
-    }
+    });
 
     document.querySelectorAll('[data-copy]').forEach(btn => {
       btn.addEventListener('click', () => {
