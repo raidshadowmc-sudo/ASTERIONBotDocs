@@ -607,28 +607,21 @@
     <span aria-current="page">AsterionMonitor</span>
   </nav>
 
-  <section class="hero">
-    <div class="bot-icon">📊</div>
-    <h2 class="title">AsterionMonitor</h2>
-    <p class="meta">Система уровней, XP и рангов. Отслеживает активность в чатах и голосовых каналах, формирует визуальные rank-карты и лидерборды.</p>
-  </section>
-
-
    <section class="hero">
-    <div class="bot-icon">🤝</div>
+    <div class="bot-icon">📊</div>
     <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Альфа · вер. 0.0.2α</span>
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ConCord α Патч 0.0.4a</span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Бета · вер. 1.0.2b</span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ASTERION β Patch 1.5.2b</span>
     </div>
-    <h2 class="title">ASTERION ConCord α — Патч 0.0.4a</h2>
+    <h2 class="title"><span class="asterion-gold">ASTERION Team</span> <span class="accent-beta">β</span> — Patch 1.5.2<span class="accent-beta">b</span></h2>
     <p class="meta">
-      <b>Автор:</b> <b>[+]</b> <span style="font-family: var(--mono);">𝕾𝖔 𝕾1𝖈𝖐</span><br/>
-      <b>Описание:</b> слой ролей ConcordConnect, авто-PTS за сообщения и голос, система уровней и улучшенная синхронизация команд.
+      <b>Автор:</b> <b>[+]</b> <span class="fury-text", style="font-family: var(--mono);">б̲о̲ʍб̲о̲з̲ᴀʙᴩ,</span><br/>
+      <b>Описание:</b> Система уровней, XP и рангов. Отслеживает активность в чатах и голосовых каналах, формирует визуальные rank-карты и лидерборды
     </p>
   </section>
 
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /partner_info, pts, feedback)">
+    <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /rank, leaderboard, xp, fury)">
   </div>
 
   <div class="grid">
@@ -636,30 +629,10 @@
       <span class="kicker">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</span>
       <h3>Что нового в <span style="font-family: var(--mono);">0.0.4a</span></h3>
       <ul class="muted" style="line-height: 1.8;">
-        <li><b>ConcordConnect Role Layer:</b> разделение <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">ADMIN_ROLE_IDS</span> и <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">CONCORD_CONNECT_IDS</span> с каскадным доступом (админы видят всё).</li>
-        <li><b>Авто PTS:</b> начисление за сообщения и каждую минуту голосовой активности на серверах партнёров.</li>
-        <li><b>Уровни и прогресс:</b> пороги из <code class="inline">LEVELS_JSON</code>, показ «сколько осталось» в <code class="inline">/partner_info</code>.</li>
-        <li><b>Slash-автосинк:</b> синхронизация команд с ASTERION, партнёрской гильдией и теми, что записаны в БД.</li>
-        <li><b>Стабильная БД:</b> <code class="inline">partners</code>, <code class="inline">partner_reps</code>, <code class="inline">partner_feedback</code>.</li>
-        <li><b>Чистая UX ошибок:</b> аккуратные эфемерные ответы при отсутствии прав.</li>
-      </ul>
-    </article>
-
-  <section class="patch-section">
-    <article class="card patch-card">
-      <div class="patch-content">
-        <p class="patch-status">Closed <span class="accent-beta">Beta</span> | ver.1.0.2<span class="accent-beta">β</span></p>
-        <p class="patch-version"><span class="asterion-gold">ASTERION</span> <span class="accent-beta">β</span> Patch 1.5.2<span class="accent-beta">b</span></p>
-        <div class="patch-line">────────────────────────────────────────────</div>
-        <h3 class="patch-title"><span class="asterion-gold">ASTERION Team</span> <span class="accent-beta">β</span> — Patch 1.5.2<span class="accent-beta">b</span></h3>
-        <p class="patch-author">Author: [+] [+] б̲о̲ʍб̲о̲з̲ᴀʙᴩ,</p>
-        <h4 class="patch-subtitle">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</h4>
-        <p class="patch-subheading">Что нового в 1.5.2<span class="accent-beta">b</span></p>
-        <ul class="patch-list">
           <li><span class="asterion-gold">ASTERION Ranking:</span> кумулятивное обновление для команды <code class="inline">/rank</code>. Улучшены текстовая и визуальная версии: эмбед отображает рейтинг сервера с подходящей иконкой, а основные показатели вынесены в одну строку — ⭐ Уровень, 🏅 Ранг, <span class="fury-text">💰 FuRY</span>, 📊 Общий XP, 💬 Сообщения и 🎙 Время в голосовых каналах. Визуальная карта повторяет данные и добавляет кольцевой прогресс-бар вокруг аватара.</li>
           <li><span class="asterion-gold">ASTERION Progression:</span> прогресс-бар в эмбеде использует поддерживаемые Unicode-символы <span class="progress-symbol">▱</span> (когда пусто) и <span class="progress-symbol">▰</span> (когда заполнено), чтобы заполнение выглядело чище и контрастнее.</li>
           <li><span class="asterion-gold">ASTERION Comparison:</span> переработана система сравнения профилей. Теперь можно сопоставить себя с топ-5 лидерами прямо из карточки. Эмбед состоит из четырёх секций:
-            <div class="comparison-demo">
+                        <div class="comparison-demo">
               <p class="comparison-heading">📊 Ваша позиция среди топ-5 участников</p>
               <div class="patch-line bold">━━━━━━━━━━━━━━━</div>
               <div class="position-card">
@@ -696,15 +669,7 @@
               </ul>
             </div>
           </li>
-        </ul>
-          <li class="patch-footer"> Полировка UI/UX: теперь выдаваемое через Pillow изображение — <span class="ok-text">корректно</span>. Нет никаких съездов и наслоения. Остался лишь маленький баг с ID пользователя под аватаром — исправим в следующем патче.</li>
-      </div>
     </article>
-  </section>
-
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /rank, leaderboard, xp, fury)">
-  </div>
 
   <div class="grid">
     <article class="card cmd-card" data-keywords="rank ранг профиль уровень карточка leaderboard лидерборд stats статистика help помощь">
