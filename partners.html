@@ -34,6 +34,11 @@
       --cc-gold-2: #F4C049;
       --cc-grad-1: #A78BFA;
       --cc-grad-2: #F472B6;
+      --gold-1: #fcd34d;
+      --gold-2: #f59e0b;
+      --gold-3: #fbbf24;
+      --beta-blue: #60a5fa;
+      --alpha-gold: #facc15;
     }
 
     .cc-con {
@@ -87,7 +92,7 @@
     .brand:hover .logo {
       filter: drop-shadow(0 0 8px var(--brand));
     }
-    .brand h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .8px; }
+    .brand h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .8px; display: flex; align-items: center; gap: 6px; }
     .nav nav { display: flex; gap: 8px; flex-wrap: wrap; }
     .nav a { 
       color: var(--muted); text-decoration: none; font-size: 14px; 
@@ -144,6 +149,36 @@
       color: #fff;
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(88,101,242,.4);
+    }
+    .asterion-gold {
+      background: linear-gradient(120deg, var(--gold-1), var(--gold-2), var(--gold-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px rgba(252, 211, 77, .55);
+      font-weight: 700;
+    }
+    .ascend-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ascend-letter {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+      filter: drop-shadow(0 0 8px rgba(252, 211, 77, .6));
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .hero { max-width: 1200px; margin: 28px auto 12px; padding: 0 18px; }
@@ -351,16 +386,7 @@
   <div class="topbar">
     <div class="nav">
       <a class="brand" href="index.html" aria-label="ASCEND Ecosystem Home">
-        <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#67e8f9;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <circle cx="50" cy="50" r="45" fill="url(#grad)"/>
-          <text x="50" y="70" font-size="60" text-anchor="middle" fill="#0b0f14" font-weight="bold">A</text>
-        </svg>
+        <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASCEND Ecosystem emblem">
         <h1>ASCEND Ecosystem</h1>
       </a>
       <nav>
@@ -389,9 +415,9 @@
     <div class="bot-icon">🤝</div>
     <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
       <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Альфа · вер. 0.0.2α</span>
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ConCord α Патч 0.0.4a</span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ConCord α Патч 0.0.5a</span>
     </div>
-    <h2 class="title">ASTERION ConCord α — Патч 0.0.4a</h2>
+    <h2 class="title"><span class="asterion-gold">ASTERION</span> ConCord α — Патч 0.0.5a</h2>
     <p class="meta">
       <b>Автор:</b> <b>[+]</b> <span style="font-family: var(--mono);">𝕾𝖔 𝕾1𝖈𝖐</span><br/>
       <b>Описание:</b> слой ролей ConcordConnect, авто-PTS за сообщения и голос, система уровней и улучшенная синхронизация команд.
@@ -405,14 +431,14 @@
   <div class="grid">
     <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog">
       <span class="kicker">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</span>
-      <h3>Что нового в <span style="font-family: var(--mono);">0.0.4a</span></h3>
+      <h3>Что нового в <span style="font-family: var(--mono);">0.0.5a</span></h3>
       <ul class="muted" style="line-height: 1.8;">
+        <li><b>ServerMultiplier:</b> новая колонка <code class="inline">multiplier</code> в <code class="inline">partners</code> позволяет выдавать 0.1–2.0× множители PTS. Команда <code class="inline">/partner_multiplier</code> и лог <code class="inline">[ConCord α] Partner multiplier updated</code> упрощают балансировку.</li>
+        <li><b>Voice Balance:</b> начисление за минуту в войсе теперь умножается на индивидуальный коэффициент сервера. Значение выводится в <code class="inline">/partner_info</code>, когда оно отличается от 1×.</li>
         <li><b>ConcordConnect Role Layer:</b> разделение <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">ADMIN_ROLE_IDS</span> и <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">CONCORD_CONNECT_IDS</span> с каскадным доступом (админы видят всё).</li>
         <li><b>Авто PTS:</b> начисление за сообщения и каждую минуту голосовой активности на серверах партнёров.</li>
         <li><b>Уровни и прогресс:</b> пороги из <code class="inline">LEVELS_JSON</code>, показ «сколько осталось» в <code class="inline">/partner_info</code>.</li>
-        <li><b>Slash-автосинк:</b> синхронизация команд с ASTERION, партнёрской гильдией и теми, что записаны в БД.</li>
-        <li><b>Стабильная БД:</b> <code class="inline">partners</code>, <code class="inline">partner_reps</code>, <code class="inline">partner_feedback</code>.</li>
-        <li><b>Чистая UX ошибок:</b> аккуратные эфемерные ответы при отсутствии прав.</li>
+        <li><b>Slash-автосинк:</b> синхронизация команд с <span class="asterion-gold">ASTERION</span>, партнёрской гильдией и теми, что записаны в БД.</li>
       </ul>
     </article>
 
@@ -422,13 +448,13 @@
       <div class="cmd"><div class="name">/partner_info <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_info">Копировать</button><div class="desc">Посмотреть уровень, PTS и привязку сервера</div></div>
       <div class="cmd"><div class="name">/partner_me</div><button class="copy" data-copy="/partner_me">Копировать</button><div class="desc">Посмотреть свои данные и сервер</div></div>
       <div class="cmd"><div class="name">/partner_reps <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_reps">Копировать</button><div class="desc">Список представителей партнёра</div></div>
-      <div class="cmd"><div class="name">/feedback <span class="muted">partner_name:"..." message:"..."</span></div><button class="copy" data-copy="/feedback">Копировать</button><div class="desc">Отправить отзыв или репорт команде ASTERION</div></div>
+      <div class="cmd"><div class="name">/feedback <span class="muted">partner_name:"..." message:"..."</span></div><button class="copy" data-copy="/feedback">Копировать</button><div class="desc">Отправить отзыв или репорт команде <span class="asterion-gold">ASTERION</span></div></div>
       <div class="cmd"><div class="name">/status</div><button class="copy" data-copy="/status">Копировать</button><div class="desc">Проверить состояние ConCord-интеграции</div></div>
       <div class="cmd"><div class="name">/partner_help</div><button class="copy" data-copy="/partner_help">Копировать</button><div class="desc">Справка по доступным командам</div></div>
     </article>
 
     <article class="card cmd-card" data-keywords="partner_add добавить remove удалить pts addpts leaderboard лидерборд addrep представитель admin админ">
-      <span class="kicker">Админские команды (ASTERION)</span>
+      <span class="kicker">Админские команды (<span class="asterion-gold">ASTERION</span>)</span>
       <h3>Управление партнёрами</h3>
       <div class="cmd"><div class="name">/partner_add <span class="muted">name:"..." guild_id:...</span></div><button class="copy" data-copy="/partner_add">Копировать</button><div class="desc">Зарегистрировать партнёра</div></div>
       <div class="cmd"><div class="name">/partner_remove <span class="muted">name:"..."</span></div><button class="copy" data-copy="/partner_remove">Копировать</button><div class="desc">Удалить партнёра и его представителей</div></div>
@@ -440,11 +466,11 @@
     <article class="card">
       <span class="kicker">Что такое ConCord</span>
       <h3>Программа партнёрства</h3>
-      <p class="muted">ConCordConnect — безопасный слой ролей и телеметрический мост для партнёров ASTERION. Он обеспечивает доступ с наименьшими привилегиями для админов партнёров, давая ASTERION полный операционный контроль.</p>
+      <p class="muted">ConCordConnect — безопасный слой ролей и телеметрический мост для партнёров <span class="asterion-gold">ASTERION</span>. Он обеспечивает доступ с наименьшими привилегиями для админов партнёров, давая <span class="asterion-gold">ASTERION</span> полный операционный контроль.</p>
       <ul class="muted">
         <li><b>Авто-PTS</b> — автоматическое начисление очков за активность</li>
         <li><b>Уровни партнёров</b> — прогресс и привилегии</li>
-        <li><b>Обратная связь</b> — прямой канал связи с ASTERION</li>
+        <li><b>Обратная связь</b> — прямой канал связи с <span class="asterion-gold">ASTERION</span></li>
         <li><b>Синхронизация</b> — команды доступны на всех партнёрских серверах</li>
       </ul>
     </article>
@@ -462,7 +488,7 @@
       </details>
       <details>
         <summary><b>⚡ Ручное начисление</b></summary>
-        <p class="muted">Админы ASTERION могут вручную добавить PTS через команду <code class="inline">/addpts</code> за особые достижения.</p>
+        <p class="muted">Админы <span class="asterion-gold">ASTERION</span> могут вручную добавить PTS через команду <code class="inline">/addpts</code> за особые достижения.</p>
       </details>
       <details>
         <summary><b>🏆 Уровни и пороги</b></summary>
