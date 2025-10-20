@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AsterionEvents — ASCEND Ecosystem</title>
+  <meta name="description" content="Управление мероприятиями и наградами для Discord-сервера. Slash-команды, шаблоны, автоматизация." />
+  <meta property="og:title" content="AsterionEvents — ASCEND Ecosystem" />
+  <meta property="og:description" content="Управление мероприятиями и наградами для Discord-сервера" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/ratatuigranade/astpartners.github.io/main/banner.png" />
+  <meta name="keywords" content="discord bot, events, мероприятия, автоматизация, ивенты" />
+  <meta name="theme-color" content="#6ee7ff"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-soft: #0f1520;
+      --panel: #121a25;
+      --text: #e6f0ff;
+      --muted: #9ab0c7;
+      --brand: #67e8f9;
+      --brand-2: #a78bfa;
+      --accent: #22d3ee;
+      --danger: #ff6677;
+      --ok: #34d399;
+      --outline: rgba(103,232,249,.25);
+      --shadow: 0 10px 30px rgba(103,232,249,.08), 0 2px 10px rgba(0,0,0,.5);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    * { 
+      box-sizing: border-box;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="%2367e8f9" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="%2322d3ee"/></svg>') 12 12, auto;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0; color: var(--text); background: radial-gradient(1200px 700px at 10% -10%, rgba(103,232,249,.12), transparent 60%),
+                                             radial-gradient(1200px 700px at 90% 10%, rgba(167,139,250,.10), transparent 60%),
+                                             linear-gradient(180deg, var(--bg), var(--bg-soft));
+      font-family: var(--sans);
+      line-height: 1.6;
+      letter-spacing: .2px;
+    }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(18,26,37,.92), rgba(18,26,37,.75));
+      border-bottom: 1px solid rgba(103,232,249,.18);
+      transition: all .3s;
+    }
+    .nav {
+      max-width: 1200px; margin: 0 auto; padding: 14px 18px;
+      display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text);
+      transition: all .3s;
+    }
+    .brand:hover {
+      transform: translateY(-2px);
+    }
+    .logo { width: 32px; height: 32px; transition: all .3s; }
+    .brand:hover .logo {
+      filter: drop-shadow(0 0 8px var(--brand));
+    }
+    .brand h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .8px; }
+    .nav nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav a { 
+      color: var(--muted); text-decoration: none; font-size: 14px; 
+      padding: 6px 10px; border-radius: 8px; 
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav a::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; right: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(103,232,249,.15), transparent);
+      transition: all .5s;
+    }
+    .nav a:hover::before {
+      left: 100%;
+    }
+    .nav a:hover, .nav a.active { 
+      color: var(--text); 
+      background: rgba(103,232,249,.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(103,232,249,.2);
+    }
+    .nav .discord-btn { 
+      background: linear-gradient(135deg, rgba(88,101,242,.2), rgba(88,101,242,.1));
+      border: 1px solid rgba(88,101,242,.3);
+      color: #5865F2;
+      font-weight: 600;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav .discord-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      transform: translate(-50%, -50%);
+      transition: width .6s, height .6s;
+    }
+    .nav .discord-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    .nav .discord-btn:hover {
+      background: linear-gradient(135deg, rgba(88,101,242,.3), rgba(88,101,242,.2));
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(88,101,242,.4);
+    }
+
+    .hero { max-width: 1200px; margin: 28px auto 12px; padding: 0 18px; }
+    .bot-icon { 
+      width: 64px; height: 64px; border-radius: 16px; 
+      background: linear-gradient(135deg, var(--brand), var(--brand-2)); 
+      display: flex; align-items: center; justify-content: center; 
+      font-size: 32px; box-shadow: 0 4px 12px rgba(103,232,249,.2); 
+      margin-bottom: 16px;
+      transition: all .4s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .bot-icon:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 24px rgba(103,232,249,.4);
+    }
+    .title { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 6px; font-weight: 800; letter-spacing: .3px; }
+    .meta { color: var(--muted); font-size: 14px; }
+
+    .search-box { max-width: 1200px; margin: 20px auto; padding: 0 18px; }
+    .search-box input { width: 100%; padding: 14px 18px; background: rgba(18,26,37,.9); border: 1px solid rgba(103,232,249,.25); border-radius: 12px; color: var(--text); font-size: 15px; font-family: var(--sans); }
+    .search-box input:focus { outline: none; border-color: var(--brand); }
+    .search-box input::placeholder { color: var(--muted); }
+
+    .grid { max-width: 1200px; margin: 18px auto; padding: 0 18px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    
+    .card {
+      background: linear-gradient(180deg, rgba(18,26,37,.9), rgba(12,18,27,.9));
+      border: 1px solid rgba(103,232,249,.15);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      transition: all .4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(103,232,249,.05), transparent);
+      transform: rotate(45deg);
+      transition: all .6s;
+      opacity: 0;
+    }
+    .card:hover::before {
+      opacity: 1;
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: rotate(45deg) translateY(-100%); }
+      100% { transform: rotate(45deg) translateY(100%); }
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--brand);
+      box-shadow: 0 12px 40px rgba(103,232,249,.2), 0 4px 15px rgba(0,0,0,.6);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 18px; letter-spacing: .3px; position: relative; z-index: 1; }
+    .card p { margin: 0 0 12px; color: var(--muted); position: relative; z-index: 1; }
+
+    .kicker { color: var(--brand); font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+
+    .cmd { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; padding: 10px; border-radius: 12px; background: rgba(103,232,249,.06); border: 1px solid rgba(103,232,249,.12); margin: 8px 0; }
+    .cmd .name { font-family: var(--mono); color: var(--text); font-size: 13px; }
+    .cmd .desc { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+    .copy { 
+      appearance: none; border: 1px solid rgba(103,232,249,.25); 
+      background: rgba(103,232,249,.08); color: var(--text); 
+      border-radius: 8px; padding: 6px 10px; font-size: 12px; 
+      cursor: pointer; transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .copy::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(103,232,249,.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width .4s, height .4s;
+    }
+    .copy:hover::before {
+      width: 100px;
+      height: 100px;
+    }
+    .copy:hover { 
+      background: rgba(103,232,249,.15);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(103,232,249,.2);
+    }
+
+    details { 
+      border: 1px solid rgba(103,232,249,.15); 
+      border-radius: 12px; 
+      background: rgba(18,26,37,.7); 
+      padding: 12px 14px; 
+      margin: 10px 0; 
+      transition: all .3s;
+      cursor: pointer;
+    }
+    details[open] { 
+      background: rgba(18,26,37,.9);
+      border-color: var(--brand);
+      box-shadow: 0 4px 16px rgba(103,232,249,.15);
+    }
+    summary { 
+      cursor: pointer; 
+      list-style: none; 
+      font-weight: 600;
+      transition: all .3s;
+    }
+    summary::-webkit-details-marker { display: none }
+    summary:hover {
+      color: var(--brand);
+      padding-left: 8px;
+    }
+
+    footer { max-width: 1200px; margin: 20px auto 60px; padding: 0 18px; color: var(--muted); font-size: 13px; text-align: center; }
+    .sep { height: 1px; background: linear-gradient(90deg, rgba(103,232,249,.2), rgba(167,139,250,.1), transparent); margin: 24px 0; }
+    .muted { color: var(--muted); }
+    code.inline { 
+      background: rgba(103,232,249,.08); 
+      border: 1px solid rgba(103,232,249,.18); 
+      padding: 2px 6px; 
+      border-radius: 6px; 
+      font-family: var(--mono); 
+      font-size: 12px;
+      transition: all .3s;
+    }
+    code.inline:hover {
+      background: rgba(103,232,249,.15);
+      box-shadow: 0 0 8px rgba(103,232,249,.3);
+    }
+    a.link { 
+      color: var(--brand); 
+      text-decoration: none;
+      position: relative;
+      transition: all .3s;
+    }
+    a.link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+    a.link:hover::after {
+      transform: scaleX(1);
+    }
+    a.link:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px rgba(103,232,249,.4);
+    }
+
+    .hidden { display: none; }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      max-width: 1200px;
+      margin: 16px auto 0;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .breadcrumbs a {
+      color: var(--brand);
+      text-decoration: none;
+      transition: all .3s;
+    }
+    .breadcrumbs a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    .breadcrumbs .separator {
+      color: var(--muted);
+      user-select: none;
+    }
+    .breadcrumbs [aria-current="page"] {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Кнопка "Наверх" */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      border: none;
+      color: var(--bg);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(100px);
+      transition: all .4s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(103,232,249,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 30px rgba(103,232,249,.6);
+    }
+
+    /* Анимация появления */
+    .fade-in {
+      animation: fadeInUp .6s ease forwards;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="ASCEND Ecosystem Home">
+        <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#67e8f9;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="50" r="45" fill="url(#grad)"/>
+          <text x="50" y="70" font-size="60" text-anchor="middle" fill="#0b0f14" font-weight="bold">A</text>
+        </svg>
+        <h1>ASCEND Ecosystem</h1>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="events.html" class="active">Events</a>
+        <a href="monitor.html">Monitor</a>
+        <a href="partners.html">Partners</a>
+        <a href="faq.html">FAQ</a>
+        <a href="https://discord.gg/3pRjpqH454" target="_blank" rel="noopener" class="discord-btn">
+          <svg width="20" height="20" viewBox="0 0 71 55" fill="currentColor">
+            <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/>
+          </svg>
+          Присоединиться
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <nav class="breadcrumbs" aria-label="breadcrumb">
+    <a href="index.html">Главная</a>
+    <span class="separator">›</span>
+    <span aria-current="page">AsterionEvents</span>
+  </nav>
+
+  <section class="hero">
+    <div class="bot-icon">📅</div>
+    <h2 class="title">AsterionEvents</h2>
+    <p class="meta">Управление мероприятиями и наградами для Discord-сервера. Создавайте ивенты, напоминания и автоматические роли для участников.</p>
+  </section>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /events, шаблон, отмена)">
+  </div>
+
+  <div class="grid">
+    <article class="card cmd-card" data-keywords="events список ивенты предстоящие">
+      <span class="kicker">Основные команды</span>
+      <h3>Просмотр и участие</h3>
+      <div class="cmd"><div class="name">/events</div><button class="copy" data-copy="/events">Копировать</button><div class="desc">Список предстоящих ивентов с отметками времени</div></div>
+      <div class="cmd"><div class="name">/eventhelp</div><button class="copy" data-copy="/eventhelp">Копировать</button><div class="desc">Краткая справка по возможностям и ссылкам на инструкции</div></div>
+      <div class="cmd"><div class="name">/dashboard</div><button class="copy" data-copy="/dashboard">Копировать</button><div class="desc">Личный кабинет ивентолога: ваши ивенты, статистика, дедлайны</div></div>
+    </article>
+
+    <article class="card cmd-card" data-keywords="event создать новый шаблон template reschedule перенести cancel отменить ивентолог">
+      <span class="kicker">Для ивентологов</span>
+      <h3>Создание и управление</h3>
+      <div class="cmd"><div class="name">/event <span class="muted">title:"..." start:"дд.мм.гггг чч:мм"</span></div><button class="copy" data-copy="/event">Копировать</button><div class="desc">Создать новое мероприятие</div></div>
+      <div class="cmd"><div class="name">/create_template <span class="muted">name:"..."</span></div><button class="copy" data-copy="/create_template">Копировать</button><div class="desc">Сохранить шаблон ивента</div></div>
+      <div class="cmd"><div class="name">/use_template <span class="muted">name:"..."</span></div><button class="copy" data-copy="/use_template">Копировать</button><div class="desc">Запустить ивент по шаблону</div></div>
+      <div class="cmd"><div class="name">/reschedule_event <span class="muted">id:... new_time:"..."</span></div><button class="copy" data-copy="/reschedule_event">Копировать</button><div class="desc">Перенести ивент на новую дату</div></div>
+      <div class="cmd"><div class="name">/cancel_event <span class="muted">id:... reason:"..."</span></div><button class="copy" data-copy="/cancel_event">Копировать</button><div class="desc">Отменить своё мероприятие</div></div>
+    </article>
+
+    <article class="card cmd-card" data-keywords="admin админ force принудительная отчёт report статистика">
+      <span class="kicker">Админские команды</span>
+      <h3>Контроль и аналитика</h3>
+      <div class="cmd"><div class="name">/admin_events <span class="muted">status:"..."</span></div><button class="copy" data-copy="/admin_events">Копировать</button><div class="desc">Общий список ивентов с фильтрами</div></div>
+      <div class="cmd"><div class="name">/force_cancel <span class="muted">id:... reason:"..."</span></div><button class="copy" data-copy="/force_cancel">Копировать</button><div class="desc">Принудительная отмена любого ивента</div></div>
+      <div class="cmd"><div class="name">/admin_report <span class="muted">период:"..."</span></div><button class="copy" data-copy="/admin_report">Копировать</button><div class="desc">Отчёт по активности ивентологов</div></div>
+    </article>
+
+    <article class="card">
+      <span class="kicker">Возможности</span>
+      <h3>Что умеет AsterionEvents</h3>
+      <ul class="muted">
+        <li>📋 <b>Создание мероприятий</b> — полноценная форма с описанием, датой, призами</li>
+        <li>🔔 <b>Автоматические напоминания</b> — уведомления за 24ч, 1ч, 15мин до старта</li>
+        <li>🏆 <b>Роли участников</b> — автоматическая выдача ролей победителям</li>
+        <li>📊 <b>Шаблоны ивентов</b> — сохраняйте настройки для повторяющихся мероприятий</li>
+        <li>⏰ <b>Перенос и отмена</b> — гибкое управление расписанием</li>
+        <li>📈 <b>Аналитика</b> — статистика по ивентологам и мероприятиям</li>
+      </ul>
+    </article>
+  </div>
+
+  <footer>
+    <div class="sep"></div>
+    <p class="muted">© ASCEND Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
+  </footer>
+
+  <button id="backToTop" class="back-to-top" aria-label="Вернуться наверх" title="Наверх">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script>
+    // Кнопка "Наверх"
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTopBtn.classList.toggle('visible', window.scrollY > 300);
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Анимации появления
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('fade-in'), index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      observer.observe(card);
+    });
+  </script>
+  <script>
+    const commands = Array.from(document.querySelectorAll('.cmd-card'));
+    const searchInput = document.getElementById('searchInput');
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      commands.forEach(card => {
+        const keywords = card.dataset.keywords || '';
+        const text = card.textContent.toLowerCase();
+        const match = text.includes(query) || keywords.includes(query);
+        card.classList.toggle('hidden', !match);
+      });
+    });
+
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        navigator.clipboard.writeText(text).then(() => {
+          const prev = btn.textContent;
+          btn.textContent = 'Скопировано';
+          btn.disabled = true;
+          setTimeout(() => { btn.textContent = 'Копировать'; btn.disabled = false; }, 1000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

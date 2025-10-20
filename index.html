@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ASCEND Ecosystem — Документация</title>
+  <meta name="description" content="Полная документация для ботов ASCEND Ecosystem: AsterionEvents, AsterionMonitor, AsterionPartners. Команды, возможности, FAQ и советы." />
+  <meta property="og:title" content="ASCEND Ecosystem — Документация" />
+  <meta property="og:description" content="События, уровни и партнёрства для вашего Discord-сервера. AsterionEvents, AsterionMonitor, AsterionPartners." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#6ee7ff"/>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-soft: #0f1520;
+      --panel: #121a25;
+      --text: #e6f0ff;
+      --muted: #9ab0c7;
+      --brand: #67e8f9;
+      --brand-2: #a78bfa;
+      --accent: #22d3ee;
+      --danger: #ff6677;
+      --ok: #34d399;
+      --outline: rgba(103,232,249,.25);
+      --shadow: 0 10px 30px rgba(103,232,249,.08), 0 2px 10px rgba(0,0,0,.5);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --cc-gold-1: #FFD56A;
+      --cc-gold-2: #F4C049;
+      --cc-grad-1: #A78BFA;
+      --cc-grad-2: #F472B6;
+    }
+
+    .cc-con {
+      background: linear-gradient(180deg, var(--cc-gold-1), var(--cc-gold-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+    .cc-cord {
+      background: linear-gradient(90deg, var(--cc-grad-1), var(--cc-grad-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+
+    * { 
+      box-sizing: border-box;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="%2367e8f9" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="%2322d3ee"/></svg>') 12 12, auto;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0; color: var(--text); background: radial-gradient(1200px 700px at 10% -10%, rgba(103,232,249,.12), transparent 60%),
+                                             radial-gradient(1200px 700px at 90% 10%, rgba(167,139,250,.10), transparent 60%),
+                                             linear-gradient(180deg, var(--bg), var(--bg-soft));
+      font-family: var(--sans);
+      line-height: 1.6;
+      letter-spacing: .2px;
+    }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(18,26,37,.92), rgba(18,26,37,.75));
+      border-bottom: 1px solid rgba(103,232,249,.18);
+    }
+    .nav {
+      max-width: 1200px; margin: 0 auto; padding: 14px 18px;
+      display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text);
+    }
+    .logo { width: 32px; height: 32px; }
+    .brand h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .8px; }
+    .nav nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav a { 
+      color: var(--muted); text-decoration: none; font-size: 14px; 
+      padding: 6px 10px; border-radius: 8px; 
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav a::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; right: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(103,232,249,.15), transparent);
+      transition: all .5s;
+    }
+    .nav a:hover::before {
+      left: 100%;
+    }
+    .nav a:hover { 
+      color: var(--text); 
+      background: rgba(103,232,249,.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(103,232,249,.2);
+    }
+    .nav .discord-btn { 
+      background: linear-gradient(135deg, rgba(88,101,242,.2), rgba(88,101,242,.1));
+      border: 1px solid rgba(88,101,242,.3);
+      color: #5865F2;
+      font-weight: 600;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav .discord-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      transform: translate(-50%, -50%);
+      transition: width .6s, height .6s;
+    }
+    .nav .discord-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    .nav .discord-btn:hover {
+      background: linear-gradient(135deg, rgba(88,101,242,.3), rgba(88,101,242,.2));
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(88,101,242,.4);
+    }
+
+    .hero { max-width: 1200px; margin: 28px auto 12px; padding: 0 18px; }
+    .badge-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .badge { font-family: var(--mono); font-size: 12px; color: var(--text); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--outline); background: rgba(103,232,249,.06); }
+    .title { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 6px; font-weight: 800; letter-spacing: .3px; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .meta b { color: var(--text); }
+
+    .grid { max-width: 1200px; margin: 18px auto; padding: 0 18px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 900px){ .grid { grid-template-columns: 1fr 1fr; } }
+
+    .card {
+      background: linear-gradient(180deg, rgba(18,26,37,.9), rgba(12,18,27,.9));
+      border: 1px solid rgba(103,232,249,.15);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 18px; letter-spacing: .3px; }
+    .card p { margin: 0 0 12px; color: var(--muted); }
+    .card ul { margin: 8px 0; padding-left: 20px; }
+    .card li { margin: 6px 0; }
+
+    .kicker { color: var(--brand); font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+
+    .cmd { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; padding: 10px; border-radius: 12px; background: rgba(103,232,249,.06); border: 1px solid rgba(103,232,249,.12); margin: 8px 0; }
+    .cmd .name { font-family: var(--mono); color: var(--text); font-size: 13px; }
+    .cmd .desc { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+    .copy { appearance: none; border: 1px solid rgba(103,232,249,.25); background: rgba(103,232,249,.08); color: var(--text); border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; transition: all .2s; }
+    .copy:hover { background: rgba(103,232,249,.15); }
+
+    details { border: 1px solid rgba(103,232,249,.15); border-radius: 12px; background: rgba(18,26,37,.7); padding: 12px 14px; margin: 10px 0; transition: all .3s; }
+    details[open] { background: rgba(18,26,37,.9); }
+    summary { cursor: pointer; list-style: none; font-weight: 600; }
+    summary::-webkit-details-marker { display: none }
+    summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .sum { display: flex; align-items: baseline; gap: 10px; }
+    .sum b { font-size: 14px; }
+    .sum small { color: var(--muted); }
+
+    footer { max-width: 1200px; margin: 20px auto 60px; padding: 0 18px; color: var(--muted); font-size: 13px; text-align: center; }
+    .sep { height: 1px; background: linear-gradient(90deg, rgba(103,232,249,.2), rgba(167,139,250,.1), transparent); margin: 24px 0; }
+    .muted { color: var(--muted); }
+    .ok { color: var(--ok); }
+    .danger { color: var(--danger); }
+    .chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; border: 1px solid rgba(103,232,249,.25); background: rgba(103,232,249,.06); }
+    .mono { font-family: var(--mono); }
+    code.inline { background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.18); padding: 2px 6px; border-radius: 6px; font-family: var(--mono); font-size: 12px; }
+    a.link { color: var(--brand); text-decoration: none; }
+    a.link:hover { text-decoration: underline; }
+
+    .bot-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(103,232,249,.2);
+    }
+
+    .bot-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background: linear-gradient(135deg, rgba(18,26,37,.9), rgba(12,18,27,.9));
+      border: 1px solid rgba(103,232,249,.15);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .bot-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(103,232,249,.05), rgba(167,139,250,.05));
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .bot-card::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(103,232,249,.08), transparent);
+      transform: rotate(45deg);
+      transition: all .6s;
+      opacity: 0;
+    }
+    .bot-card:hover::after {
+      opacity: 1;
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: rotate(45deg) translateY(-100%); }
+      100% { transform: rotate(45deg) translateY(100%); }
+    }
+    .bot-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--brand);
+      box-shadow: 0 16px 48px rgba(103,232,249,.25), 0 6px 20px rgba(0,0,0,.7);
+    }
+    .bot-card:hover::before {
+      opacity: 1;
+    }
+    .bot-card-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(103,232,249,.25);
+      position: relative;
+      z-index: 1;
+    }
+    .bot-card h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+    .bot-card p {
+      margin: 0;
+      flex-grow: 1;
+      position: relative;
+      z-index: 1;
+    }
+    .bot-card .arrow {
+      margin-top: 16px;
+      font-size: 24px;
+      color: var(--brand);
+      position: relative;
+      z-index: 1;
+    }
+    .quickstart-card {
+      grid-column: 1 / -1;
+    }
+
+    /* Кнопка "Наверх" */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      border: none;
+      color: var(--bg);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(100px);
+      transition: all .4s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(103,232,249,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 30px rgba(103,232,249,.6);
+    }
+    .back-to-top:active {
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    /* Анимация появления */
+    .fade-in {
+      animation: fadeInUp .6s ease forwards;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Улучшенная мобильная адаптация */
+    @media (max-width: 768px) {
+      .nav { 
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .nav nav { 
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .nav a {
+        flex: 1 1 auto;
+        text-align: center;
+        min-width: fit-content;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+      }
+      .title {
+        font-size: 24px;
+      }
+    }
+
+    /* Улучшенная доступность */
+    *:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="ASCEND Ecosystem Home">
+        <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#67e8f9;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="50" r="45" fill="url(#grad)"/>
+          <text x="50" y="70" font-size="60" text-anchor="middle" fill="#0b0f14" font-weight="bold">A</text>
+        </svg>
+        <h1>ASCEND Ecosystem</h1>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="events.html">Events</a>
+        <a href="monitor.html">Monitor</a>
+        <a href="partners.html">Partners</a>
+        <a href="faq.html">FAQ</a>
+        <a href="https://discord.gg/3pRjpqH454" target="_blank" rel="noopener" class="discord-btn">
+          <svg width="20" height="20" viewBox="0 0 71 55" fill="currentColor">
+            <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/>
+          </svg>
+          Присоединиться
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <section class="hero" id="top">
+    <div class="badge-row" aria-label="version badges">
+      <span class="badge">🤖 <b>3 Бота</b></span>
+      <span class="badge">⚡ <b>Slash-команды</b></span>
+      <span class="badge">🎮 <b>Discord Integration</b></span>
+    </div>
+    <h2 class="title">ASCEND Ecosystem</h2>
+    <p class="meta">
+      <b>Описание:</b> Экосистема ботов для управления событиями, отслеживания активности и поддержки партнёрских программ на вашем Discord-сервере.
+    </p>
+  </section>
+
+  <div class="grid">
+    <a href="events.html" class="bot-card">
+      <div class="bot-card-icon">📅</div>
+      <h3>AsterionEvents</h3>
+      <p class="muted">Управление мероприятиями и наградами. Создавайте ивенты, шаблоны, напоминания.</p>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="monitor.html" class="bot-card">
+      <div class="bot-card-icon">📊</div>
+      <h3>AsterionMonitor</h3>
+      <p class="muted">Система уровней, XP и рангов. Отслеживание активности и визуальные профили.</p>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="partners.html" class="bot-card">
+      <div class="bot-card-icon">🤝</div>
+      <h3>AsterionPartners</h3>
+      <p class="muted">Партнёрская программа ConCord. PTS, уровни, обратная связь.</p>
+      <span class="arrow">→</span>
+    </a>
+
+    <article class="card quickstart-card">
+      <span class="kicker">Быстрый старт</span>
+      <h3>⚡ Как начать</h3>
+      <ol class="muted">
+        <li>Пригласите нужного бота по ссылке от администрации</li>
+        <li>Дайте права: <code class="inline">Read Messages</code>, <code class="inline">Send Messages</code>, <code class="inline">Manage Roles</code>, <code class="inline">Use Application Commands</code></li>
+        <li>Введите <code class="inline">/</code> в чате для просмотра доступных команд</li>
+      </ol>
+      <p class="muted" style="margin-top: 16px;">🎯 <b>Если бот не отвечает:</b> проверьте права, статус бота (<span class="ok">Online</span>) или обратитесь к администрации.</p>
+    </article>
+  </div>
+
+  <footer>
+    <div class="sep"></div>
+    <p class="muted">© ASCEND Ecosystem. Создано для Discord-сообществ.</p>
+    <p class="muted" style="margin-top: 8px;">
+      <a href="https://discord.gg/3pRjpqH454" target="_blank" rel="noopener" class="link">Присоединиться к Discord</a>
+    </p>
+  </footer>
+
+  <!-- Кнопка "Наверх" -->
+  <button id="backToTop" class="back-to-top" aria-label="Вернуться наверх" title="Наверх">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script>
+    // Кнопка "Наверх"
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Анимации появления карточек
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('fade-in');
+          }, index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.bot-card, .card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      observer.observe(card);
+    });
+
+    // Копирование команд
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        navigator.clipboard.writeText(text).then(() => {
+          const prev = btn.textContent;
+          btn.textContent = 'Скопировано';
+          btn.disabled = true;
+          setTimeout(() => { btn.textContent = 'Копировать'; btn.disabled = false; }, 1000);
+        });
+      });
+    });
+
+    // Keyboard navigation для навигации
+    document.querySelectorAll('.nav a').forEach((link, index, arr) => {
+      link.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          arr[(index + 1) % arr.length].focus();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          arr[(index - 1 + arr.length) % arr.length].focus();
+        }
+      });
+    });
+
+    // ConCord universal colorizer
+    (() => {
+      const SKIP = 'script,style,code,pre,textarea,noscript';
+      const ROOT = document.body;
+      const re = /([Cc][Oo][Nn])([Cc][Oo][Rr][Dd])/g;
+
+      const walker = document.createTreeWalker(
+        ROOT,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode(node) {
+            if (!node.nodeValue || !re.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+            const p = node.parentElement;
+            if (!p || p.closest(SKIP)) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+      );
+
+      const targets = [];
+      while (walker.nextNode()) targets.push(walker.currentNode);
+
+      for (const textNode of targets) {
+        const span = document.createElement('span');
+        span.innerHTML = textNode.nodeValue.replace(
+          re,
+          (_, con, cord) =>
+            `<span class="cc-con">${con}</span><span class="cc-cord">${cord}</span>`
+        );
+        textNode.replaceWith(...span.childNodes);
+      }
+    })();
+  </script>
+</body>
+</html>
