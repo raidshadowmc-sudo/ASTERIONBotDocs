@@ -39,7 +39,11 @@
 
     * { 
       box-sizing: border-box;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="%2367e8f9" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="%2322d3ee"/></svg>') 12 12, auto;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow"><stop offset="0%%" stop-color="%2367e8f9" stop-opacity="0.8"/><stop offset="70%%" stop-color="%2322d3ee" stop-opacity="0.4"/><stop offset="100%%" stop-color="%23a78bfa" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="12" fill="url(%23glow)"/><circle cx="16" cy="16" r="5" fill="%2367e8f9" opacity="0.9"/><circle cx="16" cy="16" r="2.5" fill="%23ffffff"/></svg>') 16 16, auto;
+    }
+    
+    a, button, .copy, .back-to-top, summary, .nav a, details {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow2"><stop offset="0%%" stop-color="%23ffd700" stop-opacity="0.9"/><stop offset="60%%" stop-color="%23ffa500" stop-opacity="0.5"/><stop offset="100%%" stop-color="%23ff4500" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="14" fill="url(%23glow2)"/><circle cx="16" cy="16" r="6" fill="%23ffd700"/><circle cx="16" cy="16" r="3" fill="%23ffffff"/></svg>') 16 16, pointer;
     }
     html, body { height: 100%; }
     body {
@@ -463,11 +467,15 @@
     <article class="card cmd-card" data-keywords="event создать новый шаблон template reschedule перенести cancel отменить ивентолог">
       <span class="kicker">Для ивентологов</span>
       <h3>Создание и управление</h3>
-      <div class="cmd"><div class="name">/event <span class="muted">title:"..." start:"дд.мм.гггг чч:мм"</span></div><button class="copy" data-copy="/event">Копировать</button><div class="desc">Создать новое мероприятие</div></div>
-      <div class="cmd"><div class="name">/create_template <span class="muted">name:"..."</span></div><button class="copy" data-copy="/create_template">Копировать</button><div class="desc">Сохранить шаблон ивента</div></div>
-      <div class="cmd"><div class="name">/use_template <span class="muted">name:"..."</span></div><button class="copy" data-copy="/use_template">Копировать</button><div class="desc">Запустить ивент по шаблону</div></div>
-      <div class="cmd"><div class="name">/reschedule_event <span class="muted">id:... new_time:"..."</span></div><button class="copy" data-copy="/reschedule_event">Копировать</button><div class="desc">Перенести ивент на новую дату</div></div>
-      <div class="cmd"><div class="name">/cancel_event <span class="muted">id:... reason:"..."</span></div><button class="copy" data-copy="/cancel_event">Копировать</button><div class="desc">Отменить своё мероприятие</div></div>
+      <div class="cmd"><div class="name">/event <span class="muted">title:"..." start:"дд.мм.гггг чч:мм"</span></div><button class="copy" data-copy="/event">Копировать</button><div class="desc">Создать новое мероприятие (название, описание, время, призы)</div></div>
+      <div class="cmd"><div class="name">/create_template <span class="muted">name:"..."</span></div><button class="copy" data-copy="/create_template">Копировать</button><div class="desc">Сохранить шаблон ивента для повторного использования</div></div>
+      <div class="cmd"><div class="name">/use_template <span class="muted">name:"..."</span></div><button class="copy" data-copy="/use_template">Копировать</button><div class="desc">Запустить ивент по существующему шаблону</div></div>
+      <div class="cmd"><div class="name">/list_templates</div><button class="copy" data-copy="/list_templates">Копировать</button><div class="desc">Показать все доступные шаблоны</div></div>
+      <div class="cmd"><div class="name">/delete_template <span class="muted">name:"..."</span></div><button class="copy" data-copy="/delete_template">Копировать</button><div class="desc">Удалить шаблон (по имени)</div></div>
+      <div class="cmd"><div class="name">/reschedule_event <span class="muted">id:... new_time:"..."</span></div><button class="copy" data-copy="/reschedule_event">Копировать</button><div class="desc">Перенести ивент на новую дату и время</div></div>
+      <div class="cmd"><div class="name">/cancel_event <span class="muted">id:... reason:"..."</span></div><button class="copy" data-copy="/cancel_event">Копировать</button><div class="desc">Отменить своё мероприятие с уведомлением участников</div></div>
+      <div class="cmd"><div class="name">/emergency_cancel <span class="muted">id:... reason:"..."</span></div><button class="copy" data-copy="/emergency_cancel">Копировать</button><div class="desc">Срочная отмена с пометкой критической причины</div></div>
+      <div class="cmd"><div class="name">/request_backup <span class="muted">event_id:...</span></div><button class="copy" data-copy="/request_backup">Копировать</button><div class="desc">Запросить подмену организатора</div></div>
     </article>
 
     <article class="card cmd-card" data-keywords="admin админ force принудительная отчёт report статистика">
@@ -475,7 +483,9 @@
       <h3>Контроль и аналитика</h3>
       <div class="cmd"><div class="name">/admin_events <span class="muted">status:"..."</span></div><button class="copy" data-copy="/admin_events">Копировать</button><div class="desc">Общий список ивентов с фильтрами</div></div>
       <div class="cmd"><div class="name">/force_cancel <span class="muted">id:... reason:"..."</span></div><button class="copy" data-copy="/force_cancel">Копировать</button><div class="desc">Принудительная отмена любого ивента</div></div>
-      <div class="cmd"><div class="name">/admin_report <span class="muted">период:"..."</span></div><button class="copy" data-copy="/admin_report">Копировать</button><div class="desc">Отчёт по активности ивентологов</div></div>
+      <div class="cmd"><div class="name">/assign_backup <span class="muted">event_id:... organizer:@...</span></div><button class="copy" data-copy="/assign_backup">Копировать</button><div class="desc">Назначить нового организатора вместо текущего</div></div>
+      <div class="cmd"><div class="name">/admin_report <span class="muted">period:"..."</span></div><button class="copy" data-copy="/admin_report">Копировать</button><div class="desc">Отчёт по активности ивентологов</div></div>
+      <div class="cmd"><div class="name">/award_prizes <span class="muted">event_id:...</span></div><button class="copy" data-copy="/award_prizes">Копировать</button><div class="desc">Автовыдача призов победителям ивента</div></div>
     </article>
 
     <article class="card">

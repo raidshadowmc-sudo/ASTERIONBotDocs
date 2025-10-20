@@ -39,7 +39,11 @@
 
     * { 
       box-sizing: border-box;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="%2367e8f9" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="%2322d3ee"/></svg>') 12 12, auto;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow"><stop offset="0%%" stop-color="%2367e8f9" stop-opacity="0.8"/><stop offset="70%%" stop-color="%2322d3ee" stop-opacity="0.4"/><stop offset="100%%" stop-color="%23a78bfa" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="12" fill="url(%23glow)"/><circle cx="16" cy="16" r="5" fill="%2367e8f9" opacity="0.9"/><circle cx="16" cy="16" r="2.5" fill="%23ffffff"/></svg>') 16 16, auto;
+    }
+    
+    a, button, .copy, .back-to-top, summary, .nav a, details {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow2"><stop offset="0%%" stop-color="%23ffd700" stop-opacity="0.9"/><stop offset="60%%" stop-color="%23ffa500" stop-opacity="0.5"/><stop offset="100%%" stop-color="%23ff4500" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="14" fill="url(%23glow2)"/><circle cx="16" cy="16" r="6" fill="%23ffd700"/><circle cx="16" cy="16" r="3" fill="%23ffffff"/></svg>') 16 16, pointer;
     }
     html, body { height: 100%; }
     body {
@@ -581,12 +585,12 @@
   <section class="hero">
     <div class="bot-icon">📊</div>
     <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Бета · вер. 1.0.2b</span>
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ASTERION β Patch 1.5.2b</span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая <span class="accent-beta">Бета</span> · вер. 1.0.2<span class="accent-beta">b</span></span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);"><span class="asterion-gold">ASTERION</span> <span class="accent-beta">β</span> Patch 1.5.2<span class="accent-beta">b</span></span>
     </div>
     <h2 class="title"><span class="asterion-gold">ASTERION Team</span> <span class="accent-beta">β</span> — Patch 1.5.2<span class="accent-beta">b</span></h2>
     <p class="meta">
-      <b>Автор:</b> <b>[+]</b> <span class="fury-text" style="font-family: var(--mono);">б̲о̲ʙ̲о̲з̲ᴀʙᴩ,</span><br/>
+      <b>Автор:</b> <b class="fury-text">[+]</b> <span class="fury-text" style="font-family: var(--mono);">б̲о̲ʙ̲о̲з̲ᴀʙᴩ,</span><br/>
       <b>Описание:</b> Система уровней, XP и рангов. Отслеживает активность в чатах и голосовых каналах, формирует визуальные rank-карты и лидерборды
     </p>
   </section>
@@ -598,7 +602,7 @@
   <div class="grid">
     <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog">
       <span class="kicker">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</span>
-      <h3>Что нового в <span style="font-family: var(--mono);">1.5.2b</span></h3>
+      <h3>Что нового в <span style="font-family: var(--mono);">1.5.2<span class="accent-beta">b</span></span></h3>
       <ul class="muted" style="line-height: 1.8;">
         <li><span class="asterion-gold">ASTERION Ranking:</span> кумулятивное обновление для команды <code class="inline">/rank</code>. Улучшены текстовая и визуальная версии: эмбед отображает рейтинг сервера с подходящей иконкой, а основные показатели вынесены в одну строку — ⭐ Уровень, 🏅 Ранг, <span class="fury-text">💰 FuRY</span>, 📊 Общий XP, 💬 Сообщения и 🎙 Время в голосовых каналах. Визуальная карта повторяет данные и добавляет кольцевой прогресс-бар вокруг аватара.</li>
         <li><span class="asterion-gold">ASTERION Progression:</span> прогресс-бар в эмбеде использует поддерживаемые Unicode-символы <span class="progress-symbol">▱</span> (когда пусто) и <span class="progress-symbol">▰</span> (когда заполнено), чтобы заполнение выглядело чище и контрастнее.</li>
@@ -652,12 +656,14 @@
       <div class="cmd"><div class="name">/monitorhelp</div><button class="copy" data-copy="/monitorhelp">Копировать</button><div class="desc">Справка по возможностям Ascend Monitor</div></div>
     </article>
 
-    <article class="card cmd-card" data-keywords="xp опыт уровень setlevel fury валюта multiplier множитель sync роли admin админ">
+    <article class="card cmd-card" data-keywords="xp опыт уровень setlevel fury валюта multiplier множитель sync роли admin админ reset сброс award награда">
       <span class="kicker">Админские команды</span>
       <h3>Управление системой</h3>
-      <div class="cmd"><div class="name">/xp <span class="muted">user:@... amount:... reason:"..."</span></div><button class="copy" data-copy="/xp">Копировать</button><div class="desc">Ручное добавление или снятие XP</div></div>
+      <div class="cmd"><div class="name">/xp <span class="muted">user:@... amount:... reason:"..."</span></div><button class="copy" data-copy="/xp">Копировать</button><div class="desc">Ручное добавление или снятие XP у пользователя</div></div>
       <div class="cmd"><div class="name">/setlevel <span class="muted">user:@... level:...</span></div><button class="copy" data-copy="/setlevel">Копировать</button><div class="desc">Установить конкретный уровень игрока</div></div>
-      <div class="cmd"><div class="name">/fury <span class="muted">user:@... amount:... reason:"..."</span></div><button class="copy" data-copy="/fury">Копировать</button><div class="desc">Управление валютой <span class="fury-text">FuRY</span></div></div>
+      <div class="cmd"><div class="name">/fury <span class="muted">user:@... amount:... reason:"..."</span></div><button class="copy" data-copy="/fury">Копировать</button><div class="desc">Управление валютой FuRY (выдать, списать, проверить)</div></div>
+      <div class="cmd"><div class="name">/reset <span class="muted">user:@... type:"all"</span></div><button class="copy" data-copy="/reset">Копировать</button><div class="desc">Сбросить прогресс участника (уровни, XP, FuRY)</div></div>
+      <div class="cmd"><div class="name">/award_event <span class="muted">user:@... xp:... fury:...</span></div><button class="copy" data-copy="/award_event">Копировать</button><div class="desc">Выдать участнику XP/FuRY за ивент (интеграция с EventBot)</div></div>
       <div class="cmd"><div class="name">/set_channel_multiplier <span class="muted">канал:#... multiplier:1.5</span></div><button class="copy" data-copy="/set_channel_multiplier">Копировать</button><div class="desc">Настроить множитель XP для канала</div></div>
       <div class="cmd"><div class="name">/sync_roles</div><button class="copy" data-copy="/sync_roles">Копировать</button><div class="desc">Пересинхронизация ролей уровней</div></div>
     </article>
