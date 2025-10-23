@@ -458,31 +458,34 @@
   </section>
 
   <div class="grid">
-    <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog">
+    <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog daily reward analytics sync">
       <span class="kicker">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</span>
       <h3>Что нового в <span style="font-family: var(--mono);">0.0.5a</span></h3>
+      <p style="color: var(--muted); font-size: 13px; margin: 6px 0 16px;">Добавлено в Concord α Patch 0.0.5a — ежедневные бонусы, аналитика и инструменты для партнёров.</p>
       <ul class="muted" style="line-height: 1.8;">
-        <li><b>ServerMultiplier:</b> новая колонка <code class="inline">multiplier</code> в <code class="inline">partners</code> позволяет выдавать 0.1–2.0× множители PTS. Команда <code class="inline">/partner_multiplier</code> и лог <code class="inline">[ConCord α] Partner multiplier updated</code> упрощают балансировку.</li>
-        <li><b>Voice Balance:</b> начисление за минуту в войсе теперь умножается на индивидуальный коэффициент сервера. Значение выводится в <code class="inline">/partner_info</code>, когда оно отличается от 1×.</li>
-        <li><b>ConcordConnect Role Layer:</b> разделение <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">ADMIN_ROLE_IDS</span> и <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 2px 8px; border-radius: 6px; font-family: var(--mono); font-size: 11px;">CONCORD_CONNECT_IDS</span> с каскадным доступом (админы видят всё).</li>
-        <li><b>Авто PTS:</b> начисление за сообщения и каждую минуту голосовой активности на серверах партнёров.</li>
-        <li><b>Уровни и прогресс:</b> пороги из <code class="inline">LEVELS_JSON</code>, показ «сколько осталось» в <code class="inline">/partner_info</code>.</li>
-        <li><b>Slash-автосинк:</b> синхронизация команд с <span class="asterion-gold">ASTERION</span>, партнёрской гильдией и теми, что записаны в БД.</li>
+        <li><b>Partner Bonuses:</b> <code class="inline">/partner_daily</code>, <code class="inline">/partner_weekly</code>, <code class="inline">/partner_monthly</code> дают растущие бонусы PTS/FuRY; <code class="inline">/partner_reward</code> — для выдач администраторами.</li>
+        <li><b>Analytics Suite:</b> <code class="inline">/partner_stats</code>, <code class="inline">/partner_activity</code>, <code class="inline">/partner_audit</code> дают детальные отчёты и чек-листы.</li>
+        <li><b>Communication & Sync:</b> объявления отправляются через <code class="inline">/partner_announcements</code>, а <code class="inline">/partner_sync</code> форсирует slash-команды на всех серверах.</li>
       </ul>
     </article>
 
-    <article class="card cmd-card" data-keywords="partner_info info статус pts уровень partner_me reps представители feedback обратная связь status помощь help">
+    <article class="card cmd-card" data-keywords="partner_info info статус pts уровень partner_me reps представители feedback stats activity daily weekly monthly обратная связь status помощь help">
       <span class="kicker">Команды партнёров (<span class="cc-con">Con</span><span class="cc-cord">Cord</span>)</span>
       <h3>Информация и связь</h3>
       <div class="cmd"><div class="name">/partner_info <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_info">Копировать</button><div class="desc">Посмотреть уровень, PTS, множитель и привязку сервера</div></div>
       <div class="cmd"><div class="name">/partner_me</div><button class="copy" data-copy="/partner_me">Копировать</button><div class="desc">Посмотреть свои данные и сервер</div></div>
       <div class="cmd"><div class="name">/partner_reps <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_reps">Копировать</button><div class="desc">Список представителей выбранного партнёра</div></div>
+      <div class="cmd"><div class="name">/partner_stats <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_stats">Копировать</button><div class="desc">Расширенная статистика: PTS, репы, последние начисления</div></div>
+      <div class="cmd"><div class="name">/partner_activity <span class="muted">name:"ServerName" days:7</span></div><button class="copy" data-copy="/partner_activity">Копировать</button><div class="desc">Показать начисления PTS по дням за выбранный период</div></div>
+      <div class="cmd"><div class="name">/partner_daily <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_daily">Копировать</button><div class="desc">Забрать ежедневный бонус PTS/FuRY (репы или AST Admin)</div></div>
+      <div class="cmd"><div class="name">/partner_weekly</div><button class="copy" data-copy="/partner_weekly name:&quot;SkyForge&quot;">Копировать</button><div class="desc">Еженедельный бонус: начисляет PTS партнёру и FuRY репу</div></div>
+      <div class="cmd"><div class="name">/partner_monthly</div><button class="copy" data-copy="/partner_monthly name:&quot;SkyForge&quot;">Копировать</button><div class="desc">Ежемесячный бонус с повышенной наградой PTS/FuRY</div></div>
       <div class="cmd"><div class="name">/feedback <span class="muted">partner_name:"..." message:"..."</span></div><button class="copy" data-copy="/feedback">Копировать</button><div class="desc">Отправить отзыв или репорт команде <span class="asterion-gold">ASTERION</span></div></div>
       <div class="cmd"><div class="name">/status</div><button class="copy" data-copy="/status">Копировать</button><div class="desc">Проверить состояние <span class="cc-con">Con</span><span class="cc-cord">Cord</span>-интеграции</div></div>
       <div class="cmd"><div class="name">/partner_help</div><button class="copy" data-copy="/partner_help">Копировать</button><div class="desc">Справка по доступным командам</div></div>
     </article>
 
-    <article class="card cmd-card" data-keywords="partner_add добавить remove удалить pts addpts leaderboard лидерборд addrep представитель admin админ migrate multiplier множитель">
+    <article class="card cmd-card" data-keywords="partner_add добавить remove удалить pts addpts leaderboard лидерборд addrep представитель admin админ migrate multiplier множитель announcements reward sync audit">
       <span class="kicker">Админские команды (<span class="asterion-gold">ASTERION</span>)</span>
       <h3>Управление партнёрами</h3>
       <div class="cmd"><div class="name">/partner_add <span class="muted">name:"..." guild_id:...</span></div><button class="copy" data-copy="/partner_add">Копировать</button><div class="desc">Зарегистрировать партнёра и (опционально) привязать сервер</div></div>
@@ -492,6 +495,10 @@
       <div class="cmd"><div class="name">/partner_multiplier <span class="muted">name:"..." multiplier:...</span></div><button class="copy" data-copy="/partner_multiplier">Копировать</button><div class="desc">Установить множитель PTS партнёра (0.1–2.0×)</div></div>
       <div class="cmd"><div class="name">/partner_leaderboard</div><button class="copy" data-copy="/partner_leaderboard">Копировать</button><div class="desc">Топ партнёров по PTS</div></div>
       <div class="cmd"><div class="name">/partner_addrep <span class="muted">name:"..." user:@...</span></div><button class="copy" data-copy="/partner_addrep">Копировать</button><div class="desc">Добавить представителя партнёра</div></div>
+      <div class="cmd"><div class="name">/partner_announcements <span class="muted">name:"..." message:"..."</span></div><button class="copy" data-copy="/partner_announcements">Копировать</button><div class="desc">Отправить объявление в канал партнёра</div></div>
+      <div class="cmd"><div class="name">/partner_reward <span class="muted">name:"..." pts:... fury:...</span></div><button class="copy" data-copy="/partner_reward">Копировать</button><div class="desc">Начислить PTS и распределить FuRY между представителями</div></div>
+      <div class="cmd"><div class="name">/partner_sync</div><button class="copy" data-copy="/partner_sync">Копировать</button><div class="desc">Форс-синх команд на всех серверах партнёров</div></div>
+      <div class="cmd"><div class="name">/partner_audit <span class="muted">name:"..."</span></div><button class="copy" data-copy="/partner_audit">Копировать</button><div class="desc">Проверить конфигурацию и активность партнёра</div></div>
       <div class="cmd"><div class="name">/migrate</div><button class="copy" data-copy="/migrate">Копировать</button><div class="desc">Применить миграции базы данных <span class="cc-con">Con</span><span class="cc-cord">Cord</span></div></div>
     </article>
 
