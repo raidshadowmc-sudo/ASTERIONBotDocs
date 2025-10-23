@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ASCEND Ecosystem — Документация</title>
-  <meta name="description" content="Полная документация для ботов ASCEND Ecosystem: AsterionEvents, AsterionMonitor, AsterionPartners. Команды, возможности, FAQ и советы." />
-  <meta property="og:title" content="ASCEND Ecosystem — Документация" />
+  <title>ASTERION Ecosystem — Документация</title>
+  <meta name="description" content="Полная документация для ботов ASTERION Ecosystem: AsterionEvents, AsterionMonitor, AsterionPartners. Команды, возможности, FAQ и советы." />
+  <meta property="og:title" content="ASTERION Ecosystem — Документация" />
   <meta property="og:description" content="События, уровни и партнёрства для вашего Discord-сервера. AsterionEvents, AsterionMonitor, AsterionPartners." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#6ee7ff"/>
@@ -147,6 +147,24 @@
       color: transparent;
       text-shadow: 0 0 12px rgba(252, 211, 77, .55);
       font-weight: 700;
+    }
+    .fury-text {
+      color: #ff4d5a;
+      font-weight: 700;
+    }
+    .cc-con {
+      background: linear-gradient(180deg, #FFD56A, #F4C049);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+    .cc-cord {
+      background: linear-gradient(90deg, #A78BFA, #F472B6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
     }
     .ascend-text {
       display: inline-flex;
@@ -418,15 +436,16 @@
 <body>
   <div class="topbar">
     <div class="nav">
-      <a class="brand" href="index.html" aria-label="ASCEND Ecosystem Home">
-        <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASCEND Ecosystem emblem">
-        <h1>ASCEND Ecosystem</h1>
+      <a class="brand" href="index.html" aria-label="ASTERION Ecosystem Home">
+        <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASTERION Ecosystem emblem">
+        <h1><span class="asterion-gold">ASTERION</span> Ecosystem</h1>
       </a>
       <nav>
         <a href="index.html">Главная</a>
         <a href="events.html">Events</a>
         <a href="monitor.html">Monitor</a>
         <a href="partners.html">Partners</a>
+        <a href="economy.html">Economy</a>
         <a href="faq.html">FAQ</a>
         <a href="global-search.html" style="background: rgba(103,232,249,.08); color: var(--brand); font-weight: 600;">🔍 Поиск</a>
         <a href="https://discord.gg/3pRjpqH454" target="_blank" rel="noopener" class="discord-btn">
@@ -445,7 +464,7 @@
       <span class="badge">⚡ <b>Slash-команды</b></span>
       <span class="badge">🎮 <b>Discord Integration</b></span>
     </div>
-    <h2 class="title">ASCEND Ecosystem</h2>
+    <h2 class="title"><span class="asterion-gold">ASTERION</span> Ecosystem</h2>
     <p class="meta">
       <b>Описание:</b> Экосистема ботов для управления событиями, отслеживания активности и поддержки партнёрских программ на вашем Discord-сервере.
     </p>
@@ -469,7 +488,14 @@
     <a href="partners.html" class="bot-card">
       <div class="bot-card-icon">🤝</div>
       <h3><span class="asterion-gold">ASTERION</span> Partners</h3>
-      <p class="muted">Партнёрская программа ConCord. PTS, уровни, обратная связь.</p>
+      <p class="muted">Партнёрская программа <span class="cc-con">Con</span><span class="cc-cord">Cord</span>. PTS, уровни, обратная связь.</p>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="economy.html" class="bot-card">
+      <div class="bot-card-icon">💎</div>
+      <h3><span class="asterion-gold">ASTERION</span> Economy</h3>
+      <p class="muted">Валюта <span class="fury-text">FuRY</span>, магазин, промокоды и экономическая система.</p>
       <span class="arrow">→</span>
     </a>
 
@@ -487,7 +513,7 @@
 
   <footer>
     <div class="sep"></div>
-    <p class="muted">© ASCEND Ecosystem. Создано для Discord-сообществ.</p>
+    <p class="muted">© <span class="asterion-gold">ASTERION</span> Ecosystem. Создано для Discord-сообществ.</p>
     <p class="muted" style="margin-top: 8px;">
       <a href="https://discord.gg/3pRjpqH454" target="_blank" rel="noopener" class="link">Присоединиться к Discord</a>
     </p>

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AsterionEconomy — ASTERION Ecosystem</title>
+  <meta name="description" content="Экономический модуль ASTERION: магазин FuRY, промокоды, лог транзакций и управление балансами." />
+  <meta property="og:title" content="AsterionEconomy — ASTERION Ecosystem" />
+  <meta property="og:description" content="Экономическая система с магазином, промокодами и аналитикой для Discord." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#6ee7ff"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-soft: #0f1520;
+      --panel: #121a25;
+      --text: #e6f0ff;
+      --muted: #9ab0c7;
+      --brand: #67e8f9;
+      --brand-2: #a78bfa;
+      --accent: #22d3ee;
+      --danger: #ff6677;
+      --ok: #34d399;
+      --outline: rgba(103,232,249,.25);
+      --shadow: 0 10px 30px rgba(103,232,249,.08), 0 2px 10px rgba(0,0,0,.5);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --gold-1: #fcd34d;
+      --gold-2: #f59e0b;
+      --gold-3: #fbbf24;
+      --fury-red: #ff4d5a;
+      --cc-gold-1: #FFD56A;
+      --cc-gold-2: #F4C049;
+      --cc-grad-1: #A78BFA;
+      --cc-grad-2: #F472B6;
+    }
+
+    * { 
+      box-sizing: border-box;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow"><stop offset="0%%" stop-color="%2367e8f9" stop-opacity="0.8"/><stop offset="70%%" stop-color="%2322d3ee" stop-opacity="0.4"/><stop offset="100%%" stop-color="%23a78bfa" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="12" fill="url(%23glow)"/><circle cx="16" cy="16" r="5" fill="%2367e8f9" opacity="0.9"/><circle cx="16" cy="16" r="2.5" fill="%23ffffff"/></svg>') 16 16, auto;
+    }
+    
+    a, button, .copy, .back-to-top, summary, .nav a, details {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow2"><stop offset="0%%" stop-color="%23ffd700" stop-opacity="0.9"/><stop offset="60%%" stop-color="%23ffa500" stop-opacity="0.5"/><stop offset="100%%" stop-color="%23ff4500" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="14" fill="url(%23glow2)"/><circle cx="16" cy="16" r="6" fill="%23ffd700"/><circle cx="16" cy="16" r="3" fill="%23ffffff"/></svg>') 16 16, pointer;
+    }
+
+    html, body { height: 100%; }
+    body {
+      margin: 0; color: var(--text); background: radial-gradient(1200px 700px at 10% -10%, rgba(103,232,249,.12), transparent 60%),
+                                             radial-gradient(1200px 700px at 90% 10%, rgba(167,139,250,.10), transparent 60%),
+                                             linear-gradient(180deg, var(--bg), var(--bg-soft));
+      font-family: var(--sans);
+      line-height: 1.6;
+      letter-spacing: .2px;
+    }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(18,26,37,.92), rgba(18,26,37,.75));
+      border-bottom: 1px solid rgba(103,232,249,.18);
+      transition: all .3s;
+    }
+    .nav {
+      max-width: 1200px; margin: 0 auto; padding: 14px 18px;
+      display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text);
+      transition: all .3s;
+    }
+    .brand:hover {
+      transform: translateY(-2px);
+    }
+    .logo { width: 32px; height: 32px; transition: all .3s; }
+    .brand:hover .logo {
+      filter: drop-shadow(0 0 8px var(--brand));
+    }
+    .brand h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .8px; display: flex; align-items: center; gap: 6px; }
+    .nav nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav a { 
+      color: var(--muted); text-decoration: none; font-size: 14px; 
+      padding: 6px 10px; border-radius: 8px; 
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav a::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; right: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(103,232,249,.15), transparent);
+      transition: all .5s;
+    }
+    .nav a:hover::before {
+      left: 100%;
+    }
+    .nav a:hover, .nav a.active { 
+      color: var(--text); 
+      background: rgba(103,232,249,.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(103,232,249,.2);
+    }
+    .nav .discord-btn { 
+      background: linear-gradient(135deg, rgba(88,101,242,.2), rgba(88,101,242,.1));
+      border: 1px solid rgba(88,101,242,.3);
+      color: #5865F2;
+      font-weight: 600;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav .discord-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      transform: translate(-50%, -50%);
+      transition: width .6s, height .6s;
+    }
+    .nav .discord-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    .nav .discord-btn:hover {
+      background: linear-gradient(135deg, rgba(88,101,242,.3), rgba(88,101,242,.2));
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(88,101,242,.4);
+    }
+    .asterion-gold {
+      background: linear-gradient(120deg, var(--gold-1), var(--gold-2), var(--gold-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px rgba(252, 211, 77, .55);
+      font-weight: 700;
+    }
+    .fury-text {
+      color: var(--fury-red);
+      font-weight: 700;
+    }
+    .cc-con {
+      background: linear-gradient(180deg, var(--cc-gold-1), var(--cc-gold-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+    .cc-cord {
+      background: linear-gradient(90deg, var(--cc-grad-1), var(--cc-grad-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+
+    .hero { max-width: 1200px; margin: 28px auto 12px; padding: 0 18px; }
+    .badge-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+    .badge { font-family: var(--mono); font-size: 12px; color: var(--text); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--outline); background: rgba(103,232,249,.06); }
+    .new-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #059669, #047857);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.4);
+      margin-left: 8px;
+      vertical-align: middle;
+      animation: pulse-new 2s ease-in-out infinite;
+    }
+    @keyframes pulse-new {
+      0%, 100% { box-shadow: 0 2px 8px rgba(5, 150, 105, 0.4); }
+      50% { box-shadow: 0 4px 16px rgba(5, 150, 105, 0.6); }
+    }
+    .bot-icon { 
+      width: 64px; height: 64px; border-radius: 16px; 
+      background: linear-gradient(135deg, var(--brand), var(--brand-2)); 
+      display: flex; align-items: center; justify-content: center; 
+      font-size: 32px; box-shadow: 0 4px 12px rgba(103,232,249,.2); 
+      margin-bottom: 16px;
+      transition: all .4s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .bot-icon:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 24px rgba(103,232,249,.4);
+    }
+    .title { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 6px; font-weight: 800; letter-spacing: .3px; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .meta b { color: var(--text); }
+
+    .grid { max-width: 1200px; margin: 18px auto; padding: 0 18px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 900px){ .grid { grid-template-columns: 1fr 1fr; } }
+    
+    .card {
+      background: linear-gradient(180deg, rgba(18,26,37,.9), rgba(12,18,27,.9));
+      border: 1px solid rgba(103,232,249,.15);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      transition: all .4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(103,232,249,.05), transparent);
+      transform: rotate(45deg);
+      transition: all .6s;
+      opacity: 0;
+    }
+    .card:hover::before {
+      opacity: 1;
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: rotate(45deg) translateY(-100%); }
+      100% { transform: rotate(45deg) translateY(100%); }
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--brand);
+      box-shadow: 0 12px 40px rgba(103,232,249,.2), 0 4px 15px rgba(0,0,0,.6);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 18px; letter-spacing: .3px; position: relative; z-index: 1; }
+    .card p { margin: 0 0 12px; color: var(--muted); position: relative; z-index: 1; }
+    .card ul { margin: 8px 0; padding-left: 20px; position: relative; z-index: 1; }
+    .card li { margin: 6px 0; }
+    .kicker { color: var(--brand); font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+    .muted { color: var(--muted); }
+    code.inline { 
+      background: rgba(103,232,249,.08); 
+      border: 1px solid rgba(103,232,249,.18); 
+      padding: 2px 6px; 
+      border-radius: 6px; 
+      font-family: var(--mono); 
+      font-size: 12px;
+      transition: all .3s;
+    }
+    code.inline:hover {
+      background: rgba(103,232,249,.15);
+      box-shadow: 0 0 8px rgba(103,232,249,.3);
+    }
+
+    .command-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+    .command-table th,
+    .command-table td {
+      padding: 12px 14px;
+      text-align: left;
+    }
+    .command-table th {
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(103,232,249,.08);
+      border-bottom: 1px solid rgba(103,232,249,.18);
+    }
+    .command-table tbody tr {
+      border-bottom: 1px solid rgba(103,232,249,.08);
+    }
+    .command-table tbody tr:last-child {
+      border-bottom: none;
+    }
+    .command-table td code {
+      font-family: var(--mono);
+      background: rgba(103,232,249,.12);
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: var(--text);
+    }
+
+    .badge-economy {
+      background: rgba(103,232,249,.08);
+      border: 1px solid rgba(103,232,249,.25);
+      color: var(--brand);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-economy::before {
+      content: '💎';
+    }
+
+    .link { 
+      color: var(--brand); 
+      text-decoration: none;
+      position: relative;
+      transition: all .3s;
+    }
+    .link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+    .link:hover::after {
+      transform: scaleX(1);
+    }
+    .link:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px rgba(103,232,249,.4);
+    }
+
+    details { 
+      border: 1px solid rgba(103,232,249,.15); 
+      border-radius: 12px; 
+      background: rgba(18,26,37,.7); 
+      padding: 12px 14px; 
+      margin: 10px 0; 
+      transition: all .3s;
+    }
+    details[open] { 
+      background: rgba(18,26,37,.9);
+      border-color: var(--brand);
+      box-shadow: 0 4px 16px rgba(103,232,249,.15);
+    }
+    summary { 
+      list-style: none; 
+      font-weight: 600;
+      transition: all .3s;
+      cursor: pointer;
+    }
+    summary::-webkit-details-marker { display: none }
+    summary:hover {
+      color: var(--brand);
+      padding-left: 8px;
+    }
+
+    footer { max-width: 1200px; margin: 20px auto 60px; padding: 0 18px; color: var(--muted); font-size: 13px; text-align: center; }
+    .sep { height: 1px; background: linear-gradient(90deg, rgba(103,232,249,.2), rgba(167,139,250,.1), transparent); margin: 24px 0; }
+
+    .breadcrumbs {
+      max-width: 1200px;
+      margin: 16px auto 0;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .breadcrumbs a {
+      color: var(--brand);
+      text-decoration: none;
+      transition: all .3s;
+      cursor: pointer;
+    }
+    .breadcrumbs a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    .breadcrumbs .separator {
+      color: var(--muted);
+      user-select: none;
+    }
+    .breadcrumbs [aria-current="page"] {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      border: none;
+      color: var(--bg);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(100px);
+      transition: all .4s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(103,232,249,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 30px rgba(103,232,249,.6);
+    }
+
+    @media (max-width: 768px) {
+      .nav { 
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .nav nav { 
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .nav a {
+        flex: 1 1 auto;
+        text-align: center;
+        min-width: fit-content;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+      }
+      .title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="ASTERION Ecosystem Home">
+        <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASTERION Ecosystem emblem">
+        <h1><span class="asterion-gold">ASTERION</span> Ecosystem</h1>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="events.html">Events</a>
+        <a href="monitor.html">Monitor</a>
+        <a href="partners.html">Partners</a>
+        <a href="economy.html" class="active">Economy</a>
+        <a href="faq.html">FAQ</a>
+        <a href="global-search.html" style="background: rgba(103,232,249,.08); color: var(--brand); font-weight: 600;">🔍 Поиск</a>
+        <a href="https://discord.gg/3pRjpqH454" target="_blank" rel="noopener" class="discord-btn">
+          <svg width="20" height="20" viewBox="0 0 71 55" fill="currentColor">
+            <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/>
+          </svg>
+          Присоединиться
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <nav class="breadcrumbs" aria-label="breadcrumb">
+    <a href="index.html">Главная</a>
+    <span class="separator">›</span>
+    <span aria-current="page"><span class="asterion-gold">ASTERION</span> Economy</span>
+  </nav>
+
+  <section class="hero">
+    <div class="bot-icon">💎</div>
+    <div class="badge-row">
+      <span class="badge">Ветка <b>Economy</b></span>
+      <span class="badge">Глобальный магазин <span class="fury-text">FuRY</span></span>
+      <span class="badge">Интеграция с <span class="asterion-gold">ASTERION</span> Monitor</span>
+    </div>
+    <h2 class="title"><span class="asterion-gold">ASTERION</span> Economy<span class="new-badge">NEW</span></h2>
+    <p class="meta">
+      Управление валютой <span class="fury-text">FuRY</span>, интерактивный магазин, промокоды, booster-система и административные инструменты.
+      <br/>Синхронизируется с базой <span class="asterion-gold">ASTERION</span> Monitor и записывает все операции в SQLite.
+    </p>
+  </section>
+
+  <div class="grid">
+    <article class="card" style="grid-column: 1 / -1;" data-keywords="economy overview shop fury fu ry">
+      <span class="kicker">Быстрая сводка</span>
+      <h3>Что умеет <span class="asterion-gold">ASTERION</span> Economy</h3>
+      <p class="muted" style="margin-bottom: 10px;">Экономика строится вокруг валюты <b class="fury-text">FuRY</b>. Магазин запускается через интерактивное меню <code class="inline">/shop</code>, пользователи выполняют покупки с подтверждением, а администраторы управляют товарами и балансами.</p>
+      <ul class="muted" style="margin: 0; padding-left: 20px;">
+        <li>💠 Встроенный <strong>магазин с фильтрами и сортировкой</strong>, подтверждением покупки и логами в канал.</li>
+        <li>💳 Слэш-команды для проверки баланса, ежедневных наград, передачи <span class="fury-text">FuRY</span> и истории покупок.</li>
+        <li>🛠 Полный набор <strong>админ-инструментов</strong>: выдача/изъятие монет, управление товарами, просмотр транзакций.</li>
+        <li>🎫 Поддержка промокодов и бустеров, готовая интеграция с <code class="inline">AsterionMonitor</code>.</li>
+      </ul>
+    </article>
+
+    <article class="card" id="shop" data-keywords="shop магазин фильтры категории сортировка">
+      <span class="badge-economy">Shop</span>
+      <h3>Интерактивный магазин</h3>
+      <p class="muted">Команда <code class="inline">/shop</code> открывает меню категорий (роли, прочее) и сортировок. Пользователь выбирает товар кнопкой, получает подтверждение и видит готовый чек.</p>
+      <ul class="muted" style="margin: 10px 0 0; padding-left: 20px;">
+        <li>5 товаров на страницу, переключение стрелками;</li>
+        <li>Автоматическая проверка баланса и наличия стока;</li>
+        <li>Логи о покупке в канал <code class="inline">LOG_CHANNEL_ID</code>.</li>
+      </ul>
+    </article>
+
+    <article class="card" id="currency" data-keywords="fury currency баланс daily gift giftall">
+      <span class="badge-economy">Currency</span>
+      <h3>Валюта <span class="fury-text">FuRY</span></h3>
+      <p class="muted">Баланс хранится в таблице <code class="inline">users.fury_coins</code> базы <code class="inline">asterion.db</code>. Пользователи зарабатывают монеты за активность, ежедневные награды или промокоды.</p>
+      <ul class="muted" style="margin: 10px 0 0; padding-left: 20px;">
+        <li><code class="inline">/balance</code> — показывает текущий <span class="fury-text">FuRY</span>;</li>
+        <li><code class="inline">/gift</code> — перевод между участниками;</li>
+        <li><code class="inline">/giftall</code> — массовая выдача (админ);</li>
+        <li><code class="inline">/daily</code> — награда с учётом серии.</li>
+      </ul>
+    </article>
+
+    <article class="card" id="admin-tools" data-keywords="admin shopadd shoptoggle takefury setfury transactions">
+      <span class="badge-economy">Admin</span>
+      <h3>Инструменты администратора</h3>
+      <p class="muted">Админы управляют товарами и балансами: создают позиции магазина, скрывают/включают их, выдают или изымают монеты, просматривают журнал транзакций.</p>
+      <details style="margin-top: 12px;">
+        <summary>Ключевые слэш-команды</summary>
+        <ul class="muted" style="margin: 12px 0 0; padding-left: 20px;">
+          <li><code class="inline">/shopadd</code>, <code class="inline">/shopremove</code>, <code class="inline">/shoptoggle</code>;</li>
+          <li><code class="inline">/givefury</code>, <code class="inline">/takefury</code>, <code class="inline">/setfury</code>;</li>
+          <li><code class="inline">/transactions</code> — последние записи;</li>
+          <li><code class="inline">/economyreset</code> — полный сброс (требует подтверждения).</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card" id="analytics" data-keywords="leaderboard stats stats_economy analytics">
+      <span class="badge-economy">Analytics</span>
+      <h3>Лидерборды и статистика</h3>
+      <p class="muted">Команда <code class="inline">/leaderboard_fury</code> выводит топ по монетам, а <code class="inline">/stats_economy</code> агрегирует сводку: оборот <span class="fury-text">FuRY</span>, количество покупок, активные бустеры.</p>
+    </article>
+  </div>
+
+  <section style="max-width: 1200px; margin: 0 auto 40px; padding: 0 18px;">
+    <h2 style="margin: 0 0 18px; font-size: 26px;">Слэш-команды</h2>
+    <p class="muted" style="margin: 0 0 20px;"><span class="asterion-gold">ASTERION</span> Economy регистрирует команды автоматически через <code class="inline">discord.py app_commands</code>. Ниже — актуальный список с подсказками и ссылками для быстрого поиска.</p>
+
+    <h3 style="margin: 24px 0 12px;" id="user-commands">👤 Пользовательские команды</h3>
+    <div class="card" style="padding: 0;">
+      <table class="command-table">
+        <thead>
+          <tr>
+            <th>Команда</th>
+            <th>Назначение</th>
+            <th>Пример</th>
+            <th>Ссылка</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/shop</code></td>
+            <td>Открывает интерактивный магазин с фильтрами</td>
+            <td>/shop</td>
+            <td><a class="link" href="#shop">Перейти</a></td>
+          </tr>
+          <tr>
+            <td><code>/balance [user]</code></td>
+            <td>Проверить свой или чужой баланс</td>
+            <td>/balance user:@Kurato</td>
+            <td><a class="link" href="#currency">Баланс</a></td>
+          </tr>
+          <tr>
+            <td><code>/gift user amount</code></td>
+            <td>Передать FuRY другому участнику</td>
+            <td>/gift user:@Fors amount:250</td>
+            <td><a class="link" href="#currency">Переводы</a></td>
+          </tr>
+          <tr>
+            <td><code>/daily</code></td>
+            <td>Получить ежедневную награду (20h cooldown)</td>
+            <td>/daily</td>
+            <td><a class="link" href="#currency">Daily</a></td>
+          </tr>
+          <tr>
+            <td><code>/inventory</code></td>
+            <td>История 10 последних покупок</td>
+            <td>/inventory</td>
+            <td><a class="link" href="#shop">Чеки</a></td>
+          </tr>
+          <tr>
+            <td><code>/leaderboard_fury</code></td>
+            <td>Топ участников по количеству FuRY</td>
+            <td>/leaderboard_fury limit:10</td>
+            <td><a class="link" href="#analytics">Лидерборд</a></td>
+          </tr>
+          <tr>
+            <td><code>/booster [user]</code></td>
+            <td>Проверить активный бустер</td>
+            <td>/booster user:@Kurato</td>
+            <td><a class="link" href="#shop">Бустеры</a></td>
+          </tr>
+          <tr>
+            <td><code>/shopinfo item_id</code></td>
+            <td>Детальная информация по товару магазина</td>
+            <td>/shopinfo item_id:42</td>
+            <td><a class="link" href="#shop">Товары</a></td>
+          </tr>
+          <tr>
+            <td><code>/stats_economy</code></td>
+            <td>Сводная статистика экономики сервера</td>
+            <td>/stats_economy</td>
+            <td><a class="link" href="#analytics">Сводка</a></td>
+          </tr>
+          <tr>
+            <td><code>/redeem code</code></td>
+            <td>Активировать промокод</td>
+            <td>/redeem code:SPRING-2025</td>
+            <td><a class="link" href="#promo">Промокоды</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin: 32px 0 12px;" id="admin-commands">🛡 Административные команды</h3>
+    <div class="card" style="padding: 0;">
+      <table class="command-table">
+        <thead>
+          <tr>
+            <th>Команда</th>
+            <th>Назначение</th>
+            <th>Пример</th>
+            <th>Примечание</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/shopadd</code></td>
+            <td>Добавить товар в магазин (поддерживает роль и лимит)</td>
+            <td>/shopadd name:"VIP роль" description:"30 дней" price:1000 type:cosmetic role:@VIP</td>
+            <td>Опциональные параметры: <code>role</code>, <code>stock</code></td>
+          </tr>
+          <tr>
+            <td><code>/shopremove</code></td>
+            <td>Удалить товар по ID</td>
+            <td>/shopremove item_id:42</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><code>/shoptoggle</code></td>
+            <td>Включить/выключить доступность товара</td>
+            <td>/shoptoggle item_id:42</td>
+            <td>Отображается или скрывается из <code>/shop</code></td>
+          </tr>
+          <tr>
+            <td><code>/givefury</code></td>
+            <td>Выдать монеты пользователю</td>
+            <td>/givefury user:@Kurato amount:500 reason:"Приз за ивент"</td>
+            <td>Логируется в базу и канал</td>
+          </tr>
+          <tr>
+            <td><code>/takefury</code></td>
+            <td>Изъять монеты</td>
+            <td>/takefury user:@Kurato amount:200</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><code>/setfury</code></td>
+            <td>Установить точный баланс</td>
+            <td>/setfury user:@Kurato amount:0</td>
+            <td>Записывает старое значение в лог</td>
+          </tr>
+          <tr>
+            <td><code>/transactions</code></td>
+            <td>Последние транзакции из <code>transactions</code></td>
+            <td>/transactions limit:15</td>
+            <td>Максимум 25 записей за раз</td>
+          </tr>
+          <tr>
+            <td><code>/economyreset</code></td>
+            <td>Полный сброс экономики</td>
+            <td>/economyreset confirm:RESET</td>
+            <td>Очищает покупки, транзакции, daily, активные бустеры</td>
+          </tr>
+          <tr>
+            <td><code>/giftall</code></td>
+            <td>Выдать одинаковую сумму всем участникам</td>
+            <td>/giftall amount:100 reason:"Сезонный бонус"</td>
+            <td>Пропускает ботов, логирует каждую операцию</td>
+          </tr>
+          <tr id="promo">
+            <td><code>/promo</code></td>
+            <td>Создать промокод</td>
+            <td>/promo code:SPRING amount:250 uses:50</td>
+            <td>Таблицы <code>promo_codes</code> и <code>promo_claims</code> создаются автоматически</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section style="max-width: 1100px; margin: 0 auto 60px; padding: 0 20px;">
+    <h2 style="margin: 0 0 18px; font-size: 26px;">Бэкенд и хранение данных</h2>
+    <div class="grid" style="gap: 18px;">
+      <article class="card" style="min-height: 220px;" data-keywords="database sqlite аsterion">
+        <span class="kicker">Базы данных</span>
+        <h3>SQLite-структура</h3>
+        <p class="muted">Экономика использует две базы:</p>
+        <ul class="muted" style="margin: 12px 0 0; padding-left: 20px;">
+          <li><code class="inline">asterion.db</code> — общая база (таблица <code>users</code>, поля <code>fury_coins</code>, транзакции AsterionMonitor)</li>
+          <li><code class="inline">economy.db</code> — специализированные таблицы: <code>shop_items</code>, <code>purchases</code>, <code>transactions</code>, <code>active_boosters</code>, <code>daily_claims</code>, <code>promo_codes</code></li>
+        </ul>
+      </article>
+      <article class="card" style="min-height: 220px;" data-keywords="logging channels log_channel_id">
+        <span class="kicker">Логирование</span>
+        <h3>Логи и уведомления</h3>
+        <ul class="muted" style="margin: 10px 0 0; padding-left: 20px;">
+          <li>В файле <code>Economy.py</code> настройте <code>LOG_CHANNEL_ID</code> для оповещений о покупках и административных действиях.</li>
+          <li>Покупки и подарки отображаются в эмбедах, что упрощает аудит.</li>
+          <li>Транзакции фиксируются в <code>economy.db.transactions</code> с типом операции и причиной.</li>
+        </ul>
+      </article>
+      <article class="card" style="min-height: 220px;" data-keywords="booster integration monitor">
+        <span class="kicker">Интеграция</span>
+        <h3>Связь с AsterionMonitor</h3>
+        <p class="muted">Функция <code>get_active_booster_multiplier</code> в AsterionMonitor готова к интеграции с бустерами экономики. После активации <code>/shop</code> бустеров, таблица <code>active_boosters</code> уже содержит данные — нужно лишь заменить stub в Monitor, чтобы применять множители к XP.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    <div class="sep"></div>
+    <p>© <span class="asterion-gold">ASTERION</span> Ecosystem — AsterionEconomy Documentation.</p>
+    <p>Нужна помощь? Используйте <a class="link" href="../global-search.html">глобальный поиск</a> или обратитесь в Discord.</p>
+  </footer>
+
+  <button class="back-to-top" aria-label="Наверх">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script>
+    // Back to top button
+    const backToTop = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

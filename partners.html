@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AsterionPartners — ASCEND Ecosystem</title>
+  <title>AsterionPartners — ASTERION Ecosystem</title>
   <meta name="description" content="Партнёрская программа ConCord. Управление партнёрами, PTS, уровни, обратная связь." />
-  <meta property="og:title" content="AsterionPartners — ASCEND Ecosystem" />
+  <meta property="og:title" content="AsterionPartners — ASTERION Ecosystem" />
   <meta property="og:description" content="Партнёрская программа ConCord для Discord-серверов" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://raw.githubusercontent.com/ratatuigranade/astpartners.github.io/main/banner.png" />
@@ -206,10 +206,6 @@
     .title { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 6px; font-weight: 800; letter-spacing: .3px; }
     .meta { color: var(--muted); font-size: 14px; }
 
-    .search-box { max-width: 1200px; margin: 20px auto; padding: 0 18px; }
-    .search-box input { width: 100%; padding: 14px 18px; background: rgba(18,26,37,.9); border: 1px solid rgba(103,232,249,.25); border-radius: 12px; color: var(--text); font-size: 15px; font-family: var(--sans); }
-    .search-box input:focus { outline: none; border-color: var(--brand); }
-    .search-box input::placeholder { color: var(--muted); }
 
     .grid { max-width: 1200px; margin: 18px auto; padding: 0 18px; display: grid; grid-template-columns: 1fr; gap: 16px; }
     @media (min-width: 900px){ .grid { grid-template-columns: 1fr 1fr; } }
@@ -420,16 +416,18 @@
 <body>
   <div class="topbar">
     <div class="nav">
-      <a class="brand" href="index.html" aria-label="ASCEND Ecosystem Home">
-        <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASCEND Ecosystem emblem">
-        <h1>ASCEND Ecosystem</h1>
+      <a class="brand" href="index.html" aria-label="ASTERION Ecosystem Home">
+        <img class="logo" src="attached_assets/17689-glowing-hexagon.png" alt="ASTERION Ecosystem emblem">
+        <h1><span class="asterion-gold">ASTERION</span> Ecosystem</h1>
       </a>
       <nav>
         <a href="index.html">Главная</a>
         <a href="events.html">Events</a>
         <a href="monitor.html">Monitor</a>
         <a href="partners.html" class="active">Partners</a>
+        <a href="economy.html">Economy</a>
         <a href="faq.html">FAQ</a>
+        <a href="global-search.html" style="background: rgba(103,232,249,.08); color: var(--brand); font-weight: 600;">🔍 Поиск</a>
         <a href="https://discord.gg/3pRjpqH454" target="_blank" rel="noopener" class="discord-btn">
           <svg width="20" height="20" viewBox="0 0 71 55" fill="currentColor">
             <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/>
@@ -450,18 +448,14 @@
     <div class="bot-icon">🤝</div>
     <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
       <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Альфа · вер. 0.0.2α</span>
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">ConCord α Патч 0.0.5a</span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);"><span class="cc-con">Con</span><span class="cc-cord">Cord</span> α Патч 0.0.5a</span>
     </div>
-    <h2 class="title"><span class="asterion-gold">ASTERION</span> ConCord α — Патч 0.0.5a</h2>
+    <h2 class="title"><span class="asterion-gold">ASTERION</span> <span class="cc-con">Con</span><span class="cc-cord">Cord</span> α — Патч 0.0.5a</h2>
     <p class="meta">
       <b>Автор:</b> <b style="color: #ffffff">[+]</b> <span style="font-family: var(--mono); color: #ffffff;">𝕾𝖔 𝕾1𝖈𝖐</span><br/>
       <b>Описание:</b> слой ролей ConcordConnect, авто-PTS за сообщения и голос, система уровней и улучшенная синхронизация команд.
     </p>
   </section>
-
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 Поиск команд... (например: /partner_info, pts, feedback)">
-  </div>
 
   <div class="grid">
     <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog">
@@ -478,13 +472,13 @@
     </article>
 
     <article class="card cmd-card" data-keywords="partner_info info статус pts уровень partner_me reps представители feedback обратная связь status помощь help">
-      <span class="kicker">Команды партнёров (ConCord)</span>
+      <span class="kicker">Команды партнёров (<span class="cc-con">Con</span><span class="cc-cord">Cord</span>)</span>
       <h3>Информация и связь</h3>
       <div class="cmd"><div class="name">/partner_info <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_info">Копировать</button><div class="desc">Посмотреть уровень, PTS, множитель и привязку сервера</div></div>
       <div class="cmd"><div class="name">/partner_me</div><button class="copy" data-copy="/partner_me">Копировать</button><div class="desc">Посмотреть свои данные и сервер</div></div>
       <div class="cmd"><div class="name">/partner_reps <span class="muted">name:"ServerName"</span></div><button class="copy" data-copy="/partner_reps">Копировать</button><div class="desc">Список представителей выбранного партнёра</div></div>
       <div class="cmd"><div class="name">/feedback <span class="muted">partner_name:"..." message:"..."</span></div><button class="copy" data-copy="/feedback">Копировать</button><div class="desc">Отправить отзыв или репорт команде <span class="asterion-gold">ASTERION</span></div></div>
-      <div class="cmd"><div class="name">/status</div><button class="copy" data-copy="/status">Копировать</button><div class="desc">Проверить состояние ConCord-интеграции</div></div>
+      <div class="cmd"><div class="name">/status</div><button class="copy" data-copy="/status">Копировать</button><div class="desc">Проверить состояние <span class="cc-con">Con</span><span class="cc-cord">Cord</span>-интеграции</div></div>
       <div class="cmd"><div class="name">/partner_help</div><button class="copy" data-copy="/partner_help">Копировать</button><div class="desc">Справка по доступным командам</div></div>
     </article>
 
@@ -498,13 +492,13 @@
       <div class="cmd"><div class="name">/partner_multiplier <span class="muted">name:"..." multiplier:...</span></div><button class="copy" data-copy="/partner_multiplier">Копировать</button><div class="desc">Установить множитель PTS партнёра (0.1–2.0×)</div></div>
       <div class="cmd"><div class="name">/partner_leaderboard</div><button class="copy" data-copy="/partner_leaderboard">Копировать</button><div class="desc">Топ партнёров по PTS</div></div>
       <div class="cmd"><div class="name">/partner_addrep <span class="muted">name:"..." user:@...</span></div><button class="copy" data-copy="/partner_addrep">Копировать</button><div class="desc">Добавить представителя партнёра</div></div>
-      <div class="cmd"><div class="name">/migrate</div><button class="copy" data-copy="/migrate">Копировать</button><div class="desc">Применить миграции базы данных ConCord</div></div>
+      <div class="cmd"><div class="name">/migrate</div><button class="copy" data-copy="/migrate">Копировать</button><div class="desc">Применить миграции базы данных <span class="cc-con">Con</span><span class="cc-cord">Cord</span></div></div>
     </article>
 
     <article class="card">
-      <span class="kicker">Что такое ConCord</span>
+      <span class="kicker">Что такое <span class="cc-con">Con</span><span class="cc-cord">Cord</span></span>
       <h3>Программа партнёрства</h3>
-      <p class="muted">ConCordConnect — безопасный слой ролей и телеметрический мост для партнёров <span class="asterion-gold">ASTERION</span>. Он обеспечивает доступ с наименьшими привилегиями для админов партнёров, давая <span class="asterion-gold">ASTERION</span> полный операционный контроль.</p>
+      <p class="muted"><span class="cc-con">Con</span><span class="cc-cord">Cord</span>Connect — безопасный слой ролей и телеметрический мост для партнёров <span class="asterion-gold">ASTERION</span>. Он обеспечивает доступ с наименьшими привилегиями для админов партнёров, давая <span class="asterion-gold">ASTERION</span> полный операционный контроль.</p>
       <ul class="muted">
         <li><b>Авто-PTS</b> — автоматическое начисление очков за активность</li>
         <li><b>Уровни партнёров</b> — прогресс и привилегии</li>
@@ -522,7 +516,7 @@
       </details>
       <details>
         <summary><b>🎤 За голосовую активность</b></summary>
-        <p class="muted">Каждую минуту ConCord сканирует голосовые каналы и добавляет <code class="inline">PTS_PER_VC_MINUTE × участников</code> к PTS партнёра.</p>
+        <p class="muted">Каждую минуту <span class="cc-con">Con</span><span class="cc-cord">Cord</span> сканирует голосовые каналы и добавляет <code class="inline">PTS_PER_VC_MINUTE × участников</code> к PTS партнёра.</p>
       </details>
       <details>
         <summary><b>⚡ Ручное начисление</b></summary>
@@ -537,7 +531,7 @@
 
   <footer>
     <div class="sep"></div>
-    <p class="muted">© ASCEND Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
+    <p class="muted">© <span class="asterion-gold">ASTERION</span> Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
   </footer>
 
   <button class="back-to-top" aria-label="Наверх">
@@ -547,19 +541,6 @@
   </button>
 
   <script>
-    const commands = Array.from(document.querySelectorAll('.cmd-card'));
-    const searchInput = document.getElementById('searchInput');
-
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase();
-      commands.forEach(card => {
-        const keywords = card.dataset.keywords || '';
-        const text = card.textContent.toLowerCase();
-        const match = text.includes(query) || keywords.includes(query);
-        card.classList.toggle('hidden', !match);
-      });
-    });
-
     document.querySelectorAll('[data-copy]').forEach(btn => {
       btn.addEventListener('click', () => {
         const text = btn.getAttribute('data-copy');
