@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -41,7 +40,7 @@
       box-sizing: border-box;
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow"><stop offset="0%%" stop-color="%2367e8f9" stop-opacity="0.8"/><stop offset="70%%" stop-color="%2322d3ee" stop-opacity="0.4"/><stop offset="100%%" stop-color="%23a78bfa" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="12" fill="url(%23glow)"/><circle cx="16" cy="16" r="5" fill="%2367e8f9" opacity="0.9"/><circle cx="16" cy="16" r="2.5" fill="%23ffffff"/></svg>') 16 16, auto;
     }
-    
+
     a, button, .copy, .back-to-top, summary, .nav a, details {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow2"><stop offset="0%%" stop-color="%23ffd700" stop-opacity="0.9"/><stop offset="60%%" stop-color="%23ffa500" stop-opacity="0.5"/><stop offset="100%%" stop-color="%23ff4500" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="14" fill="url(%23glow2)"/><circle cx="16" cy="16" r="6" fill="%23ffd700"/><circle cx="16" cy="16" r="3" fill="%23ffffff"/></svg>') 16 16, pointer;
     }
@@ -207,7 +206,7 @@
 
 
     .grid { max-width: 1200px; margin: 18px auto; padding: 0 18px; display: grid; grid-template-columns: 1fr; gap: 16px; }
-    
+
     .card {
       background: linear-gradient(180deg, rgba(18,26,37,.9), rgba(12,18,27,.9));
       border: 1px solid rgba(103,232,249,.15);
@@ -223,14 +222,25 @@
       position: absolute;
       top: -50%; left: -50%;
       width: 200%; height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(103,232,249,.05), transparent);
-      transform: rotate(45deg);
-      transition: all .6s;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(103,232,249,.08) 40%,
+        rgba(167,139,250,.06) 50%,
+        rgba(103,232,249,.08) 60%,
+        transparent 80%
+      );
+      transform: translateX(-100%) skewX(-15deg);
+      transition: opacity .3s;
       opacity: 0;
     }
     .card:hover::before {
       opacity: 1;
-      animation: shimmer 2s infinite;
+      animation: shimmer-sweep 1.5s ease-in-out infinite;
+    }
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(100%) skewX(-15deg); }
     }
     @keyframes shimmer {
       0% { transform: rotate(45deg) translateY(-100%); }
@@ -246,9 +256,48 @@
 
     .kicker { color: var(--brand); font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
 
-    .cmd { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; padding: 10px; border-radius: 12px; background: rgba(103,232,249,.06); border: 1px solid rgba(103,232,249,.12); margin: 8px 0; }
-    .cmd .name { font-family: var(--mono); color: var(--text); font-size: 13px; }
-    .cmd .desc { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+    .cmd { 
+      display: grid; 
+      grid-template-columns: 1fr auto; 
+      gap: 6px 10px; 
+      align-items: center; 
+      padding: 10px; 
+      border-radius: 12px; 
+      background: rgba(103,232,249,.06); 
+      border: 1px solid rgba(103,232,249,.12); 
+      margin: 8px 0;
+      position: relative;
+      overflow: hidden;
+      transition: all .3s ease;
+    }
+    .cmd::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(103,232,249,.15) 40%,
+        rgba(167,139,250,.12) 50%,
+        rgba(103,232,249,.15) 60%,
+        transparent 80%
+      );
+      transform: translateX(-100%) skewX(-15deg);
+      transition: opacity .3s;
+      opacity: 0;
+    }
+    .cmd:hover::before {
+      opacity: 1;
+      animation: shimmer-sweep 1.5s ease-in-out infinite;
+    }
+    .cmd:hover {
+      background: rgba(103,232,249,.1);
+      border-color: var(--brand);
+      box-shadow: 0 4px 12px rgba(103,232,249,.15);
+    }
+    .cmd .name { font-family: var(--mono); color: var(--text); font-size: 13px; position: relative; z-index: 1; }
+    .cmd .desc { grid-column: 1 / -1; font-size: 13px; color: var(--muted); position: relative; z-index: 1; }
     .copy { 
       appearance: none; border: 1px solid rgba(103,232,249,.25); 
       background: rgba(103,232,249,.08); color: var(--text); 
@@ -342,7 +391,195 @@
       text-shadow: 0 0 8px rgba(103,232,249,.4);
     }
 
-    .hidden { display: none; }
+
+    .regulations-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 1100px) {
+      .regulations-section {
+        grid-template-columns: 1fr;
+      }
+    }
+    .regulation-content {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      background: rgba(16,24,36,.8);
+      border: 1px solid rgba(103,232,249,.18);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 18px 40px rgba(12,18,30,.55);
+    }
+    .regulation-content h2 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: .8px;
+      font-family: 'Poppins', var(--sans);
+      color: var(--text);
+    }
+    .regulation-content .muted {
+      margin-top: 8px;
+      line-height: 1.7;
+    }
+    .regulation-section {
+      background: linear-gradient(135deg, rgba(103,232,249,.12), rgba(167,139,250,.08));
+      border: 1px solid rgba(103,232,249,.18);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .regulation-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(130% 120% at 10% 0%, rgba(103,232,249,.18), transparent 55%);
+      opacity: 0;
+      transition: opacity .35s ease;
+      pointer-events: none;
+    }
+    .regulation-section:hover::before {
+      opacity: 1;
+    }
+    .regulation-section h3 {
+      margin: 0;
+      font-size: 20px;
+      font-family: 'Poppins', var(--sans);
+      letter-spacing: .5px;
+      color: var(--text);
+    }
+    .regulation-section h4 {
+      margin: 6px 0 0;
+      font-size: 16px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .regulation-section ul {
+      margin: 0;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: var(--text);
+    }
+    .regulation-section li strong {
+      color: var(--brand);
+    }
+    .regulation-section code {
+      background: rgba(12,20,32,.6);
+      border: 1px solid rgba(103,232,249,.25);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+    }
+    .regulation-section .command-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: rgba(103,232,249,.12);
+      border: 1px solid rgba(103,232,249,.25);
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--text);
+    }
+    .regulation-sidebar {
+      position: sticky;
+      top: 120px;
+      background: rgba(14,22,35,.9);
+      border: 1px solid rgba(103,232,249,.18);
+      border-radius: 20px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 18px 36px rgba(10,15,25,.4);
+    }
+    @media (max-width: 1100px) {
+      .regulation-sidebar {
+        position: static;
+        order: -1;
+      }
+    }
+    .regulation-sidebar h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .45px;
+    }
+    .regulation-sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .regulation-sidebar button {
+      appearance: none;
+      border: 1px solid rgba(103,232,249,.25);
+      background: rgba(103,232,249,.08);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 13px;
+      text-align: left;
+      transition: all .3s ease;
+      cursor: pointer;
+    }
+    .regulation-sidebar button:hover {
+      background: rgba(103,232,249,.15);
+      box-shadow: 0 6px 22px rgba(103,232,249,.3);
+      transform: translateY(-1px);
+    }
+    .regulation-content .highlight {
+      color: var(--brand);
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(103,232,249,.35);
+    }
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      box-shadow: 0 0 10px rgba(103,232,249,.45);
+      z-index: 9999;
+      transition: width .15s ease-out;
+    }
+
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(13,20,30,.65);
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(103,232,249,.6), rgba(167,139,250,.6));
+      border-radius: 12px;
+      border: 2px solid rgba(13,20,30,.65);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(103,232,249,.8), rgba(167,139,250,.8));
+    }
+
+.hidden { display: none; }
 
     /* Breadcrumbs */
     .breadcrumbs {
@@ -354,15 +591,41 @@
       gap: 8px;
       font-size: 14px;
       color: var(--muted);
+      animation: fadeInDown .6s ease;
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .breadcrumbs a {
       color: var(--brand);
       text-decoration: none;
       transition: all .3s;
+      cursor: pointer;
+      position: relative;
+    }
+    .breadcrumbs a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+    .breadcrumbs a:hover::after {
+      transform: scaleX(1);
     }
     .breadcrumbs a:hover {
       color: var(--accent);
-      text-decoration: underline;
     }
     .breadcrumbs .separator {
       color: var(--muted);
@@ -458,7 +721,7 @@
   <nav class="breadcrumbs" aria-label="breadcrumb">
     <a href="index.html">Главная</a>
     <span class="separator">›</span>
-    <span aria-current="page">AsterionEvents</span>
+    <span aria-current="page"><span class="asterion-gold">ASTERION</span> Events</span>
   </nav>
 
   <section class="hero">
@@ -514,6 +777,206 @@
     </article>
   </div>
 
+  <section class="regulations-section" id="eventolog-regulations">
+    <div class="regulation-content" data-fade>
+      <div>
+        <h2>📘 Регламент работы ивентолога клана</h2>
+        <p class="muted">Свод правил и ответственности для команды ивентологов ASTERION. Соблюдение каждого пункта обязательно, нарушение ведёт к санкциям вплоть до снятия с должности.</p>
+      </div>
+
+      <article class="regulation-section" data-fade id="reg-general">
+        <h3>📋 Общие положения</h3>
+        <ul>
+          <li><strong>Обязательность:</strong> каждый пункт регламента обязателен к исполнению.</li>
+          <li><strong>Ответственность:</strong> нарушение любого пункта является основанием для снятия.</li>
+          <li><strong>Без самодеятельности:</strong> изменение правил только после согласования с лидерством.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-duties">
+        <h3>⚡ Основные обязанности</h3>
+        <h4>Организация и проведение ивентов</h4>
+        <ul>
+          <li><strong>Регулярность:</strong> минимум два ивента в месяц.</li>
+          <li><strong>Разнообразие:</strong> используйте разные форматы и сценарии.</li>
+          <li><strong>Качество:</strong> заранее готовьте правила, призы и анонсы.</li>
+        </ul>
+        <h4>Расписание и анонсы</h4>
+        <ul>
+          <li><strong>Планирование:</strong> ежемесячное расписание утверждается лидерством.</li>
+          <li><strong>Уведомления:</strong> анонс минимум за 48 часов.</li>
+          <li><strong>Прозрачность:</strong> описывайте правила, тайминг и награды.</li>
+        </ul>
+        <h4>Согласование призов</h4>
+        <ul>
+          <li><strong>Утверждение:</strong> призы согласовываются заранее.</li>
+          <li><strong>Баланс:</strong> вознаграждение соответствует сложности и масштабу.</li>
+          <li><strong>Публичность:</strong> условия объявляются участникам заранее.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-strict">
+        <h3>⚠️ Строгие требования</h3>
+        <h4>Ответственность и пунктуальность</h4>
+        <ul>
+          <li><strong>Присутствие:</strong> явка на каждый ивент обязательна.</li>
+          <li><strong>Пунктуальность:</strong> старт по расписанию, готовность за 30 минут.</li>
+          <li><strong>Подготовка:</strong> техническая проверка и сценарий готовы заранее.</li>
+        </ul>
+        <h4>Работа с аудиторией</h4>
+        <ul>
+          <li><strong>Профессионализм:</strong> уважительный стиль общения с участниками.</li>
+          <li><strong>Вовлечённость:</strong> поддерживайте интерес и динамику.</li>
+          <li><strong>Конфликты:</strong> оперативно и честно решайте спорные ситуации.</li>
+        </ul>
+        <h4>Развитие</h4>
+        <ul>
+          <li><strong>Компетенции:</strong> знание форматов и механик ивентов.</li>
+          <li><strong>Обучение:</strong> готовность осваивать новые подходы.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-forbidden">
+        <h3>🚫 Категорически запрещено</h3>
+        <h4>Отмена по личным причинам</h4>
+        <ul>
+          <li><strong>Допустимо:</strong> серьёзная болезнь (38°+) или подтверждённые экстренные обстоятельства.</li>
+          <li><strong>Недопустимо:</strong> «не хочется», встречи с друзьями, лёгкое недомогание.</li>
+          <li><strong>Компенсация:</strong> перенос по вине ивентолога компенсируется дополнительным ивентом.</li>
+        </ul>
+        <h4>Переносы без предупреждения</h4>
+        <ul>
+          <li><strong>Плановые переносы:</strong> уведомление минимум за 24 часа.</li>
+          <li><strong>Экстренные случаи:</strong> немедленно уведомляйте лидерство.</li>
+          <li><strong>Лимит:</strong> не более одного переноса в месяц без уважительной причины.</li>
+        </ul>
+        <h4>Игнорирование участников</h4>
+        <ul>
+          <li><strong>Доступность:</strong> отвечайте на вопросы вовремя.</li>
+          <li><strong>Оповещения:</strong> информируйте об изменениях.</li>
+          <li><strong>Обратная связь:</strong> учитывайте предложения и жалобы.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-control">
+        <h3>🎯 Контроль и ответственность</h3>
+        <ul>
+          <li><strong>Мониторинг:</strong> лидерство отслеживает выполнение регламента.</li>
+          <li><strong>Отчётность:</strong> еженедельные отчёты о проделанной работе.</li>
+        </ul>
+        <h4>Санкции</h4>
+        <ul>
+          <li><strong>Первое нарушение:</strong> предупреждение и план исправления.</li>
+          <li><strong>Второе:</strong> отстранение на две недели и испытательный срок месяц.</li>
+          <li><strong>Третье / критические:</strong> немедленное снятие и запрет на назначение 6 месяцев.</li>
+        </ul>
+        <h4>Критичные нарушения</h4>
+        <ul>
+          <li>Отмена ивента за час до начала без уважительной причины.</li>
+          <li>Пропажа без связи более 48 часов.</li>
+          <li>Самовольное изменение призового фонда или токсичное поведение.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-tools">
+        <h3>🛠️ Инструменты и панель управления</h3>
+        <h4>Создание ивента <span class="command-tag">/bot events add</span></h4>
+        <ul>
+          <li>Заполните форму: название, формат, дата и время, описание, призы и лимит.</li>
+          <li><strong>Обязательное правило:</strong> ивент создаётся минимум за <span class="highlight">24–48 часов</span>.</li>
+          <li>Бот проверяет корректность данных и блокирует нарушение регламента.</li>
+          <li>Успешный ивент автоматически публикуется в канале анонсов.</li>
+        </ul>
+        <h4>Панель <span class="command-tag">/dashboard</span></h4>
+        <ul>
+          <li>Показывает активные ивенты, количество участников и время до начала.</li>
+          <li>Содержит ID мероприятий для управления и быстрых действий.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-commands">
+        <h3>📋 Команды ивентолога</h3>
+        <ul>
+          <li><span class="command-tag">/event_stats [ID]</span> — полная статистика по конкретному ивенту.</li>
+          <li><span class="command-tag">/give_prize [ID] [@участник] [приз]</span> — выдача призов с автоматическим логированием.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-emergency">
+        <h3>🆘 Экстренные команды</h3>
+        <ul>
+          <li><span class="command-tag">/request_backup [ID] [причина]</span> — запрос подмены у других ивентологов (не позднее чем за час до старта).</li>
+          <li><span class="command-tag">/emergency_cancel [ID] [причина]</span> — отмена при критических обстоятельствах (температура 38°+, экстренные семейные случаи, форс-мажоры).</li>
+          <li><span class="command-tag">/cancel_event [ID]</span> — штатная отмена (заблокирована за час до начала).</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-participants">
+        <h3>👥 Команды для участников</h3>
+        <ul>
+          <li><span class="command-tag">/events</span> — список ближайших ивентов с временем начала.</li>
+          <li>Интерактивные кнопки под анонсами: <span class="command-tag">✅ Участвовать</span>, <span class="command-tag">❌ Отменить участие</span>, <span class="command-tag">👥 Участники</span>.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-admin">
+        <h3>🛡️ Команды для администрации</h3>
+        <ul>
+          <li><span class="command-tag">/admin_events</span> — общий обзор всех ивентов и их статусов.</li>
+          <li><span class="command-tag">/force_cancel [ID] [причина]</span> — принудительная отмена мероприятия.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-system">
+        <h3>🔄 Автоматизация и контроль</h3>
+        <h4>Система напоминаний</h4>
+        <ul>
+          <li>48 часов — первичный анонс.</li>
+          <li>24 часа, 1 час и 10 минут — напоминания участникам.</li>
+        </ul>
+        <h4>Защита от нарушений</h4>
+        <ul>
+          <li>Блокировка создания ивентов менее чем за 48 часов.</li>
+          <li>Блокировка отмены за час до начала (используйте экстренную отмену).</li>
+          <li>Автоматическое логирование всех действий и уведомление администрации.</li>
+        </ul>
+        <h4>Важные ограничения</h4>
+        <ul>
+          <li>Запрещены попытки обойти 48-часовое правило или отменить ивент за час без форс-мажора.</li>
+          <li>Выдача призов участникам, не зарегистрированным на ивент, запрещена.</li>
+        </ul>
+      </article>
+
+      <article class="regulation-section" data-fade id="reg-communication">
+        <h3>📞 Связь и замещения</h3>
+        <ul>
+          <li><strong>Коммуникация:</strong> ежедневная активность в Discord и дублирование важных сообщений лидерству.</li>
+          <li><strong>Заместитель:</strong> заранее определён дублёр для критических ситуаций.</li>
+          <li><strong>Отпуск:</strong> предупреждение минимум за две недели.</li>
+        </ul>
+      </article>
+    </div>
+
+    <aside class="regulation-sidebar" data-fade>
+      <h3>Навигация по регламенту</h3>
+      <nav>
+        <button type="button" data-scroll-to="#reg-general">Общие положения</button>
+        <button type="button" data-scroll-to="#reg-duties">Обязанности</button>
+        <button type="button" data-scroll-to="#reg-strict">Строгие требования</button>
+        <button type="button" data-scroll-to="#reg-forbidden">Запрещено</button>
+        <button type="button" data-scroll-to="#reg-control">Контроль и санкции</button>
+        <button type="button" data-scroll-to="#reg-tools">Инструменты и панель</button>
+        <button type="button" data-scroll-to="#reg-commands">Команды ивентолога</button>
+        <button type="button" data-scroll-to="#reg-emergency">Экстренные команды</button>
+        <button type="button" data-scroll-to="#reg-participants">Команды участников</button>
+        <button type="button" data-scroll-to="#reg-admin">Команды администрации</button>
+        <button type="button" data-scroll-to="#reg-system">Автоматизация</button>
+        <button type="button" data-scroll-to="#reg-communication">Связь и замещения</button>
+      </nav>
+    </aside>
+  </section>
+
+
   <footer>
     <div class="sep"></div>
     <p class="muted">© <span class="asterion-gold">ASTERION</span> Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
@@ -563,6 +1026,33 @@
         });
       });
     });
-  </script>
+
+    document.querySelectorAll('[data-scroll-to]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = document.querySelector(button.dataset.scrollTo);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Scroll progress bar
+    (() => {
+      const bar = document.createElement('div');
+      bar.className = 'scroll-progress';
+      document.body.appendChild(bar);
+
+      const updateProgress = () => {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+        bar.style.width = `${percent}%`;
+      };
+
+      updateProgress();
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+    })();
+
+</script>
 </body>
 </html>

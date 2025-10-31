@@ -204,14 +204,25 @@
       position: absolute;
       top: -50%; left: -50%;
       width: 200%; height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(103,232,249,.05), transparent);
-      transform: rotate(45deg);
-      transition: all .6s;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(103,232,249,.08) 40%,
+        rgba(167,139,250,.06) 50%,
+        rgba(103,232,249,.08) 60%,
+        transparent 80%
+      );
+      transform: translateX(-100%) skewX(-15deg);
+      transition: opacity .3s;
       opacity: 0;
     }
     .card:hover::before {
       opacity: 1;
-      animation: shimmer 2s infinite;
+      animation: shimmer-sweep 1.5s ease-in-out infinite;
+    }
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(100%) skewX(-15deg); }
     }
     @keyframes shimmer {
       0% { transform: rotate(45deg) translateY(-100%); }
@@ -349,16 +360,41 @@
       gap: 8px;
       font-size: 14px;
       color: var(--muted);
+      animation: fadeInDown .6s ease;
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .breadcrumbs a {
       color: var(--brand);
       text-decoration: none;
       transition: all .3s;
       cursor: pointer;
+      position: relative;
+    }
+    .breadcrumbs a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+    .breadcrumbs a:hover::after {
+      transform: scaleX(1);
     }
     .breadcrumbs a:hover {
       color: var(--accent);
-      text-decoration: underline;
     }
     .breadcrumbs .separator {
       color: var(--muted);
@@ -414,7 +450,38 @@
       color: #5865F2;
       font-weight: 600;
     }
-  </style>
+  
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      box-shadow: 0 0 10px rgba(103,232,249,.45);
+      z-index: 9999;
+      transition: width .15s ease-out;
+    }
+
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(13,20,30,.65);
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(103,232,249,.6), rgba(167,139,250,.6));
+      border-radius: 12px;
+      border: 2px solid rgba(13,20,30,.65);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(103,232,249,.8), rgba(167,139,250,.8));
+    }
+
+</style>
 </head>
 <body>
   <div class="topbar">
@@ -581,7 +648,7 @@
       <details open>
         <summary>Что такое ConCord и как он работает?</summary>
         <p class="muted" style="margin-top: 12px;">
-          <b>ConCordConnect</b> (ConCord α) — это система управления партнёрскими <span class="discord-text">Discord</span>-серверами. Включает автоматическое начисление <b>PTS</b> (Partner Points) за активность участников, систему уровней привилегий, индивидуальные множители для балансировки и прямую обратную связь с командой <span class="asterion-gold">ASTERION</span>. Находится в закрытой альфа-версии (0.0.5a).
+          <b>ConCordConnect</b> (ConCord α) — это система управления партнёрскими <span class="discord-text">Discord</span>-серверами. Включает автоматическое начисление <b>PTS</b> (Partner Points) за активность участников, систему уровней привилегий, индивидуальные множители для балансировки и прямую обратную связь с командой <span class="asterion-gold">ASTERION</span>. Находится в закрытой альфа-версии (0.0.6a).
         </p>
       </details>
 
@@ -649,7 +716,7 @@
       <div class="faq-item">
         <div class="faq-question">Как часто выходят обновления?</div>
         <div class="faq-answer">
-          Патчи и обновления выходят регулярно по мере добавления новых функций и исправления багов. Актуальные патч-ноты можно найти на страницах <a href="monitor.html" class="link">Monitor (1.5.2b)</a> и <a href="partners.html" class="link">Partners (0.0.5a)</a>. Все критические изменения анонсируются в официальном <span class="discord-text">Discord</span>-сообществе.
+          Патчи и обновления выходят регулярно по мере добавления новых функций и исправления багов. Актуальные патч-ноты можно найти на страницах <a href="monitor.html" class="link">Monitor (1.5.2b)</a> и <a href="partners.html" class="link">Partners (0.0.6a)</a>. Все критические изменения анонсируются в официальном <span class="discord-text">Discord</span>-сообществе.
         </div>
       </div>
 
@@ -690,6 +757,24 @@
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  </script>
+  
+    // Scroll progress bar
+    (() => {
+      const bar = document.createElement('div');
+      bar.className = 'scroll-progress';
+      document.body.appendChild(bar);
+
+      const updateProgress = () => {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+        bar.style.width = `${percent}%`;
+      };
+
+      updateProgress();
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+    })();
+
+</script>
 </body>
 </html>

@@ -9,7 +9,7 @@
   <meta property="og:description" content="Экономическая система с магазином, промокодами и аналитикой для Discord." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#6ee7ff"/>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
+  <link rel="icon" type="image/png" href="assets/FuRYCoin.png">
   <style>
     :root {
       --bg: #0b0f14;
@@ -41,7 +41,7 @@
       box-sizing: border-box;
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow"><stop offset="0%%" stop-color="%2367e8f9" stop-opacity="0.8"/><stop offset="70%%" stop-color="%2322d3ee" stop-opacity="0.4"/><stop offset="100%%" stop-color="%23a78bfa" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="12" fill="url(%23glow)"/><circle cx="16" cy="16" r="5" fill="%2367e8f9" opacity="0.9"/><circle cx="16" cy="16" r="2.5" fill="%23ffffff"/></svg>') 16 16, auto;
     }
-    
+
     a, button, .copy, .back-to-top, summary, .nav a, details {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="glow2"><stop offset="0%%" stop-color="%23ffd700" stop-opacity="0.9"/><stop offset="60%%" stop-color="%23ffa500" stop-opacity="0.5"/><stop offset="100%%" stop-color="%23ff4500" stop-opacity="0"/></radialGradient></defs><circle cx="16" cy="16" r="14" fill="url(%23glow2)"/><circle cx="16" cy="16" r="6" fill="%23ffd700"/><circle cx="16" cy="16" r="3" fill="%23ffffff"/></svg>') 16 16, pointer;
     }
@@ -148,6 +148,19 @@
       color: var(--fury-red);
       font-weight: 700;
     }
+    .fury-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .fury-chip::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      background: url('assets/FuRYCoin.png') no-repeat center / contain;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,.2));
+    }
     .cc-con {
       background: linear-gradient(180deg, var(--cc-gold-1), var(--cc-gold-2));
       -webkit-background-clip: text;
@@ -201,13 +214,19 @@
       transform: scale(1.1) rotate(5deg);
       box-shadow: 0 8px 24px rgba(103,232,249,.4);
     }
+    .bot-icon img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(0,0,0,.35));
+    }
     .title { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 6px; font-weight: 800; letter-spacing: .3px; }
     .meta { color: var(--muted); font-size: 14px; }
     .meta b { color: var(--text); }
 
     .grid { max-width: 1200px; margin: 18px auto; padding: 0 18px; display: grid; grid-template-columns: 1fr; gap: 16px; }
     @media (min-width: 900px){ .grid { grid-template-columns: 1fr 1fr; } }
-    
+
     .card {
       background: linear-gradient(180deg, rgba(18,26,37,.9), rgba(12,18,27,.9));
       border: 1px solid rgba(103,232,249,.15);
@@ -223,14 +242,25 @@
       position: absolute;
       top: -50%; left: -50%;
       width: 200%; height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(103,232,249,.05), transparent);
-      transform: rotate(45deg);
-      transition: all .6s;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(103,232,249,.08) 40%,
+        rgba(167,139,250,.06) 50%,
+        rgba(103,232,249,.08) 60%,
+        transparent 80%
+      );
+      transform: translateX(-100%) skewX(-15deg);
+      transition: opacity .3s;
       opacity: 0;
     }
     .card:hover::before {
       opacity: 1;
-      animation: shimmer 2s infinite;
+      animation: shimmer-sweep 1.5s ease-in-out infinite;
+    }
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(100%) skewX(-15deg); }
     }
     @keyframes shimmer {
       0% { transform: rotate(45deg) translateY(-100%); }
@@ -309,7 +339,12 @@
       gap: 6px;
     }
     .badge-economy::before {
-      content: '💎';
+      content: '';
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: url('assets/FuRYCoin.png') no-repeat center / contain;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,.25));
     }
 
     .link { 
@@ -363,6 +398,7 @@
     footer { max-width: 1200px; margin: 20px auto 60px; padding: 0 18px; color: var(--muted); font-size: 13px; text-align: center; }
     .sep { height: 1px; background: linear-gradient(90deg, rgba(103,232,249,.2), rgba(167,139,250,.1), transparent); margin: 24px 0; }
 
+    /* Breadcrumbs */
     .breadcrumbs {
       max-width: 1200px;
       margin: 16px auto 0;
@@ -372,16 +408,41 @@
       gap: 8px;
       font-size: 14px;
       color: var(--muted);
+      animation: fadeInDown .6s ease;
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .breadcrumbs a {
       color: var(--brand);
       text-decoration: none;
       transition: all .3s;
       cursor: pointer;
+      position: relative;
+    }
+    .breadcrumbs a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+    .breadcrumbs a:hover::after {
+      transform: scaleX(1);
     }
     .breadcrumbs a:hover {
       color: var(--accent);
-      text-decoration: underline;
     }
     .breadcrumbs .separator {
       color: var(--muted);
@@ -452,7 +513,38 @@
         font-size: 24px;
       }
     }
-  </style>
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      box-shadow: 0 0 10px rgba(103,232,249,.45);
+      z-index: 9999;
+      transition: width .15s ease-out;
+    }
+
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(13,20,30,.65);
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(103,232,249,.6), rgba(167,139,250,.6));
+      border-radius: 12px;
+      border: 2px solid rgba(13,20,30,.65);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(103,232,249,.8), rgba(167,139,250,.8));
+    }
+
+</style>
 </head>
 <body>
   <div class="topbar">
@@ -486,15 +578,17 @@
   </nav>
 
   <section class="hero">
-    <div class="bot-icon">💎</div>
+    <div class="bot-icon">
+      <img src="assets/FuRYCoin.png" alt="Иконка FuRY Coin">
+    </div>
     <div class="badge-row">
-      <span class="badge">Ветка <b>Economy</b></span>
-      <span class="badge">Глобальный магазин <span class="fury-text">FuRY</span></span>
-      <span class="badge">Интеграция с <span class="asterion-gold">ASTERION</span> Monitor</span>
+      <span class="badge"><b>Ветка Economy</b></span>
+      <span class="badge"><b>Глобальный магазин <span class="fury-text fury-chip">FuRY</span></b></span>
+      <span class="badge"><b>Интеграция с <span class="asterion-gold">ASTERION</span> Monitor</b></span>
     </div>
     <h2 class="title"><span class="asterion-gold">ASTERION</span> Economy<span class="new-badge">NEW</span></h2>
     <p class="meta">
-      Управление валютой <span class="fury-text">FuRY</span>, интерактивный магазин, промокоды, booster-система и административные инструменты.
+      Управление валютой <span class="fury-text fury-chip">FuRY</span>, интерактивный магазин, промокоды, booster-система и административные инструменты.
       <br/>Синхронизируется с базой <span class="asterion-gold">ASTERION</span> Monitor и записывает все операции в SQLite.
     </p>
   </section>
@@ -503,10 +597,10 @@
     <article class="card" style="grid-column: 1 / -1;" data-keywords="economy overview shop fury fu ry">
       <span class="kicker">Быстрая сводка</span>
       <h3>Что умеет <span class="asterion-gold">ASTERION</span> Economy</h3>
-      <p class="muted" style="margin-bottom: 10px;">Экономика строится вокруг валюты <b class="fury-text">FuRY</b>. Магазин запускается через интерактивное меню <code class="inline">/shop</code>, пользователи выполняют покупки с подтверждением, а администраторы управляют товарами и балансами.</p>
+      <p class="muted" style="margin-bottom: 10px;">Экономика строится вокруг валюты <b class="fury-text fury-chip">FuRY</b>. Магазин запускается через интерактивное меню <code class="inline">/shop</code>, пользователи выполняют покупки с подтверждением, а администраторы управляют товарами и балансами.</p>
       <ul class="muted" style="margin: 0; padding-left: 20px;">
         <li>💠 Встроенный <strong>магазин с фильтрами и сортировкой</strong>, подтверждением покупки и логами в канал.</li>
-        <li>💳 Слэш-команды для проверки баланса, ежедневных наград, передачи <span class="fury-text">FuRY</span> и истории покупок.</li>
+        <li>Слэш-команды для проверки баланса, ежедневных наград, передачи <span class="fury-text fury-chip">FuRY</span> и истории покупок.</li>
         <li>🛠 Полный набор <strong>админ-инструментов</strong>: выдача/изъятие монет, управление товарами, просмотр транзакций.</li>
         <li>🎫 Поддержка промокодов и бустеров, готовая интеграция с <code class="inline">AsterionMonitor</code>.</li>
       </ul>
@@ -525,10 +619,10 @@
 
     <article class="card" id="currency" data-keywords="fury currency баланс daily gift giftall">
       <span class="badge-economy">Currency</span>
-      <h3>Валюта <span class="fury-text">FuRY</span></h3>
+      <h3>Валюта <span class="fury-text fury-chip">FuRY</span></h3>
       <p class="muted">Баланс хранится в таблице <code class="inline">users.fury_coins</code> базы <code class="inline">asterion.db</code>. Пользователи зарабатывают монеты за активность, ежедневные награды или промокоды.</p>
       <ul class="muted" style="margin: 10px 0 0; padding-left: 20px;">
-        <li><code class="inline">/balance</code> — показывает текущий <span class="fury-text">FuRY</span>;</li>
+        <li><code class="inline">/balance</code> — показывает текущий <span class="fury-text fury-chip">FuRY</span>;</li>
         <li><code class="inline">/gift</code> — перевод между участниками;</li>
         <li><code class="inline">/giftall</code> — массовая выдача (админ);</li>
         <li><code class="inline">/daily</code> — награда с учётом серии.</li>
@@ -553,7 +647,7 @@
     <article class="card" id="analytics" data-keywords="leaderboard stats stats_economy analytics">
       <span class="badge-economy">Analytics</span>
       <h3>Лидерборды и статистика</h3>
-      <p class="muted">Команда <code class="inline">/leaderboard_fury</code> выводит топ по монетам, а <code class="inline">/stats_economy</code> агрегирует сводку: оборот <span class="fury-text">FuRY</span>, количество покупок, активные бустеры.</p>
+      <p class="muted">Команда <code class="inline">/leaderboard_fury</code> выводит топ по монетам, а <code class="inline">/stats_economy</code> агрегирует сводку: оборот <span class="fury-text fury-chip">FuRY</span>, количество покупок, активные бустеры.</p>
     </article>
   </div>
 
@@ -758,7 +852,7 @@
   <script>
     // Back to top button
     const backToTop = document.querySelector('.back-to-top');
-    
+
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 300) {
         backToTop.classList.add('visible');
@@ -770,6 +864,24 @@
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  </script>
+
+    // Scroll progress bar
+    (() => {
+      const bar = document.createElement('div');
+      bar.className = 'scroll-progress';
+      document.body.appendChild(bar);
+
+      const updateProgress = () => {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+        bar.style.width = `${percent}%`;
+      };
+
+      updateProgress();
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+    })();
+
+</script>
 </body>
 </html>

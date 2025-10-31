@@ -10,10 +10,11 @@
   <meta property="og:description" content="Партнёрская программа ConCord для Discord-серверов" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://raw.githubusercontent.com/ratatuigranade/astpartners.github.io/main/banner.png" />
-  <meta name="keywords" content="discord bot, partners, партнёрство, pts, concord, обратная связь" />
+  <meta name="keywords" content="discord bot, partners, партнёрство, pts, ConCord, обратная связь" />
   <meta name="theme-color" content="#6ee7ff"/>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap');
     :root {
       --bg: #0b0f14;
       --bg-soft: #0f1520;
@@ -225,14 +226,25 @@
       position: absolute;
       top: -50%; left: -50%;
       width: 200%; height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(103,232,249,.05), transparent);
-      transform: rotate(45deg);
-      transition: all .6s;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(103,232,249,.08) 40%,
+        rgba(167,139,250,.06) 50%,
+        rgba(103,232,249,.08) 60%,
+        transparent 80%
+      );
+      transform: translateX(-100%) skewX(-15deg);
+      transition: opacity .3s;
       opacity: 0;
     }
     .card:hover::before {
       opacity: 1;
-      animation: shimmer 2s infinite;
+      animation: shimmer-sweep 1.5s ease-in-out infinite;
+    }
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(100%) skewX(-15deg); }
     }
     @keyframes shimmer {
       0% { transform: rotate(45deg) translateY(-100%); }
@@ -250,9 +262,48 @@
 
     .kicker { color: var(--brand); font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
 
-    .cmd { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; padding: 10px; border-radius: 12px; background: rgba(103,232,249,.06); border: 1px solid rgba(103,232,249,.12); margin: 8px 0; }
-    .cmd .name { font-family: var(--mono); color: var(--text); font-size: 13px; }
-    .cmd .desc { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+    .cmd { 
+      display: grid; 
+      grid-template-columns: 1fr auto; 
+      gap: 6px 10px; 
+      align-items: center; 
+      padding: 10px; 
+      border-radius: 12px; 
+      background: rgba(103,232,249,.06); 
+      border: 1px solid rgba(103,232,249,.12); 
+      margin: 8px 0;
+      position: relative;
+      overflow: hidden;
+      transition: all .3s ease;
+    }
+    .cmd::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(103,232,249,.15) 40%,
+        rgba(167,139,250,.12) 50%,
+        rgba(103,232,249,.15) 60%,
+        transparent 80%
+      );
+      transform: translateX(-100%) skewX(-15deg);
+      transition: opacity .3s;
+      opacity: 0;
+    }
+    .cmd:hover::before {
+      opacity: 1;
+      animation: shimmer-sweep 1.5s ease-in-out infinite;
+    }
+    .cmd:hover {
+      background: rgba(103,232,249,.1);
+      border-color: var(--brand);
+      box-shadow: 0 4px 12px rgba(103,232,249,.15);
+    }
+    .cmd .name { font-family: var(--mono); color: var(--text); font-size: 13px; position: relative; z-index: 1; }
+    .cmd .desc { grid-column: 1 / -1; font-size: 13px; color: var(--muted); position: relative; z-index: 1; }
     .copy { 
       appearance: none; border: 1px solid rgba(103,232,249,.25); 
       background: rgba(103,232,249,.08); color: var(--text); 
@@ -351,16 +402,41 @@
       gap: 8px;
       font-size: 14px;
       color: var(--muted);
+      animation: fadeInDown .6s ease;
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .breadcrumbs a {
       color: var(--brand);
       text-decoration: none;
       transition: all .3s;
       cursor: pointer;
+      position: relative;
+    }
+    .breadcrumbs a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+    .breadcrumbs a:hover::after {
+      transform: scaleX(1);
     }
     .breadcrumbs a:hover {
       color: var(--accent);
-      text-decoration: underline;
     }
     .breadcrumbs .separator {
       color: var(--muted);
@@ -410,7 +486,377 @@
       text-shadow: 0 0 8px rgba(103,232,249,.4);
     }
 
-    .hidden { display: none; }
+    .partner-tier-shell {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .partner-tier-shell {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+    .tier-sidebar {
+      position: sticky;
+      top: 120px;
+      background: linear-gradient(180deg, rgba(24, 32, 45, .92), rgba(18, 26, 37, .92));
+      border: 1px solid rgba(103, 232, 249, .18);
+      border-radius: 18px;
+      padding: 20px 22px;
+      box-shadow: 0 18px 40px rgba(12, 18, 27, .6);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    @media (max-width: 1024px) {
+      .tier-sidebar {
+        position: static;
+      }
+      .tier-sidebar button {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      .tier-sidebar nav {
+        gap: 8px;
+      }
+    }
+    .tier-sidebar h3 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .tier-sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tier-sidebar button {
+      appearance: none;
+      border: 1px solid rgba(103,232,249,.25);
+      background: rgba(103,232,249,.08);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      text-align: left;
+      transition: all .3s ease;
+      cursor: pointer;
+    }
+    .tier-sidebar button:hover {
+      background: rgba(103,232,249,.15);
+      box-shadow: 0 6px 18px rgba(103,232,249,.25);
+      transform: translateY(-1px);
+    }
+    .partner-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .tiers-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(255,213,106,.15), rgba(167,139,250,.1), rgba(244,114,182,.12));
+      border: 1px solid rgba(244,114,182,.25);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .tiers-header h2 {
+      font-family: 'Poppins', var(--sans);
+      font-size: 26px;
+      letter-spacing: .8px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .tiers-header .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .tiers-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .tier-card {
+      position: relative;
+      padding: 2px;
+      border-radius: 22px;
+      background: linear-gradient(130deg, rgba(255,213,106,.85), rgba(167,139,250,.7), rgba(244,114,182,.85));
+      overflow: hidden;
+      transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    
+    .tier-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(130deg, rgba(255,213,106,1), rgba(167,139,250,1), rgba(244,114,182,1));
+      border-radius: 22px;
+      opacity: 0;
+      filter: blur(20px);
+      z-index: -1;
+      transition: opacity .5s;
+    }
+    
+    .tier-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(255,255,255,.18), transparent 55%);
+      opacity: 0;
+      transition: opacity .4s ease;
+    }
+    
+    .tier-card-inner {
+      position: relative;
+      z-index: 2;
+      background: rgba(20, 15, 40, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 28px 26px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: inset 0 0 40px rgba(15,23,42,.45);
+      transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .tier-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 
+        0 30px 60px rgba(103,232,249,.2), 
+        0 15px 30px rgba(0,0,0,.5),
+        0 0 100px rgba(255,213,106,.1);
+    }
+    
+    .tier-card:hover::before {
+      opacity: .8;
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+    
+    .tier-card:hover::after { 
+      opacity: .6; 
+      animation: shimmer-tier 3s linear infinite;
+    }
+    
+    .tier-card:hover .tier-card-inner {
+      background: rgba(25, 20, 50, 0.9);
+      box-shadow: inset 0 0 60px rgba(103,232,249,.15);
+    }
+    
+    @keyframes glow-pulse {
+      0%, 100% { opacity: .8; }
+      50% { opacity: .4; }
+    }
+    
+    @keyframes shimmer-tier {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    .tier-card:nth-child(1) {
+      animation: float-tier 6s ease-in-out infinite;
+    }
+    
+    .tier-card:nth-child(2) {
+      animation: float-tier 7s ease-in-out infinite;
+      animation-delay: -2s;
+    }
+    
+    .tier-card:nth-child(3) {
+      animation: float-tier 8s ease-in-out infinite;
+      animation-delay: -4s;
+    }
+    
+    @keyframes float-tier {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .tier-title {
+      font-family: 'Poppins', var(--sans);
+      font-size: 22px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+    }
+    
+    .tier-title span { 
+      font-size: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all .4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .tier-card:hover .tier-title span {
+      transform: scale(1.2) rotate(10deg);
+      filter: drop-shadow(0 0 15px rgba(255,213,106,.8));
+    }
+    
+    .tier-title span img {
+      transition: all .4s ease;
+    }
+    
+    .tier-card:hover .tier-title span img {
+      animation: bounce-icon .6s ease-in-out;
+    }
+    
+    @keyframes bounce-icon {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-8px); }
+      50% { transform: translateY(-4px); }
+      75% { transform: translateY(-6px); }
+    }
+    .tier-description {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    
+    .highlight {
+      color: var(--brand);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(103,232,249,.35);
+    }
+
+.tier-benefits {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tier-benefits li {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text);
+      align-items: baseline;
+    }
+    .tier-benefits li span { font-size: 16px; }
+    .tier-action { margin-top: auto; }
+    .tier-action button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .4px;
+      background: linear-gradient(120deg, rgba(103,232,249,.9), rgba(167,139,250,.85));
+      color: #0c111d;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .3s ease;
+    }
+    .tier-action button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(103,232,249,.28);
+    }
+    .tiers-table-wrapper {
+      background: rgba(18, 26, 37, 0.82);
+      border-radius: 18px;
+      padding: 24px;
+      border: 1px solid rgba(103,232,249,.18);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    .tiers-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .tiers-table th,
+    .tiers-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(148,163,184,.14);
+    }
+    .tiers-table thead {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--muted);
+    }
+    .tiers-table tbody tr:last-child td { border-bottom: none; }
+    .tiers-progress {
+      background: rgba(21, 33, 51, 0.8);
+      border-radius: 18px;
+      padding: 24px;
+      border: 1px solid rgba(244,114,182,.25);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .tiers-progress ol {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(13,20,30,.65);
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(103,232,249,.6), rgba(167,139,250,.6));
+      border-radius: 12px;
+      border: 2px solid rgba(13,20,30,.65);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(103,232,249,.8), rgba(167,139,250,.8));
+    }
+
+    
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      box-shadow: 0 0 10px rgba(103,232,249,.45);
+      z-index: 9999;
+      transition: width .15s ease-out;
+    }
+
+.hidden { display: none; }
   </style>
 </head>
 <body>
@@ -441,31 +887,32 @@
   <nav class="breadcrumbs" aria-label="breadcrumb">
     <a href="index.html">Главная</a>
     <span class="separator">›</span>
-    <span aria-current="page">AsterionPartners</span>
+    <span aria-current="page"><span class="asterion-gold">ASTERION</span> Partners</span>
   </nav>
 
   <section class="hero">
     <div class="bot-icon">🤝</div>
     <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
       <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);">Закрытая Альфа · вер. 0.0.2α</span>
-      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);"><span class="cc-con">Con</span><span class="cc-cord">Cord</span> α Патч 0.0.5a</span>
+      <span style="background: rgba(103,232,249,.08); border: 1px solid rgba(103,232,249,.25); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--mono);"><span class="cc-con">Con</span><span class="cc-cord">Cord</span> α Патч 0.0.6a</span>
     </div>
-    <h2 class="title"><span class="asterion-gold">ASTERION</span> <span class="cc-con">Con</span><span class="cc-cord">Cord</span> α — Патч 0.0.5a</h2>
+    <h2 class="title"><span class="asterion-gold">ASTERION</span> <span class="cc-con">Con</span><span class="cc-cord">Cord</span> α — Патч 0.0.6a</h2>
     <p class="meta">
       <b>Автор:</b> <b style="color: #ffffff">[+]</b> <span style="font-family: var(--mono); color: #ffffff;">𝕾𝖔 𝕾1𝖈𝖐</span><br/>
-      <b>Описание:</b> слой ролей ConcordConnect, авто-PTS за сообщения и голос, система уровней и улучшенная синхронизация команд.
+      <b>Описание:</b> слой ролей ConCordConnect, авто-PTS за сообщения и голос, система уровней и улучшенная синхронизация команд.
     </p>
   </section>
 
   <div class="grid">
     <article class="card" style="grid-column: 1 / -1;" data-keywords="изменения патч ноты обновления changelog daily reward analytics sync">
       <span class="kicker">ИЗМЕНЕНИЯ / ПАТЧ-НОТЫ</span>
-      <h3>Что нового в <span style="font-family: var(--mono);">0.0.5a</span></h3>
-      <p style="color: var(--muted); font-size: 13px; margin: 6px 0 16px;">Добавлено в Concord α Patch 0.0.5a — ежедневные бонусы, аналитика и инструменты для партнёров.</p>
+      <h3>Что нового в <span style="font-family: var(--mono);">0.0.6a</span></h3>
+      <p style="color: var(--muted); font-size: 13px; margin: 6px 0 16px;">Добавлено в ConCord α Patch 0.0.6a — уровневые бонусы, авто-множители и обновлённая система PTS.</p>
       <ul class="muted" style="line-height: 1.8;">
         <li><b>Partner Bonuses:</b> <code class="inline">/partner_daily</code>, <code class="inline">/partner_weekly</code>, <code class="inline">/partner_monthly</code> дают растущие бонусы PTS/FuRY; <code class="inline">/partner_reward</code> — для выдач администраторами.</li>
         <li><b>Analytics Suite:</b> <code class="inline">/partner_stats</code>, <code class="inline">/partner_activity</code>, <code class="inline">/partner_audit</code> дают детальные отчёты и чек-листы.</li>
         <li><b>Communication & Sync:</b> объявления отправляются через <code class="inline">/partner_announcements</code>, а <code class="inline">/partner_sync</code> форсирует slash-команды на всех серверах.</li>
+        <li><b>Tier Progression:</b> Автонастройка множителей (1.2× и 1.5×), объявление в партнёрском треде и PTS за активность — только с уровня II, как в новой ConCord α матрице.</li>
       </ul>
     </article>
 
@@ -536,6 +983,150 @@
     </article>
   </div>
 
+  <section class="partner-tier-shell">
+    <aside class="tier-sidebar" data-fade>
+      <h3>Навигация уровней</h3>
+      <nav>
+        <button type="button" data-scroll-to="#tier-overview">Обзор преимуществ</button>
+        <button type="button" data-scroll-to="#tiers-grid">Карточки уровней</button>
+        <button type="button" data-scroll-to="#tiers-table">Таблица прогрессии</button>
+        <button type="button" data-scroll-to="#tiers-progress">Как повысить уровень</button>
+      </nav>
+    </aside>
+
+    <section class="partner-tiers" id="partner-tiers">
+      <div class="tiers-header" data-fade id="tier-overview">
+        <div>
+          <h2>🌐 <span class="asterion-gold">ASTERION</span> ConCord <span class="asterion-gold">α</span> — Партнёрские уровни и преимущества</h2>
+        <p class="muted" style="max-width: 720px;">
+          Актуальная шкала статусов партнёров ConCord α. Повышайте уровень сервера, открывайте новые возможности интеграции и получайте доступ к эксклюзивным инструментам <span class="asterion-gold">ASTERION</span>.
+        </p>
+      </div>
+      <div class="meta">
+        <span><strong>Версия данных:</strong> partners_tiers_v1.0.0</span>
+        <span><strong>Дата:</strong> 25.10.2025</span>
+        <span><strong>Автор:</strong> sᴛ.ᴍᴏᴅᴇʀᴀᴛᴏʀ, Никита (<span class="asterion-gold">ASTERION</span> ConCord <span class="asterion-gold">α</span>)</span>
+      </div>
+    </div>
+
+    <div class="tiers-grid" id="tiers-grid">
+      <article class="tier-card" data-fade>
+        <div class="tier-card-inner">
+          <h3 class="tier-title"><span>ᕦ<img src="assets/soratnik.png" alt="emoji" style="width: 1.2em; height: 1.2em; vertical-align: middle;">ᕤ</span>Уровень I — ꈊ Соратник</h3>
+          <p class="tier-description">
+            Начальный уровень партнёра. Получает доступ к основным привилегиям ConCord <span class="asterion-gold">α</span> и может развивать свой сервер, участвуя в партнёрской программе.
+          </p>
+          <ul class="tier-benefits">
+            <li><span>📢</span>Упоминание сервера в треде <code class="inline">#‧͙⁺˚･༓☾p͜͡a͜͡r͜͡t͜͡n͜͡e͜͡r͜͡s͜͡☽༓･˚⁺‧͙</code></li>
+            <li><span>🎖️</span><span class="highlight">Роль “ᕦ👤ᕤ ꈊ Соратник”</span> на сервере <span class="asterion-gold">ASTERION</span></li>
+            <li><span>🧩</span>Возможность участвовать в партнёрских ивентах</li>
+            <li><span>💬</span>Доступ к разделу обратной связи и ConCord <span class="asterion-gold">α</span> portal</li>
+            <li><span>⚙️</span>Базовое начисление PTS и система уровней</li>
+            <li><span>🪙</span>Получение бонусных PTS от активности сообщества</li>
+          </ul>
+          <div class="tier-action">
+            <button type="button" data-scroll-to="#tiers-table">Подробнее</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="tier-card" data-fade>
+        <div class="tier-card-inner">
+          <h3 class="tier-title"><span>ᕦ<img src="assets/klevret.png" alt="emoji" style="width: 1.2em; height: 1.2em; vertical-align: middle;">ᕤ</span>Уровень II — ꈊ Клеврет</h3>
+          <p class="tier-description">
+            Улучшенный статус партнёра, сервер стабильно активен и поддерживает связь с ConCord <span class="asterion-gold">α</span> Core. Получает расширенные возможности интеграции и продвижения.
+          </p>
+          <ul class="tier-benefits">
+            <li><span>🎖️</span><span class="highlight">Роль “ᕦ👥ᕤ ꈊ Клеврет”</span> на сервере <span class="asterion-gold">ASTERION</span></li>
+            <li><span>📊</span>Доступ к партнёрской аналитике (PTS, уровень, активность)</li>
+            <li><span>💬</span>Возможность назначать дополнительных представителей</li>
+            <li><span>🧭</span><span class="highlight">ConCordConnect доступ</span> (автоинтеграция)</li>
+            <li><span>🔄</span>Повышенное начисление PTS (1.2× Multiplier)</li>
+            <li><span>🎯</span>Участие в бета-тестах ConCord <span class="asterion-gold">α</span></li>
+          </ul>
+          <div class="tier-action">
+            <button type="button" data-scroll-to="#tiers-table">Подробнее</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="tier-card" data-fade>
+        <div class="tier-card-inner">
+          <h3 class="tier-title"><span>ᕦ<img src="assets/v_zaviyazke.png" alt="emoji" style="width: 1.2em; height: 1.2em; vertical-align: middle;">ᕤ</span>Уровень III — ꈊ В завязке</h3>
+          <p class="tier-description">
+            Окончательный уровень партнёрства. Сервер полностью интегрирован с <span class="asterion-gold">ASTERION</span>, активно участвует в ивентах и может влиять на дальнейшее развитие ConCord <span class="asterion-gold">α</span>.
+          </p>
+          <ul class="tier-benefits">
+            <li><span>🎖️</span><span class="highlight">Роль ᕦ🫂ᕤ ꈊ В завязке</span> на сервере <span class="asterion-gold">ASTERION</span></li>
+            <li><span>⚙️</span><span class="highlight">Расширенные API-интеграции</span> ConCord <span class="asterion-gold">α</span></li>
+            <li><span>💎</span><span class="highlight">Индивидуальный баннер</span> в <code class="inline">#partners-showcase</code></li>
+            <li><span>🧭</span><span class="highlight">Повышенный Multiplier</span> (до 1.5×)</li>
+            <li><span>🧠</span><span class="highlight">Приоритетная поддержка</span> от ConCord <span class="asterion-gold">α</span></li>
+            <li><span>🎉</span>Возможность организовывать кросс-ивенты и совместные мероприятия</li>
+          </ul>
+          <div class="tier-action">
+            <button type="button" data-scroll-to="#tiers-table">Подробнее</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="tiers-table-wrapper" data-fade id="tiers-table">
+      <table class="tiers-table">
+        <thead>
+          <tr>
+            <th>Уровень</th>
+            <th>Название</th>
+            <th>PTS для повышения</th>
+            <th>Multiplier</th>
+            <th>ConCordConnect</th>
+            <th>Особенности</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>I</td>
+            <td><img src="assets/soratnik.png" alt="emoji" style="width: 1.2em; height: 1.2em; vertical-align: middle;">
+Соратник</td>
+            <td>8 000</td>
+            <td>1.0×</td>
+            <td>✖</td>
+            <td>Базовые функции</td>
+          </tr>
+          <tr>
+            <td>II</td>
+            <td><img src="assets/klevret.png" alt="emoji" style="width: 1.2em; height: 1.2em; vertical-align: middle;">
+Клеврет</td>
+            <td>20 000</td>
+            <td>1.2×</td>
+            <td>✔</td>
+            <td>ConCordConnect активен</td>
+          </tr>
+          <tr>
+            <td>III</td>
+            <td><img src="assets/v_zaviyazke.png" alt="emoji" style="width: 1.2em; height: 1.2em; vertical-align: middle;">
+В завязке</td>
+            <td>40 000</td>
+            <td>1.5×</td>
+            <td>✔</td>
+            <td>Полная интеграция</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tiers-progress" data-fade id="tiers-progress">
+      <h3>📈 Как продвинуться по уровням</h3>
+      <ol>
+        <li>Собирайте PTS за активность сервера: чат и голосовые каналы.</li>
+        <li>Забирайте ежедневные, еженедельные и ежемесячные бонусы! Они ускорят процесс на начальном этапе!</li>
+        <li>Поддерживайте активность и соблюдайте правила <span class="asterion-gold">ASTERION</span> Partner Policy.</li>
+        <li>Достигните нужного количества PTS — уровень обновится автоматически.</li>
+      </ol>
+    </div>
+    </section>
+  </section>
+
   <footer>
     <div class="sep"></div>
     <p class="muted">© <span class="asterion-gold">ASTERION</span> Ecosystem. <a href="index.html" class="link">Вернуться на главную</a></p>
@@ -560,7 +1151,25 @@
       });
     });
 
-    // ConCord universal colorizer
+    
+    // Scroll progress bar
+    (() => {
+      const bar = document.createElement('div');
+      bar.className = 'scroll-progress';
+      document.body.appendChild(bar);
+
+      const updateProgress = () => {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+        bar.style.width = `${percent}%`;
+      };
+
+      updateProgress();
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+    })();
+
+// ConCord universal colorizer
     (() => {
       const SKIP = 'script,style,code,pre,textarea,noscript';
       const ROOT = document.body;
@@ -607,6 +1216,199 @@
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    document.querySelectorAll('[data-scroll-to]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = document.querySelector(button.dataset.scrollTo);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    const fadeTargets = document.querySelectorAll('[data-fade]');
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    fadeTargets.forEach((target) => fadeObserver.observe(target));
+
+    // ═══════════════════════════════════════════════════════════
+    // Advanced Partner Tiers UI Enhancements
+    // ═══════════════════════════════════════════════════════════
+
+    // 1. 3D tilt effect for tier cards
+    document.querySelectorAll('.tier-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        card.style.transform = `
+          translateY(-10px) 
+          scale(1.02) 
+          perspective(1000px) 
+          rotateX(${rotateX}deg) 
+          rotateY(${rotateY}deg)
+        `;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    // 2. Particles effect on tier card hover
+    function createParticle(x, y, card) {
+      const particle = document.createElement('div');
+      particle.style.cssText = `
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: radial-gradient(circle, rgba(255,213,106,.8), transparent);
+        border-radius: 50%;
+        pointer-events: none;
+        left: ${x}px;
+        top: ${y}px;
+        animation: particle-float 1s ease-out forwards;
+        z-index: 1000;
+      `;
+      
+      card.appendChild(particle);
+      setTimeout(() => particle.remove(), 1000);
+    }
+
+    // Add particle animation CSS
+    const particleStyle = document.createElement('style');
+    particleStyle.textContent = `
+      @keyframes particle-float {
+        0% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(
+            ${Math.random() * 100 - 50}px, 
+            ${Math.random() * -100}px
+          ) scale(0);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(particleStyle);
+
+    // 3. Progress indicator for tier benefits
+    document.querySelectorAll('.tier-benefits li').forEach((item, index) => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(-20px)';
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              item.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+              item.style.opacity = '1';
+              item.style.transform = 'translateX(0)';
+            }, index * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(item);
+    });
+
+    // 4. Smooth scroll to tier on sidebar click
+    document.querySelectorAll('[data-scroll-to]').forEach(button => {
+      button.addEventListener('click', () => {
+        const target = document.querySelector(button.dataset.scrollTo);
+        if (target) {
+          const offset = 100;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          
+          // Highlight effect
+          target.style.transition = 'all 0.3s ease';
+          target.style.transform = 'scale(1.02)';
+          setTimeout(() => {
+            target.style.transform = '';
+          }, 600);
+        }
+      });
+    });
+
+    // 5. Dynamic gradient border animation
+    let angle = 0;
+    function animateGradientBorders() {
+      angle = (angle + 1) % 360;
+      document.querySelectorAll('.tier-card').forEach((card, index) => {
+        const offset = index * 120;
+        card.style.backgroundImage = `
+          linear-gradient(
+            ${angle + offset}deg, 
+            rgba(255,213,106,.85), 
+            rgba(167,139,250,.7), 
+            rgba(244,114,182,.85)
+          )
+        `;
+      });
+      requestAnimationFrame(animateGradientBorders);
+    }
+    animateGradientBorders();
+
+    // 6. Count-up animation for tier table numbers
+    function animateValue(element, start, end, duration) {
+      const range = end - start;
+      const increment = range / (duration / 16);
+      let current = start;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= end) {
+          element.textContent = end.toLocaleString();
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(current).toLocaleString();
+        }
+      }, 16);
+    }
+
+    const tableObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const cells = entry.target.querySelectorAll('td');
+          cells.forEach(cell => {
+            const text = cell.textContent.trim();
+            const match = text.match(/^(\d+)\s*(\d+)?$/);
+            if (match) {
+              const value = parseInt(match[1] + (match[2] || ''));
+              cell.textContent = '0';
+              animateValue(cell, 0, value, 1000);
+            }
+          });
+          tableObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const table = document.querySelector('.tiers-table tbody');
+    if (table) tableObserver.observe(table);
+
   </script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -60,7 +61,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 40px 20px;
     }
@@ -68,38 +69,77 @@
     .search-header {
       text-align: center;
       margin-bottom: 40px;
+      position: relative;
+      padding: 20px;
+      animation: fadeInDown 0.6s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .search-header h1 {
       font-size: clamp(32px, 5vw, 48px);
       margin: 0 0 16px;
-      background: linear-gradient(120deg, var(--brand), var(--brand-2));
+      background: linear-gradient(120deg, var(--brand), var(--brand-2), var(--gold-1));
+      background-size: 200% 200%;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      animation: gradientShift 3s ease infinite;
+      text-shadow: 0 0 40px rgba(103,232,249,.3);
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .search-box {
       position: relative;
-      margin-bottom: 40px;
+      margin-bottom: 24px;
+      animation: fadeIn 0.8s ease-out 0.2s both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .search-input {
       width: 100%;
       padding: 18px 24px 18px 56px;
       font-size: 18px;
-      background: rgba(18,26,37,.9);
+      background: linear-gradient(135deg, rgba(18,26,37,.95), rgba(12,18,27,.95));
       border: 2px solid rgba(103,232,249,.25);
       border-radius: 16px;
       color: var(--text);
       font-family: var(--sans);
-      transition: all .3s;
+      transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
     }
 
     .search-input:focus {
       outline: none;
       border-color: var(--brand);
-      box-shadow: 0 0 0 4px rgba(103,232,249,.15);
+      box-shadow: 
+        0 0 0 4px rgba(103,232,249,.15),
+        0 8px 40px rgba(103,232,249,.25),
+        0 0 80px rgba(103,232,249,.1);
+      transform: translateY(-2px);
+    }
+
+    .search-input::placeholder {
+      color: var(--muted);
+      opacity: 0.7;
     }
 
     .search-icon {
@@ -109,30 +149,228 @@
       transform: translateY(-50%);
       font-size: 24px;
       pointer-events: none;
+      animation: searchPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes searchPulse {
+      0%, 100% { 
+        opacity: 0.7;
+        transform: translateY(-50%) scale(1);
+      }
+      50% { 
+        opacity: 1;
+        transform: translateY(-50%) scale(1.1);
+      }
+    }
+
+    .search-input:focus ~ .search-icon {
+      animation: none;
+      opacity: 1;
+      filter: drop-shadow(0 0 8px var(--brand));
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(103,232,249,.15);
+      border: none;
+      color: var(--brand);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(103,232,249,.2);
+    }
+
+    .clear-search:hover {
+      background: rgba(103,232,249,.3);
+      transform: translateY(-50%) scale(1.15) rotate(90deg);
+      box-shadow: 0 4px 16px rgba(103,232,249,.4);
+    }
+
+    .clear-search:active {
+      transform: translateY(-50%) scale(0.95) rotate(90deg);
+    }
+
+    .filters-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+      animation: slideInUp 0.6s ease-out 0.3s both;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(103,232,249,.25);
+      background: rgba(18,26,37,.9);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .filter-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(103,232,249,.2);
+      transform: translate(-50%, -50%);
+      transition: width .4s, height .4s;
+    }
+
+    .filter-btn:hover::before {
+      width: 200px;
+      height: 200px;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--brand);
+      color: var(--text);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(103,232,249,.2);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, rgba(103,232,249,.2), rgba(167,139,250,.15));
+      border-color: var(--brand);
+      color: var(--brand);
+      box-shadow: 0 0 20px rgba(103,232,249,.3);
+    }
+
+    .filter-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .sort-select {
+      margin-left: auto;
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(103,232,249,.25);
+      background: rgba(18,26,37,.9);
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
     }
 
     .results-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 24px;
       color: var(--muted);
       font-size: 14px;
     }
 
     .result-item {
-      background: linear-gradient(135deg, rgba(18,26,37,.9), rgba(12,18,27,.9));
+      background: linear-gradient(135deg, rgba(18,26,37,.95), rgba(12,18,27,.95));
       border: 1px solid rgba(103,232,249,.15);
       border-radius: var(--radius);
       padding: 20px;
       margin-bottom: 16px;
-      transition: all .3s;
+      transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
       display: block;
       color: inherit;
+      position: relative;
+      overflow: hidden;
+      animation: resultFadeIn 0.4s ease-out both;
+      animation-delay: calc(var(--index) * 0.05s);
+    }
+
+    @keyframes resultFadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .result-item::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(103,232,249,.15), 
+        rgba(167,139,250,.15),
+        transparent
+      );
+      transition: left 0.6s ease;
     }
 
     .result-item:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px) scale(1.01);
       border-color: var(--brand);
-      box-shadow: 0 12px 40px rgba(103,232,249,.2);
+      box-shadow: 
+        0 16px 50px rgba(103,232,249,.25),
+        0 0 40px rgba(103,232,249,.15),
+        inset 0 1px 0 rgba(255,255,255,.05);
+      background: linear-gradient(135deg, rgba(18,26,37,1), rgba(12,18,27,1));
+    }
+
+    .result-item:hover::after {
+      left: 100%;
+    }
+
+    .result-item::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(120deg, var(--brand), var(--brand-2), var(--gold-1));
+      border-radius: var(--radius);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity .3s;
+    }
+
+    .result-item:hover::before {
+      opacity: 0.3;
+      animation: rotateBorder 3s linear infinite;
+    }
+
+    @keyframes rotateBorder {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
     }
 
     .result-bot {
@@ -142,6 +380,16 @@
       font-size: 12px;
       font-weight: 600;
       margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+      transition: all .3s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .result-item:hover .result-bot {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px currentColor;
     }
 
     .result-bot.events {
@@ -177,7 +425,13 @@
     }
 
     .result-bot.economy::before {
-      content: '💎 ';
+      content: '';
+      width: 1.1em;
+      height: 1.1em;
+      display: inline-block;
+      background: url('assets/FuRYCoin.png') no-repeat center / contain;
+      margin-right: 4px;
+      vertical-align: -0.1em;
     }
 
     .result-bot.faq {
@@ -185,23 +439,32 @@
       color: #34d399;
     }
 
+    .result-bot.faq::before {
+      content: '❓ ';
+    }
+
     .result-title {
       font-size: 20px;
       font-weight: 700;
       margin: 0 0 8px;
+      position: relative;
+      z-index: 1;
     }
 
     .result-snippet {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.6;
+      position: relative;
+      z-index: 1;
     }
 
     .result-snippet mark {
-      background: rgba(103,232,249,.2);
+      background: rgba(103,232,249,.3);
       color: var(--brand);
-      padding: 2px 4px;
+      padding: 2px 6px;
       border-radius: 4px;
+      font-weight: 600;
     }
 
     .result-example {
@@ -213,6 +476,8 @@
       font-family: var(--mono);
       font-size: 13px;
       color: var(--text);
+      position: relative;
+      z-index: 1;
     }
 
     .no-results {
@@ -226,27 +491,156 @@
       margin-bottom: 16px;
     }
 
+    .search-history {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(18,26,37,.7), rgba(12,18,27,.6));
+      border-radius: 12px;
+      border: 1px solid rgba(103,232,249,.15);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.5s ease-out;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+
+    .search-history h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .history-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .history-item {
+      padding: 6px 12px;
+      background: rgba(103,232,249,.08);
+      border: 1px solid rgba(103,232,249,.2);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .history-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(103,232,249,.3), transparent);
+      transition: left .5s;
+    }
+
+    .history-item:hover {
+      background: rgba(103,232,249,.2);
+      border-color: var(--brand);
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(103,232,249,.2);
+    }
+
+    .history-item:hover::before {
+      left: 100%;
+    }
+
+    .history-item-remove {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1;
+      transition: all .3s;
+    }
+
+    .history-item-remove:hover {
+      color: var(--fury-red);
+    }
+
     .shortcut-hint {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: rgba(18,26,37,.95);
-      border: 1px solid rgba(103,232,249,.25);
+      background: linear-gradient(135deg, rgba(18,26,37,.98), rgba(12,18,27,.95));
+      border: 1px solid rgba(103,232,249,.3);
       border-radius: 12px;
       padding: 12px 16px;
       font-size: 13px;
       color: var(--muted);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+      animation: floatHint 3s ease-in-out infinite;
+    }
+
+    @keyframes floatHint {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     .shortcut-hint kbd {
-      background: rgba(103,232,249,.1);
-      padding: 2px 8px;
+      background: linear-gradient(135deg, rgba(103,232,249,.15), rgba(167,139,250,.15));
+      padding: 4px 10px;
       border-radius: 6px;
       font-family: var(--mono);
       font-size: 12px;
       color: var(--brand);
+      margin: 0 2px;
+      border: 1px solid rgba(103,232,249,.2);
+      box-shadow: 0 2px 8px rgba(103,232,249,.1);
+      transition: all .3s;
     }
+
+    .shortcut-hint kbd:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(103,232,249,.3);
+    }
+
+    .selected-result {
+      border-color: var(--brand) !important;
+      box-shadow: 0 0 0 3px rgba(103,232,249,.2) !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(13,20,30,.65);
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(103,232,249,.6), rgba(167,139,250,.6));
+      border-radius: 12px;
+      border: 2px solid rgba(13,20,30,.65);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(103,232,249,.8), rgba(167,139,250,.8));
+    }
+
+    @media (max-width: 768px) {
+      .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .sort-select {
+        margin-left: 0;
+        width: 100%;
+      }
+      
+      .shortcut-hint {
+        display: none;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -265,22 +659,57 @@
         placeholder="Введите команду, функцию или вопрос..."
         autofocus
       />
+      <button class="clear-search" id="clearSearch">×</button>
     </div>
 
-    <div class="results-info" id="resultsInfo"></div>
+    <div id="searchHistory" class="search-history" style="display: none;">
+      <h3>📜 История поиска</h3>
+      <div class="history-items" id="historyItems"></div>
+    </div>
+
+    <div class="filters-bar">
+      <button class="filter-btn active" data-filter="all">
+        ⚡ Все
+      </button>
+      <button class="filter-btn" data-filter="events">
+        📅 Events
+      </button>
+      <button class="filter-btn" data-filter="monitor">
+        📊 Monitor
+      </button>
+      <button class="filter-btn" data-filter="partners">
+        🤝 Partners
+      </button>
+      <button class="filter-btn" data-filter="economy">
+        💰 Economy
+      </button>
+      <button class="filter-btn" data-filter="faq">
+        ❓ FAQ
+      </button>
+      
+      <select class="sort-select" id="sortSelect">
+        <option value="relevance">Релевантность</option>
+        <option value="alphabet">По алфавиту</option>
+        <option value="bot">По типу бота</option>
+      </select>
+    </div>
+
+    <div class="results-info">
+      <span id="resultsInfo"></span>
+      <span id="filterInfo"></span>
+    </div>
+    
     <div id="results"></div>
   </div>
 
   <div class="shortcut-hint">
-    Нажмите <kbd>Esc</kbd> чтобы вернуться на главную
+    Навигация: <kbd>↑</kbd> <kbd>↓</kbd> для перемещения • <kbd>Enter</kbd> для открытия • <kbd>Esc</kbd> на главную
   </div>
 
   <script>
-    // Расширенная база данных для поиска со всеми командами
+    // Расширенная база данных для поиска
     const searchDatabase = [
-      // ═══════════════════════════════════════════════════════════
       // AsterionEvents Commands
-      // ═══════════════════════════════════════════════════════════
       { bot: 'events', title: '/eventhelp — Справка', snippet: 'Краткая справка по возможностям и ссылкам на инструкции', url: 'events.html#eventhelp', example: '/eventhelp', keywords: ['справка', 'помощь', 'help', 'инструкция'] },
       { bot: 'events', title: '/events — Список ивентов', snippet: 'Список предстоящих мероприятий с отметками времени', url: 'events.html#events', example: '/events', keywords: ['ивенты', 'список', 'мероприятия', 'календарь', 'предстоящие'] },
       { bot: 'events', title: '/dashboard — Личный кабинет', snippet: 'Личный кабинет ивентолога: ваши ивенты, статистика, дедлайны', url: 'events.html#dashboard', example: '/dashboard', keywords: ['дашборд', 'кабинет', 'статистика', 'мои ивенты'] },
@@ -298,13 +727,8 @@
       { bot: 'events', title: '/admin_events — Управление ивентами', snippet: 'Общий список ивентов с фильтрами по статусу и автору', url: 'events.html#admin', example: '/admin_events status:"pending"', keywords: ['админ', 'управление', 'фильтр', 'список'] },
       { bot: 'events', title: '/force_cancel — Принудительная отмена', snippet: 'Принудительная отмена любого ивента администратором', url: 'events.html#admin', example: '/force_cancel id:EVT123 reason:"Нарушение правил"', keywords: ['принудительная', 'force', 'отмена', 'админ'] },
       { bot: 'events', title: '/admin_report — Отчёт ивентологов', snippet: 'Отчёт по активности ивентологов: очки, выполненные мероприятия', url: 'events.html#admin', example: '/admin_report период:"неделя"', keywords: ['отчёт', 'report', 'ивентологи', 'статистика'] },
-      { bot: 'events', title: '/presence_toggle — Rich Presence', snippet: 'Включить или выключить Rich Presence анонс', url: 'events.html#admin', example: '/presence_toggle state:on', keywords: ['presence', 'статус', 'анонс', 'включить'] },
-      { bot: 'events', title: '/presence_preview — Просмотр Presence', snippet: 'Показать текущий текст Rich Presence', url: 'events.html#admin', example: '/presence_preview', keywords: ['presence', 'preview', 'просмотр', 'статус'] },
-      { bot: 'events', title: '/accept_reglament — Принять регламент', snippet: 'Подтвердить ознакомление с регламентом ивентолога', url: 'events.html#manage', example: '/accept_reglament', keywords: ['регламент', 'accept', 'принять', 'правила'] },
 
-      // ═══════════════════════════════════════════════════════════
       // AsterionMonitor Commands
-      // ═══════════════════════════════════════════════════════════
       { bot: 'monitor', title: '/rank — Профиль игрока', snippet: 'Визуальная карточка с уровнем, XP, рангом и кнопками сравнения', url: 'monitor.html#rank', example: '/rank @Игрок', keywords: ['ранг', 'уровень', 'профиль', 'карточка', 'статистика', 'rank'] },
       { bot: 'monitor', title: '/leaderboard — Лидерборд', snippet: 'Таблица лидеров по уровням, голосу или FuRY', url: 'monitor.html#leaderboard', example: '/leaderboard тип:xp', keywords: ['топ', 'лидеры', 'рейтинг', 'таблица', 'leaderboard'] },
       { bot: 'monitor', title: '/stats — Статистика сервера', snippet: 'Общая статистика: активность, новые участники, XP', url: 'monitor.html#stats', example: '/stats период:неделя', keywords: ['статистика', 'stats', 'сервер', 'аналитика'] },
@@ -315,71 +739,25 @@
       { bot: 'monitor', title: '/fury — Управление FuRY', snippet: 'Управление валютой FuRY: выдать, списать, проверить', url: 'monitor.html#admin', example: '/fury user:@Игрок amount:-100 reason:"Покупка"', keywords: ['fury', 'валюта', 'деньги', 'фьюри'] },
       { bot: 'monitor', title: '/reset — Сброс прогресса', snippet: 'Сбросить прогресс участника (уровни, XP, FuRY)', url: 'monitor.html#admin', example: '/reset user:@Игрок confirm:true', keywords: ['сброс', 'reset', 'очистить', 'удалить'] },
       { bot: 'monitor', title: '/blacklist — Чёрный список каналов', snippet: 'Добавить или удалить канал из расчёта XP', url: 'monitor.html#admin', example: '/blacklist действие:add канал:#offtopic', keywords: ['blacklist', 'чёрный список', 'исключить', 'канал'] },
-      { bot: 'monitor', title: '/admin_logs — Логи действий', snippet: 'История админских действий и изменений уровней', url: 'monitor.html#admin', example: '/admin_logs limit:20', keywords: ['логи', 'logs', 'история', 'действия'] },
-      { bot: 'monitor', title: '/user_stats — Детальная статистика', snippet: 'Детальная карточка участника с графиками и активностью', url: 'monitor.html#admin', example: '/user_stats @Игрок', keywords: ['статистика', 'stats', 'пользователь', 'детали'] },
-      { bot: 'monitor', title: '/mass_award — Массовая награда', snippet: 'Массовое начисление XP/FuRY сразу нескольким участникам', url: 'monitor.html#admin', example: '/mass_award users:"@A @B" xp:200', keywords: ['массовая', 'mass', 'награда', 'группа'] },
-      { bot: 'monitor', title: '/bot_settings — Настройки бота', snippet: 'Настройка коэффициентов, лимитов и уведомлений', url: 'monitor.html#admin', example: '/bot_settings ключ:voice_multiplier значение:1.5', keywords: ['настройки', 'settings', 'конфиг', 'параметры'] },
-      { bot: 'monitor', title: '/guildinfo — Информация о сервере', snippet: 'Отладочная сводка по серверу: ID, роли, участники', url: 'monitor.html#admin', example: '/guildinfo', keywords: ['сервер', 'guild', 'инфо', 'информация'] },
-      { bot: 'monitor', title: '/sync_commands — Синхронизация команд', snippet: 'Принудительная синхронизация slash-команд', url: 'monitor.html#admin', example: '/sync_commands', keywords: ['синхронизация', 'sync', 'команды', 'обновить'] },
-      { bot: 'monitor', title: '/sync_roles — Синхронизация ролей', snippet: 'Пересинхронизация ролей уровней для всех участников', url: 'monitor.html#admin', example: '/sync_roles', keywords: ['роли', 'roles', 'sync', 'синхронизация'] },
-      { bot: 'monitor', title: '/set_channel_multiplier — Множитель канала', snippet: 'Настроить множитель XP для конкретного канала', url: 'monitor.html#admin', example: '/set_channel_multiplier канал:#voice multiplier:1.5', keywords: ['множитель', 'multiplier', 'канал', 'xp'] },
-      { bot: 'monitor', title: '/set_role_multiplier — Множитель роли', snippet: 'Настроить множитель XP для роли', url: 'monitor.html#admin', example: '/set_role_multiplier роль:@VIP multiplier:2', keywords: ['множитель', 'multiplier', 'роль', 'vip'] },
-      { bot: 'monitor', title: '/list_multipliers — Список множителей', snippet: 'Показать все активные множители XP', url: 'monitor.html#admin', example: '/list_multipliers', keywords: ['множители', 'multipliers', 'список', 'коэффициенты'] },
-      { bot: 'monitor', title: '/remove_multiplier — Удалить множитель', snippet: 'Удалить заданный множитель XP', url: 'monitor.html#admin', example: '/remove_multiplier цель:@VIP', keywords: ['удалить', 'remove', 'множитель', 'multiplier'] },
 
-      // ═══════════════════════════════════════════════════════════
       // AsterionPartners Commands
-      // ═══════════════════════════════════════════════════════════
       { bot: 'partners', title: '/addpts — Добавить PTS', snippet: 'Добавить партнёру очки PTS (только AST Admin)', url: 'partners.html#admin', example: '/addpts partner:"SkyForge" amount:500', keywords: ['pts', 'добавить', 'очки', 'партнёр'] },
       { bot: 'partners', title: '/partner_add — Регистрация партнёра', snippet: 'Зарегистрировать партнёра и привязать сервер', url: 'partners.html#admin', example: '/partner_add name:"SkyForge" guild_id:1234567890', keywords: ['добавить', 'регистрация', 'партнёр', 'новый'] },
       { bot: 'partners', title: '/partner_remove — Удаление партнёра', snippet: 'Удалить партнёра и его представителей', url: 'partners.html#admin', example: '/partner_remove name:"SkyForge"', keywords: ['удалить', 'remove', 'партнёр'] },
       { bot: 'partners', title: '/setlevel — Уровень партнёра', snippet: 'Установить уровень партнёрства вручную', url: 'partners.html#admin', example: '/setlevel partner:"SkyForge" level:2', keywords: ['уровень', 'level', 'партнёр', 'setlevel'] },
-      { bot: 'partners', title: '/migrate — Миграция БД', snippet: 'Применить миграции базы данных ConCord', url: 'partners.html#admin', example: '/migrate', keywords: ['миграция', 'migrate', 'бд', 'база'] },
-      { bot: 'partners', title: '/partner_leaderboard — Топ партнёров', snippet: 'Таблица лидеров партнёров по PTS', url: 'partners.html#admin', example: '/partner_leaderboard', keywords: ['топ', 'лидерборд', 'leaderboard', 'pts', 'партнёры'] },
-      { bot: 'partners', title: '/partner_addrep — Добавить представителя', snippet: 'Добавить представителя партнёра', url: 'partners.html#admin', example: '/partner_addrep name:"SkyForge" user:@Mod', keywords: ['представитель', 'rep', 'добавить', 'партнёр'] },
-      { bot: 'partners', title: '/partner_reps — Список представителей', snippet: 'Показать всех представителей выбранного партнёра', url: 'partners.html#info', example: '/partner_reps name:"SkyForge"', keywords: ['представители', 'reps', 'список', 'партнёр'] },
       { bot: 'partners', title: '/partner_stats — Статистика партнёра', snippet: 'Расширенная аналитика: PTS, reps, последние начисления', url: 'partners.html#info', example: '/partner_stats name:"SkyForge"', keywords: ['stats', 'статистика', 'аналитика', 'партнёр'] },
-      { bot: 'partners', title: '/partner_activity — Активность по дням', snippet: 'Сводная активность PTS за выбранный период', url: 'partners.html#info', example: '/partner_activity name:"SkyForge" days:7', keywords: ['activity', 'активность', 'pts', 'период'] },
       { bot: 'partners', title: '/partner_daily — Daily бонус', snippet: 'Получить ежедневный бонус PTS/FuRY для партнёра', url: 'partners.html#info', example: '/partner_daily name:"SkyForge"', keywords: ['daily', 'bonus', 'ежедневный', 'pts', 'fury'] },
-      { bot: 'partners', title: '/partner_weekly — Weekly бонус', snippet: 'Получить еженедельный бонус PTS/FuRY для партнёра', url: 'partners.html#info', example: '/partner_weekly name:"SkyForge"', keywords: ['weekly', 'неделя', 'бонус', 'pts', 'fury'] },
-      { bot: 'partners', title: '/partner_monthly — Monthly бонус', snippet: 'Получить ежемесячный бонус PTS/FuRY для партнёра', url: 'partners.html#info', example: '/partner_monthly name:"SkyForge"', keywords: ['monthly', 'месяц', 'бонус', 'pts', 'fury'] },
       { bot: 'partners', title: '/feedback — Обратная связь', snippet: 'Отправить отзыв или репорт команде ASTERION', url: 'partners.html#feedback', example: '/feedback partner_name:"SkyForge" message:"Нужна поддержка"', keywords: ['обратная связь', 'фидбэк', 'feedback', 'репорт', 'отзыв'] },
-      { bot: 'partners', title: '/partner_info — Информация о партнёре', snippet: 'Посмотреть уровень, PTS и привязку сервера партнёра', url: 'partners.html#info', example: '/partner_info name:"SkyForge"', keywords: ['информация', 'info', 'партнёр', 'pts', 'уровень'] },
-      { bot: 'partners', title: '/partner_me — Моя статистика', snippet: 'Посмотреть свои данные и привязанный сервер', url: 'partners.html#info', example: '/partner_me', keywords: ['я', 'me', 'моя статистика', 'партнёр'] },
-      { bot: 'partners', title: '/partner_help — Справка', snippet: 'Справка по доступным командам ConCord', url: 'partners.html#help', example: '/partner_help', keywords: ['справка', 'help', 'помощь', 'партнёр'] },
-      { bot: 'partners', title: '/status — Статус ConCord', snippet: 'Проверить состояние ConCord-интеграции', url: 'partners.html#status', example: '/status', keywords: ['статус', 'status', 'concord', 'состояние'] },
-      { bot: 'partners', title: '/partner_announcements — Объявление партнёру', snippet: 'Отправить сообщение от ASTERION в канал партнёра', url: 'partners.html#admin', example: '/partner_announcements name:"SkyForge" message:"Созвон завтра" channel_name:"announcements"', keywords: ['announcement', 'объявление', 'news', 'сообщение'] },
-      { bot: 'partners', title: '/partner_reward — Бонус партнёру', snippet: 'Выдать партнёру PTS и распределить FuRY среди представителей', url: 'partners.html#admin', example: '/partner_reward name:"SkyForge" pts:200 fury:400 reason:"Ивент"', keywords: ['reward', 'бонус', 'pts', 'fury'] },
-      { bot: 'partners', title: '/partner_sync — Синк команд', snippet: 'Принудительно синхронизировать slash-команды ConCord', url: 'partners.html#admin', example: '/partner_sync', keywords: ['sync', 'синк', 'slash', 'обновить команды'] },
-      { bot: 'partners', title: '/partner_audit — Аудит партнёра', snippet: 'Проверить конфигурацию, reps и активность партнёра', url: 'partners.html#admin', example: '/partner_audit name:"SkyForge"', keywords: ['audit', 'аудит', 'проверка', 'чек-лист'] },
 
-      // ═══════════════════════════════════════════════════════════
       // AsterionEconomy Commands
-      // ═══════════════════════════════════════════════════════════
       { bot: 'economy', title: '/shop — Магазин', snippet: 'Открывает интерактивный магазин с фильтрами', url: 'economy.html#shop', example: '/shop', keywords: ['магазин', 'shop', 'товары', 'купить', 'fury'] },
       { bot: 'economy', title: '/balance — Баланс', snippet: 'Проверить свой или чужой баланс FuRY', url: 'economy.html#currency', example: '/balance user:@Kurato', keywords: ['баланс', 'balance', 'fury', 'монеты', 'деньги'] },
       { bot: 'economy', title: '/gift — Перевод FuRY', snippet: 'Передать FuRY другому участнику', url: 'economy.html#currency', example: '/gift user:@Fors amount:250', keywords: ['перевод', 'gift', 'передать', 'fury', 'отправить'] },
       { bot: 'economy', title: '/daily — Ежедневная награда', snippet: 'Получить ежедневную награду (20h cooldown)', url: 'economy.html#currency', example: '/daily', keywords: ['ежедневно', 'daily', 'награда', 'fury', 'бонус'] },
-      { bot: 'economy', title: '/inventory — История покупок', snippet: 'История 10 последних покупок', url: 'economy.html#shop', example: '/inventory', keywords: ['инвентарь', 'inventory', 'история', 'покупки', 'чеки'] },
-      { bot: 'economy', title: '/leaderboard_fury — Топ по FuRY', snippet: 'Топ участников по количеству FuRY', url: 'economy.html#analytics', example: '/leaderboard_fury limit:10', keywords: ['топ', 'лидерборд', 'leaderboard', 'fury', 'монеты'] },
-      { bot: 'economy', title: '/booster — Активный бустер', snippet: 'Проверить активный бустер', url: 'economy.html#shop', example: '/booster user:@Kurato', keywords: ['booster', 'бустер', 'проверить', 'активный'] },
-      { bot: 'economy', title: '/shopinfo — Информация о товаре', snippet: 'Детальная информация по товару магазина', url: 'economy.html#shop', example: '/shopinfo item_id:42', keywords: ['shopinfo', 'товар', 'информация', 'магазин'] },
-      { bot: 'economy', title: '/stats_economy — Статистика экономики', snippet: 'Сводная статистика экономики сервера', url: 'economy.html#analytics', example: '/stats_economy', keywords: ['статистика', 'stats', 'economy', 'аналитика', 'fury'] },
-      { bot: 'economy', title: '/redeem — Активировать промокод', snippet: 'Активировать промокод', url: 'economy.html#promo', example: '/redeem code:SPRING-2025', keywords: ['промокод', 'redeem', 'promo', 'активировать', 'код'] },
       { bot: 'economy', title: '/shopadd — Добавить товар', snippet: 'Добавить товар в магазин (поддерживает роль и лимит)', url: 'economy.html#admin-tools', example: '/shopadd name:"VIP роль" price:1000 type:cosmetic role:@VIP', keywords: ['добавить', 'shopadd', 'товар', 'магазин', 'админ'] },
-      { bot: 'economy', title: '/shopremove — Удалить товар', snippet: 'Удалить товар по ID', url: 'economy.html#admin-tools', example: '/shopremove item_id:42', keywords: ['удалить', 'shopremove', 'товар', 'магазин', 'админ'] },
-      { bot: 'economy', title: '/shoptoggle — Переключить товар', snippet: 'Включить/выключить доступность товара', url: 'economy.html#admin-tools', example: '/shoptoggle item_id:42', keywords: ['shoptoggle', 'toggle', 'товар', 'включить', 'выключить', 'админ'] },
       { bot: 'economy', title: '/givefury — Выдать FuRY', snippet: 'Выдать монеты пользователю', url: 'economy.html#admin-tools', example: '/givefury user:@Kurato amount:500 reason:"Приз за ивент"', keywords: ['выдать', 'givefury', 'fury', 'монеты', 'админ'] },
-      { bot: 'economy', title: '/takefury — Изъять FuRY', snippet: 'Изъять монеты', url: 'economy.html#admin-tools', example: '/takefury user:@Kurato amount:200', keywords: ['изъять', 'takefury', 'забрать', 'fury', 'админ'] },
-      { bot: 'economy', title: '/setfury — Установить баланс', snippet: 'Установить точный баланс FuRY', url: 'economy.html#admin-tools', example: '/setfury user:@Kurato amount:0', keywords: ['установить', 'setfury', 'баланс', 'fury', 'админ'] },
-      { bot: 'economy', title: '/transactions — Логи транзакций', snippet: 'Последние транзакции из таблицы transactions', url: 'economy.html#admin-tools', example: '/transactions limit:15', keywords: ['транзакции', 'transactions', 'логи', 'история', 'админ'] },
-      { bot: 'economy', title: '/economyreset — Сброс экономики', snippet: 'Полный сброс экономики', url: 'economy.html#admin-tools', example: '/economyreset confirm:RESET', keywords: ['сброс', 'reset', 'economyreset', 'очистить', 'админ'] },
-      { bot: 'economy', title: '/giftall — Массовая выдача', snippet: 'Выдать одинаковую сумму всем участникам', url: 'economy.html#admin-tools', example: '/giftall amount:100 reason:"Сезонный бонус"', keywords: ['giftall', 'массовая', 'всем', 'fury', 'админ'] },
-      { bot: 'economy', title: '/promo — Создать промокод', snippet: 'Создать промокод', url: 'economy.html#promo', example: '/promo code:SPRING amount:250 uses:50', keywords: ['promo', 'промокод', 'создать', 'админ', 'код'] },
 
-      // ═══════════════════════════════════════════════════════════
-      // FAQ & General
-      // ═══════════════════════════════════════════════════════════
+      // FAQ
       { bot: 'faq', title: 'Как пригласить ботов?', snippet: 'Боты доступны по специальным приглашениям от администрации ASTERION', url: 'faq.html#invite', keywords: ['пригласить', 'добавить', 'установка', 'invite', 'бот'] },
       { bot: 'faq', title: 'Бот не отвечает', snippet: 'Проверьте статус, права доступа и Use Application Commands', url: 'faq.html#not-responding', keywords: ['не работает', 'не отвечает', 'проблема', 'баг', 'ошибка'] },
       { bot: 'faq', title: 'Не начисляется XP', snippet: 'Проверьте blacklist каналов, минимальную длину сообщений и кулдаун', url: 'faq.html#no-xp', keywords: ['xp', 'не начисляется', 'не работает', 'опыт', 'проблема'] },
@@ -389,6 +767,44 @@
     const searchInput = document.getElementById('globalSearch');
     const resultsContainer = document.getElementById('results');
     const resultsInfo = document.getElementById('resultsInfo');
+    const filterInfo = document.getElementById('filterInfo');
+    const clearSearchBtn = document.getElementById('clearSearch');
+    const sortSelect = document.getElementById('sortSelect');
+    const searchHistoryEl = document.getElementById('searchHistory');
+    const historyItemsEl = document.getElementById('historyItems');
+
+    let currentFilter = 'all';
+    let currentSort = 'relevance';
+    let searchHistory = JSON.parse(localStorage.getItem('asterion_search_history') || '[]');
+    let selectedIndex = -1;
+    let currentResults = [];
+
+    // Фильтры
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        performSearch(searchInput.value);
+      });
+    });
+
+    // Сортировка
+    sortSelect.addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      performSearch(searchInput.value);
+    });
+
+    // Очистка поиска
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      clearSearchBtn.style.display = 'none';
+      resultsContainer.innerHTML = '';
+      resultsInfo.textContent = '';
+      filterInfo.textContent = '';
+      selectedIndex = -1;
+      searchInput.focus();
+    });
 
     function highlightText(text, query) {
       if (!query) return text;
@@ -396,33 +812,62 @@
       return text.replace(regex, '<mark>$1</mark>');
     }
 
+    function sortResults(results) {
+      if (currentSort === 'alphabet') {
+        return results.sort((a, b) => a.title.localeCompare(b.title));
+      } else if (currentSort === 'bot') {
+        return results.sort((a, b) => a.bot.localeCompare(b.bot));
+      }
+      return results; // relevance - уже отсортировано при поиске
+    }
+
     function performSearch(query) {
       if (!query.trim()) {
         resultsContainer.innerHTML = '';
         resultsInfo.textContent = '';
+        filterInfo.textContent = '';
+        clearSearchBtn.style.display = 'none';
+        selectedIndex = -1;
+        updateSearchHistory();
         return;
       }
 
+      clearSearchBtn.style.display = 'flex';
       const lowerQuery = query.toLowerCase();
-      const results = searchDatabase.filter(item => {
-        return item.title.toLowerCase().includes(lowerQuery) ||
+      
+      let results = searchDatabase.filter(item => {
+        const matchesQuery = item.title.toLowerCase().includes(lowerQuery) ||
                item.snippet.toLowerCase().includes(lowerQuery) ||
                (item.example && item.example.toLowerCase().includes(lowerQuery)) ||
                item.keywords.some(kw => kw.includes(lowerQuery));
+        
+        const matchesFilter = currentFilter === 'all' || item.bot === currentFilter;
+        
+        return matchesQuery && matchesFilter;
       });
 
-      // Сортировка по релевантности: сначала точное совпадение в title
-      results.sort((a, b) => {
-        const aTitle = a.title.toLowerCase().indexOf(lowerQuery);
-        const bTitle = b.title.toLowerCase().indexOf(lowerQuery);
-        if (aTitle !== -1 && bTitle === -1) return -1;
-        if (aTitle === -1 && bTitle !== -1) return 1;
-        return 0;
-      });
+      // Сортировка по релевантности (точное совпадение в title выше)
+      if (currentSort === 'relevance') {
+        results.sort((a, b) => {
+          const aTitle = a.title.toLowerCase().indexOf(lowerQuery);
+          const bTitle = b.title.toLowerCase().indexOf(lowerQuery);
+          if (aTitle !== -1 && bTitle === -1) return -1;
+          if (aTitle === -1 && bTitle !== -1) return 1;
+          return 0;
+        });
+      }
+
+      results = sortResults(results);
+      currentResults = results;
+      selectedIndex = -1;
 
       resultsInfo.textContent = results.length > 0 
         ? `Найдено результатов: ${results.length}`
         : 'Ничего не найдено';
+
+      filterInfo.textContent = currentFilter !== 'all' 
+        ? `Фильтр: ${currentFilter}`
+        : '';
 
       if (results.length === 0) {
         resultsContainer.innerHTML = `
@@ -435,23 +880,87 @@
         return;
       }
 
-      resultsContainer.innerHTML = results.map(item => `
-        <a href="${item.url}" class="result-item">
+      resultsContainer.innerHTML = results.map((item, index) => `
+        <a href="${item.url}" class="result-item" data-index="${index}" style="--index: ${index}">
           <span class="result-bot ${item.bot}">${
-            item.bot === 'events' ? ' Events' : 
-            item.bot === 'monitor' ? ' Monitor' : 
-            item.bot === 'partners' ? ' Partners' :
-            item.bot === 'economy' ? ' Economy' :
-            '❓ FAQ'
+            item.bot === 'events' ? 'Events' : 
+            item.bot === 'monitor' ? 'Monitor' : 
+            item.bot === 'partners' ? 'Partners' :
+            item.bot === 'economy' ? 'Economy' :
+            'FAQ'
           }</span>
           <h3 class="result-title">${highlightText(item.title, query)}</h3>
           <p class="result-snippet">${highlightText(item.snippet, query)}</p>
           ${item.example ? `<div class="result-example">${highlightText(item.example, query)}</div>` : ''}
         </a>
       `).join('');
+
+      // Сохранить в историю
+      saveToHistory(query);
     }
 
-    // Debounce для оптимизации
+    function saveToHistory(query) {
+      if (!query.trim()) return;
+      
+      // Удалить дубликаты
+      searchHistory = searchHistory.filter(q => q !== query);
+      // Добавить в начало
+      searchHistory.unshift(query);
+      // Ограничить до 10 элементов
+      searchHistory = searchHistory.slice(0, 10);
+      
+      localStorage.setItem('asterion_search_history', JSON.stringify(searchHistory));
+      updateSearchHistory();
+    }
+
+    function updateSearchHistory() {
+      if (searchHistory.length === 0 || searchInput.value.trim()) {
+        searchHistoryEl.style.display = 'none';
+        return;
+      }
+
+      searchHistoryEl.style.display = 'block';
+      historyItemsEl.innerHTML = searchHistory.map((query, index) => `
+        <div class="history-item" data-query="${query}">
+          🕐 ${query}
+          <span class="history-item-remove" data-index="${index}">×</span>
+        </div>
+      `).join('');
+
+      // Клик по истории
+      document.querySelectorAll('.history-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          if (!e.target.classList.contains('history-item-remove')) {
+            searchInput.value = item.dataset.query;
+            performSearch(item.dataset.query);
+          }
+        });
+      });
+
+      // Удаление из истории
+      document.querySelectorAll('.history-item-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const index = parseInt(btn.dataset.index);
+          searchHistory.splice(index, 1);
+          localStorage.setItem('asterion_search_history', JSON.stringify(searchHistory));
+          updateSearchHistory();
+        });
+      });
+    }
+
+    function selectResult(index) {
+      const items = document.querySelectorAll('.result-item');
+      items.forEach(item => item.classList.remove('selected-result'));
+      
+      if (index >= 0 && index < items.length) {
+        items[index].classList.add('selected-result');
+        items[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        selectedIndex = index;
+      }
+    }
+
+    // Debounce для поиска
     let searchTimeout;
     searchInput.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
@@ -460,14 +969,36 @@
       }, 300);
     });
 
-    // Keyboard shortcuts
+    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         window.location.href = 'index.html';
       }
+      
+      if (currentResults.length > 0) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          selectedIndex = (selectedIndex + 1) % currentResults.length;
+          selectResult(selectedIndex);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          selectedIndex = selectedIndex <= 0 ? currentResults.length - 1 : selectedIndex - 1;
+          selectResult(selectedIndex);
+        } else if (e.key === 'Enter' && selectedIndex >= 0) {
+          e.preventDefault();
+          window.location.href = currentResults[selectedIndex].url;
+        }
+      }
+      
+      // Фокус на поиск по /
+      if (e.key === '/' && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
     });
 
-    // Auto-focus при загрузке
+    // Инициализация
+    updateSearchHistory();
     searchInput.focus();
   </script>
 </body>

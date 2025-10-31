@@ -152,6 +152,19 @@
       color: #ff4d5a;
       font-weight: 700;
     }
+    .fury-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .fury-chip::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: url('assets/FuRYCoin.png') no-repeat center / contain;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,.2));
+    }
     .cc-con {
       background: linear-gradient(180deg, #FFD56A, #F4C049);
       -webkit-background-clip: text;
@@ -313,6 +326,12 @@
       position: relative;
       z-index: 1;
     }
+    .bot-card-icon img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(0,0,0,.35));
+    }
     .bot-card h3 {
       margin: 0 0 8px;
       font-size: 20px;
@@ -387,6 +406,175 @@
       }
     }
 
+    /* Advanced Glassmorphism */
+    .bot-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(103,232,249,.08), rgba(167,139,250,.08));
+      border-radius: var(--radius);
+      opacity: 0;
+      transition: opacity .6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 0;
+    }
+
+    .bot-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Smooth reveal animation */
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+        filter: blur(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .fade-in {
+      animation: reveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    /* Magnetic button effect */
+    .bot-card {
+      position: relative;
+      will-change: transform;
+    }
+
+    /* Ripple effect on click */
+    @keyframes ripple {
+      0% {
+        transform: scale(0);
+        opacity: 0.6;
+      }
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .bot-card::after {
+      content: '';
+      position: absolute;
+      top: -50%; 
+      left: -50%;
+      width: 200%; 
+      height: 200%;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(103,232,249,.15) 40%,
+        rgba(167,139,250,.12) 50%,
+        rgba(103,232,249,.15) 60%,
+        transparent 80%
+      );
+      transform: translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .bot-card:hover::after {
+      opacity: 1;
+      animation: shimmer-sweep 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(100%) skewX(-15deg); }
+    }
+
+    /* Enhanced scroll progress */
+    .scroll-progress {
+      box-shadow: 0 0 20px rgba(103,232,249,.6);
+    }
+
+    /* Smooth transitions for all interactive elements */
+    a, button, .bot-card, .card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Loading skeleton */
+    @keyframes skeleton-loading {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    .skeleton {
+      background: linear-gradient(
+        90deg,
+        rgba(18,26,37,.9) 25%,
+        rgba(103,232,249,.1) 50%,
+        rgba(18,26,37,.9) 75%
+      );
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s ease-in-out infinite;
+      border-radius: var(--radius);
+    }
+
+    /* Parallax effect for hero section */
+    .hero {
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    /* Enhanced badge animations */
+    .badge {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(103,232,249,.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .badge:hover::before {
+      left: 100%;
+    }
+
+    /* Smooth icon rotation */
+    .bot-card-icon {
+      transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .bot-card:hover .bot-card-icon {
+      transform: rotate(360deg) scale(1.1);
+    }
+
+    /* Glow effect on hover */
+    .bot-card:hover {
+      box-shadow: 
+        0 16px 48px rgba(103,232,249,.25), 
+        0 6px 20px rgba(0,0,0,.7),
+        0 0 80px rgba(103,232,249,.15) inset;
+    }
+
+    /* Improved topbar blur */
+    .topbar {
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+
+    /* Text selection styling */
+    ::selection {
+      background: rgba(103,232,249,.3);
+      color: var(--text);
+    }
+
     /* Улучшенная мобильная адаптация */
     @media (max-width: 768px) {
       .nav { 
@@ -422,6 +610,7 @@
     *:focus-visible {
       outline: 2px solid var(--brand);
       outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(103,232,249,.2);
     }
     
     @media (prefers-reduced-motion: reduce) {
@@ -431,7 +620,38 @@
         transition-duration: 0.01ms !important;
       }
     }
-  </style>
+
+    /* Custom cursor trail effect */
+    .cursor-trail {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--brand), transparent);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+  
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(13,20,30,.65);
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(103,232,249,.6), rgba(167,139,250,.6));
+      border-radius: 12px;
+      border: 2px solid rgba(13,20,30,.65);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(103,232,249,.8), rgba(167,139,250,.8));
+    }
+
+</style>
 </head>
 <body>
   <div class="topbar">
@@ -493,9 +713,11 @@
     </a>
 
     <a href="economy.html" class="bot-card">
-      <div class="bot-card-icon">💎</div>
+      <div class="bot-card-icon">
+        <img src="assets/FuRYCoin.png" alt="Иконка FuRY Coin">
+      </div>
       <h3><span class="asterion-gold">ASTERION</span> Economy</h3>
-      <p class="muted">Валюта <span class="fury-text">FuRY</span>, магазин, промокоды и экономическая система.</p>
+      <p class="muted">Валюта <span class="fury-text fury-chip">FuRY</span>, магазин, промокоды и экономическая система.</p>
       <span class="arrow">→</span>
     </a>
 
@@ -655,6 +877,178 @@
         textNode.replaceWith(...span.childNodes);
       }
     })();
+
+    // ═══════════════════════════════════════════════════════════
+    // Advanced UI/UX Enhancements
+    // ═══════════════════════════════════════════════════════════
+
+    // 1. Magnetic cursor effect for bot cards
+    document.querySelectorAll('.bot-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const deltaX = (x - centerX) / centerX;
+        const deltaY = (y - centerY) / centerY;
+        
+        card.style.transform = `
+          translateY(-6px) 
+          scale(1.02) 
+          rotateX(${-deltaY * 5}deg) 
+          rotateY(${deltaX * 5}deg)
+        `;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+
+      // Ripple effect on click
+      card.addEventListener('click', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        card.style.setProperty('--x', `${x}px`);
+        card.style.setProperty('--y', `${y}px`);
+      });
+    });
+
+    // 2. Parallax effect for hero section
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.pageYOffset;
+          const hero = document.querySelector('.hero');
+          if (hero) {
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            hero.style.opacity = 1 - scrolled / 500;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // 3. Smooth reveal on scroll with stagger
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('fade-in');
+          }, index * 100);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { 
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    });
+
+    document.querySelectorAll('.bot-card, .card').forEach(el => {
+      el.style.opacity = '0';
+      revealObserver.observe(el);
+    });
+
+    // 4. Enhanced typing effect for title
+    const title = document.querySelector('.title');
+    if (title && !sessionStorage.getItem('titleAnimated')) {
+      const text = title.textContent;
+      title.textContent = '';
+      title.style.opacity = '1';
+      
+      let i = 0;
+      const typeInterval = setInterval(() => {
+        if (i < text.length) {
+          title.textContent += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(typeInterval);
+          sessionStorage.setItem('titleAnimated', 'true');
+        }
+      }, 50);
+    }
+
+    // 5. Cursor trail effect (optional, can be disabled)
+    if (window.innerWidth > 768) {
+      const trails = [];
+      const trailCount = 5;
+      
+      for (let i = 0; i < trailCount; i++) {
+        const trail = document.createElement('div');
+        trail.className = 'cursor-trail';
+        document.body.appendChild(trail);
+        trails.push(trail);
+      }
+      
+      let mouseX = 0, mouseY = 0;
+      
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+      
+      function animateTrails() {
+        let x = mouseX;
+        let y = mouseY;
+        
+        trails.forEach((trail, index) => {
+          trail.style.opacity = '0.5';
+          trail.style.transform = `translate(${x - 3}px, ${y - 3}px) scale(${1 - index * 0.15})`;
+          
+          const nextTrail = trails[index + 1] || trails[0];
+          x += (nextTrail.offsetLeft - x) * 0.3;
+          y += (nextTrail.offsetTop - y) * 0.3;
+          
+          setTimeout(() => {
+            trail.style.opacity = '0';
+          }, 500);
+        });
+        
+        requestAnimationFrame(animateTrails);
+      }
+      
+      animateTrails();
+    }
+
+    // 6. Page load performance optimization
+    if ('connection' in navigator) {
+      const connection = navigator.connection;
+      if (connection.saveData || connection.effectiveType === 'slow-2g') {
+        // Disable heavy animations for slow connections
+        document.querySelectorAll('.bot-card').forEach(card => {
+          card.style.transition = 'none';
+        });
+      }
+    }
+
+    // 7. Add subtle bounce to badges on hover
+    document.querySelectorAll('.badge').forEach(badge => {
+      badge.addEventListener('mouseenter', function() {
+        this.style.animation = 'none';
+        setTimeout(() => {
+          this.style.animation = 'bounce 0.5s ease';
+        }, 10);
+      });
+    });
+
+    // CSS for bounce animation (добавляется динамически)
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        25% { transform: translateY(-5px); }
+        50% { transform: translateY(-2px); }
+        75% { transform: translateY(-4px); }
+      }
+    `;
+    document.head.appendChild(style);
+
   </script>
 </body>
 </html>
