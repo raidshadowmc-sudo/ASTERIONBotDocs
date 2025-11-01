@@ -586,7 +586,7 @@
       <span class="badge"><b>Глобальный магазин <span class="fury-text fury-chip">FuRY</span></b></span>
       <span class="badge"><b>Интеграция с <span class="asterion-gold">ASTERION</span> Monitor</b></span>
     </div>
-    <h2 class="title"><span class="asterion-gold">ASTERION</span> Economy<span class="new-badge">NEW</span></h2>
+    <h2 class="title"><span class="asterion-gold">ASTERION</span> Economy<span class="new-badge">Patch 1.0.8</span></h2>
     <p class="meta">
       Управление валютой <span class="fury-text fury-chip">FuRY</span>, интерактивный магазин, промокоды, booster-система и административные инструменты.
       <br/>Синхронизируется с базой <span class="asterion-gold">ASTERION</span> Monitor и записывает все операции в SQLite.
@@ -609,11 +609,25 @@
     <article class="card" id="shop" data-keywords="shop магазин фильтры категории сортировка">
       <span class="badge-economy">Shop</span>
       <h3>Интерактивный магазин</h3>
-      <p class="muted">Команда <code class="inline">/shop</code> открывает меню категорий (роли, прочее) и сортировок. Пользователь выбирает товар кнопкой, получает подтверждение и видит готовый чек.</p>
+      <p class="muted">Команда <code class="inline">/shop</code> запускает витрину ASCEND Market: приветствие, текущий баланс и мгновенные фильтры без повторного вызова команды. Категории и сортировки переключаются прямо в эмбеде.</p>
       <ul class="muted" style="margin: 10px 0 0; padding-left: 20px;">
-        <li>5 товаров на страницу, переключение стрелками;</li>
-        <li>Автоматическая проверка баланса и наличия стока;</li>
-        <li>Логи о покупке в канал <code class="inline">LOG_CHANNEL_ID</code>.</li>
+        <li>4 товара на страницу, кнопки выбора с мгновенным предпросмотром и подтверждением;</li>
+        <li>Категории: роли, бустеры, косметика, сервисы — плюс сортировки «популярное», «новинки», «дороже», «дешевле», «классика»;</li>
+        <li>Карточки показывают продавца, <strong>ID товара</strong>, остаток, историю покупок и мини-превью из метаданных;</li>
+        <li>Заявки на создание личной роли автоматически отправляются в <code class="inline">#personal-roles</code> (ID 1434290334568808498) для администрации;</li>
+        <li>Система блокирует повторные покупки ролей и не даёт добавить дубликаты товаров в каталог.</li>
+        <li>После чека роли выдаются автоматически, запись уходит в <code class="inline">LOG_CHANNEL_ID</code>.</li>
+      </ul>
+    </article>
+    <article class="card" id="boosters" data-keywords="booster множитель role channel xp">
+      <span class="badge-economy">Boost</span>
+      <h3>Бустеры и множители</h3>
+      <p class="muted">Обновлённая команда <code class="inline">/booster</code> показывает полный расклад множителей XP: купленный бустер из магазина, ролевые множители из AsterionMonitor и активный бустер канала.</p>
+      <ul class="muted" style="margin: 10px 0 0; padding-left: 20px;">
+        <li>Выводится формула <strong>итогового множителя</strong>: магазин × роль × канал (социальные и стрим-бонусы считаются в мониторинге отдельно);</li>
+        <li>Если у пользователя несколько ролей с множителями, используется максимальный коэффициент, что отражено в отчёте;</li>
+        <li>Канальный множитель берётся для текущего канала, так что команда мгновенно показывает, какой бонус действует прямо сейчас;</li>
+        <li>Чек покупки ролей проверяет выдачу автоматически и сообщает, если нужен ручной откат.</li>
       </ul>
     </article>
 
@@ -705,9 +719,9 @@
           </tr>
           <tr>
             <td><code>/booster [user]</code></td>
-            <td>Проверить активный бустер</td>
+            <td>Сводный отчёт о магазинном, ролевом и канальном множителях</td>
             <td>/booster user:@Kurato</td>
-            <td><a class="link" href="#shop">Бустеры</a></td>
+            <td><a class="link" href="#boosters">Бустеры</a></td>
           </tr>
           <tr>
             <td><code>/shopinfo item_id</code></td>
@@ -832,7 +846,7 @@
       <article class="card" style="min-height: 220px;" data-keywords="booster integration monitor">
         <span class="kicker">Интеграция</span>
         <h3>Связь с AsterionMonitor</h3>
-        <p class="muted">Функция <code>get_active_booster_multiplier</code> в AsterionMonitor готова к интеграции с бустерами экономики. После активации <code>/shop</code> бустеров, таблица <code>active_boosters</code> уже содержит данные — нужно лишь заменить stub в Monitor, чтобы применять множители к XP.</p>
+        <p class="muted">Бустеры из магазина хранятся в <code class="inline">economy.db.active_boosters</code> и уже используются мониторингом: AsterionMonitor умножает XP на активный бустер, а Economy считывает <code class="inline">channel_multipliers</code> и <code class="inline">role_multipliers</code> для отчёта <code class="inline">/booster</code>. Добавляйте новые множители в Monitor — витрина и отчёт подхватят их автоматически.</p>
       </article>
     </div>
   </section>
